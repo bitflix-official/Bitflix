@@ -9,11 +9,14 @@
           <div class="col-sm-6">
             <div class="profile-menu">
               <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="menu-pic" src="/assets/pic.png"> Hi, {{name}}</button>
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="menu-pic" :src="'/assets/' + this.avatar + '.png'"> Hi, {{name}}</button>
                 <div class="dropdown-menu dropdown-profile dropdown-menu-right" aria-labelledby="dropdownMenu2">
                   <router-link :to="{ name: 'account', params: {} }">
-                    <button class="btn dropdown-item profile-item" type="button">Favorites</button>
+                    <button class="btn dropdown-item profile-item" type="button">Profile</button>
                   </router-link>
+                  <a href="https://twitter.com/bitflixapp" target="_blank">
+                    <button class="btn dropdown-item profile-item" type="button"><i class="fa fa-twitter twitter-support"></i> Support</button>
+                  </a>
                   <router-link :to="{ name: 'about', params: {} }">
                     <button class="btn dropdown-item profile-item" type="button">About</button>
                   </router-link>
@@ -71,18 +74,23 @@ export default {
   },
   data() {
     return {
-      name:'',
+      name: 'Stranger',
+      avatar: 'cat',
       genres: list.genres,
       movies: list.movies,
     };
   },
   mounted() {
     if(localStorage.name) this.name = localStorage.name;
+    if(localStorage.avatar) this.avatar = localStorage.avatar;
     this.sortByTrending();
   },
   watch:{
     name(newName) {
       localStorage.name = newName;
+    },
+    avatar(newAvatar) {
+      localStorage.avatar = newAvatar;
     }
   },
   methods: {

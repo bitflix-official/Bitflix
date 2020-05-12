@@ -1,12 +1,11 @@
 <template>
   <div>
-    <video id="player" style="display: none" :src="'https://server-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'" autoplay preload="metadata"></video>
     <div class="video-background">
       <div class="video-foreground">
         <iframe :src="'https://www.youtube.com/embed/' + movie.trailer + '?controls=0&showinfo=0&rel=0&autoplay=1&mute=1&loop=1&playlist=' + movie.trailer" frameborder="0" allowfullscreen></iframe>
       </div>
     </div>
-    <div class="top sticky-top">
+    <div class="top">
       <div class="container">
         <div class="row">
           <div class="col-6">

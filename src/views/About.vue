@@ -30,7 +30,7 @@
          <div class="social-container-about">
            <a class="btn about-social-icon instagram" href="https://instagram.com/bitflixapp" target="_blank"><i class="fa fa-instagram"></i></a>
            <a class="btn about-social-icon github" href="https://instagram.com/bitflixapp" target="_blank"><i class="fa fa-github"></i></a>
-           <a class="btn about-social-icon twitter" href="https://instagram.com/bitflixapp" target="_blank"><i class="fa fa-twitter"></i></a>
+           <a class="btn about-social-icon twitter" href="https://twitter.com/bitflixapp" target="_blank"><i class="fa fa-twitter"></i></a>
          </div>
          <p>0.0.1 beta version</p>
       </div>

@@ -120,6 +120,10 @@ body {
   text-align: right;
   color: var(--grey);
 }
+.twitter-support {
+  font-size: 0.8rem;
+  margin-right: 8px;
+}
 .main-navbar {
   margin-top: 15px;
 }
@@ -359,7 +363,6 @@ body {
   margin-right: 5px;
 }
 .favorites-container {
-  margin-top: 8px;
   float: right;
   cursor: pointer;
 }
@@ -536,8 +539,10 @@ body {
   /* Mobile */
   @media only screen and (max-width: 768px) {
     .searchContainer {
-      float: left;
+      float: right;
       margin-top: 15px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
     .footerContainer {
       margin-top: 0px;
@@ -551,11 +556,14 @@ body {
     .logo {
       float: none;
     }
+    .profile-menu {
+      margin-top: -5px;
+    }
     #searchUl {
-      padding-left: 10px;
+      padding-left: 0rem;
     }
     .filterDiv {
-      margin-right: 20px;
+      margin: 0.8rem;
     }
     .item-poster {
       width: 136px;
@@ -606,6 +614,9 @@ body {
     }
   }
   @media only screen and (min-width: 768px) {
+    .profile-menu {
+      margin-top: -5px;
+    }
     #search-ul {
       padding-left: 25px;
     }
@@ -616,9 +627,6 @@ body {
       width: 170px;
       height: 226px;
       background-size: 170px 226px;
-    }
-    .favorites-container {
-      margin-top: 2px;
     }
     .overview {
       margin-top: 0px;
@@ -640,9 +648,6 @@ body {
   @media only screen and (min-width: 992px) {
     #search-ul {
       padding-left: 30px;
-    }
-    .favorites-container {
-      margin-top: 4px;
     }
     .info-container {
       margin-top: 10px;
@@ -670,9 +675,6 @@ body {
       width: 190px;
     	height: 266px;
       background-size: 190px 266px;
-    }
-    .favorites-container {
-      margin-top: 6px;
     }
     .details-container {
       margin-top: 40px;

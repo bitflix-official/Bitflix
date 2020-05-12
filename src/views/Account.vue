@@ -11,7 +11,7 @@
     </div>
     <div class="container">
       <div class="text-center">
-        <img class="profile-pic" src="/assets/pic.png"/>
+        <img class="profile-pic" :src="'/assets/' + this.avatar + '.png'"/>
         <br>
         <h3 class="user-welcome">{{name}}</h3>
         <button type="button" class="btn edit-name" data-toggle="modal" data-target="#changeName">
@@ -21,8 +21,35 @@
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-body">
-                <h4 class="text-center">Enter your name</h4>
+                <h4 class="text-center">Edit profile</h4>
+                <img class="profile-pic" :src="'/assets/' + this.avatar + '.png'"/>
+                <br>
                 <input type="text" class="form-control input-name" v-model="name" placeholder="Name">
+                <br>
+                <input class="image-select" type="radio" id="cat" value="cat" v-model="avatar">
+                <label for="cat">
+                  <img class="avatar-selection" src="/assets/cat.png"/>
+                </label>
+                <input class="image-select" type="radio" id="lion" value="lion" v-model="avatar">
+                <label for="lion">
+                  <img class="avatar-selection" src="/assets/lion.png"/>
+                </label>
+                <input class="image-select" type="radio" id="dog" value="dog" v-model="avatar">
+                <label for="dog">
+                  <img class="avatar-selection" src="/assets/dog.png"/>
+                </label>
+                <input class="image-select" type="radio" id="cow" value="cow" v-model="avatar">
+                <label for="cow">
+                  <img class="avatar-selection" src="/assets/cow.png"/>
+                </label>
+                <input class="image-select" type="radio" id="bear" value="bear" v-model="avatar">
+                <label for="bear">
+                  <img class="avatar-selection" src="/assets/bear.png"/>
+                </label>
+                <input class="image-select" type="radio" id="giraffe" value="giraffe" v-model="avatar">
+                <label for="giraffe">
+                  <img class="avatar-selection" src="/assets/giraffe.png"/>
+                </label>
               </div>
               <div class="closediv text-center">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Nice</button>
@@ -55,15 +82,20 @@ export default {
   data() {
     return {
       name:'Stranger',
-      genres: list.genres
+      genres: list.genres,
+      avatar: 'cat'
     };
   },
   mounted() {
     if(localStorage.name) this.name = localStorage.name;
+    if(localStorage.avatar) this.avatar = localStorage.avatar;
   },
   watch:{
     name(newName) {
       localStorage.name = newName;
+    },
+    avatar(newAvatar) {
+      localStorage.avatar = newAvatar;
     }
   },
 };
@@ -101,12 +133,38 @@ export default {
     box-shadow: 0 0 10px black;
     background: var(--bg);
   }
+  .image-select[type="radio"]{
+    display:none;
+  }
+  .image-select[type="radio"] + label {
+    cursor: pointer;
+    margin: 15px;
+    height: 100px;
+    width: 100px;
+    display: inline-block;
+    padding: 0 0 0 0px;
+  }
+  .image-select[type="radio"]:checked + label {
+    height: 100px;
+    width: 100px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    border: 5px solid var(--blue);
+  }
+  .avatar-selection {
+    width: 90px;
+    height: 90px;
+  }
   .input-name {
-    margin-top: 30px;
+    text-align: center;
+    margin-top: 10px;
     margin-bottom: 10px;
     color: var(--white);
     border: none;
-    background: #0e0e0e;
+    font-size: 1.6rem;
+    background: #151515;
+    -webkit-box-shadow: 0 0 14px #00000042;
+    box-shadow: 0 0 14px #00000042;
   }
   .input-name:focus {
     color: var(--white);
