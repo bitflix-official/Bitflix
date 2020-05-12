@@ -37,8 +37,8 @@
               <div class="mobile-download">
                 <a id="downloadButtonMobile" class="btn btn-primary" :href="'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'" data-toggle="tooltip" data-placement="bottom" title="Download movie"><i class="fas fa-download"></i> Download movie</a>
               </div>
-              <a class="btn twitter-share-button" :href="'https://twitter.com/intent/tweet?text=Hey!%20I\'m%20watching%20' + movie.title + '%20on%20Bitflix.%20' + 'https://appbitflix.herokuapp.com/' + 'movie/' + movie.imdb_id" target="_blank" data-size="large"><i class="fab fa-twitter"></i> Share on Twitter</a>
-              <a class="btn whatsapp-share-button" :href="'https://wa.me/?text=Hey!%20I\'m%20watching%20' + movie.title + '%20on%20Bitflix.%20' + 'https://appbitflix.herokuapp.com/' + 'movie/' + movie.imdb_id" target="_blank" data-size="large"><i class="fab fa-whatsapp"></i> Share on WhatsApp</a>
+              <a class="btn twitter-share-button" :href="'https://twitter.com/intent/tweet?text=Hey!%20I\'m%20watching%20' + movie.title + '%20on%20Bitflix.%20' + 'https://bitflix.now.sh/' + 'movie/' + movie.imdb_id" target="_blank" data-size="large"><i class="fab fa-twitter"></i> Share on Twitter</a>
+              <a class="btn whatsapp-share-button" :href="'https://wa.me/?text=Hey!%20I\'m%20watching%20' + movie.title + '%20on%20Bitflix.%20' + 'https://bitflix.now.sh/' + 'movie/' + movie.imdb_id" target="_blank" data-size="large"><i class="fab fa-whatsapp"></i> Share on WhatsApp</a>
             </div>
           </div>
         </div>
