@@ -20,7 +20,7 @@
         <div class="container">
           <div class="playerContainer text-center">
             <h4 class="movie-info-title">Watching: {{movie.title}}</h4>
-            <vue-plyr class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
+            <vue-plyr v-if="subsUrlEs && subsUrlEn" class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
               <video id="player" playsinline autoplay preload="metadata" controls :data-poster="'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/' + movie.backdrop_path" crossorigin="anonymous">
                 <source :src="'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'">
                 <source :src="'https://server-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'">
