@@ -1,6 +1,26 @@
+var lastScrollTop = 0;
+window.addEventListener("scroll", function(){
+   var st = window.pageYOffset || document.documentElement.scrollTop;
+   var header = document.getElementById("header");
+   var menu = document.getElementById("menu");
+   if (st > lastScrollTop){
+      header.classList.remove('sticky-top');
+   } else {
+      header.classList.add('sticky-top');
+   }
+   lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+}, false);
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+$(document).ready(function(){
+  $('#search').focusin(function(){
+    $('#searchIcon').css('color', 'var(--blue)');
+  });
+  $('#search').focusout(function(){
+    $('#searchIcon').css('color', '#585858');
+  });
+});
 filterSelection("all")
     function filterSelection(c) {
       var x, i;

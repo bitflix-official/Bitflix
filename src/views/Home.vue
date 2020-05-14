@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <header class="container-fluid sticky-top header">
-      <div class="container">
+    <header class="container-fluid header-wrapper">
+      <div class="container header">
         <div class="row">
           <div class="col-sm-6 current-movies">
             <h2>Movies</h2>
@@ -25,6 +25,10 @@
             </div>
           </div>
         </div>
+      </div>
+    </header>
+    <div id="menu" class="container-fluid header-sticky sticky-top">
+      <div class="container">
         <div class="row main-navbar">
           <div class="col-sm-12 col-md-6">
             <div id="btn-container">
@@ -50,12 +54,12 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="searchContainer">
-              <input id="search" type="text" placeholder="Search movies.." autocomplete="off" /><i class="fas fa-search"></i>
+              <input id="search" type="text" placeholder="Search movies.." autocomplete="off" /><i id="searchIcon" class="fas fa-search"></i>
             </div>
           </div>
         </div>
       </div>
-    </header>
+    </div>
     <MovieList />
     <Footer />
   </div>

@@ -5,7 +5,7 @@ body, html {
   -ms-user-select: none;
   user-select: none;
   /* Color variables */
-  --bg: #0f0f0f;
+  --bg: #080808;
   --blue: #2361e0;
   --bhover: #194cb5;
   --black: #272727;
@@ -57,9 +57,9 @@ body {
 }
 #app {
   animation: fadein 2s;
-  -moz-animation: fadein 2s; /* Firefox */
-  -webkit-animation: fadein 2s; /* Safari and Chrome */
-  -o-animation: fadein 2s; /* Opera */
+  -moz-animation: fadein 2s;
+  -webkit-animation: fadein 2s;
+  -o-animation: fadein 2s;
 }
 @keyframes fadein {
     from {
@@ -69,7 +69,7 @@ body {
         opacity:1;
     }
 }
-@-moz-keyframes fadein { /* Firefox */
+@-moz-keyframes fadein {
     from {
         opacity:0;
     }
@@ -77,7 +77,7 @@ body {
         opacity:1;
     }
 }
-@-webkit-keyframes fadein { /* Safari and Chrome */
+@-webkit-keyframes fadein {
     from {
         opacity:0;
     }
@@ -85,7 +85,7 @@ body {
         opacity:1;
     }
 }
-@-o-keyframes fadein { /* Opera */
+@-o-keyframes fadein {
     from {
         opacity:0;
     }
@@ -93,11 +93,21 @@ body {
         opacity: 1;
     }
 }
-.header {
-  background-color: var(--bg);
+.header-wrapper {
   padding-top: 20px;
-  box-shadow: 0 0 12px #00000063;
-  padding-bottom: 10px;
+}
+.header {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.header-sticky {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  background-color: #080808f2;
+  backdrop-filter: blur(6px);
+  -webkit-box-shadow: 0 8px 12px #00000063;
+  box-shadow: 0 8px 12px #00000063;
 }
 .current-movies {
   float: left;
@@ -115,6 +125,9 @@ body {
 }
 .dropdown-profile {
   min-width: 100%;
+}
+.dropdown, .dropleft, .dropright, .dropup {
+  z-index: 10000;
 }
 .profile-item {
   text-align: right;
@@ -216,7 +229,7 @@ body {
 }
 .searchContainer {
   float: right;
-  background: #191919;
+  background: #0e0e0ed9;
   border-radius: 30px;
   border: none;
   padding-top: 8px;
@@ -235,7 +248,7 @@ body {
   color: var(--white);
 }
 .fa-search {
-  color: var(--blue);
+  color: #585858;
 }
 .movies {
   margin-top: 20px;
@@ -317,8 +330,8 @@ body {
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
   z-index: -99;
-  filter: blur(10px) brightness(0.5);
-  -webkit-filter: blur(5px) brightness(0.3);
+  filter: blur(15px) brightness(0.25);
+  -webkit-filter: blur(15px) brightness(0.25);
 }
 .video-foreground, .video-background iframe {
   position: absolute;
@@ -505,10 +518,12 @@ body {
 
 .footer {
   position: fixed;
-  background: var(--bg);
+  background-color: #080808f2;
+  backdrop-filter: blur(6px);
   bottom: 0;
   width: 100%;
   height: 60px;
+  -webkit-box-shadow: 0 0 12px #00000063;
   box-shadow: 0 0 12px #00000063;
 }
 .footerContainer {
@@ -523,7 +538,7 @@ body {
   background: top left url(logo.png) no-repeat;
   background-size: 40px 40px;
   padding-left: 40px;
-  padding-top: 4px;
+  padding-top: 5px;
 }
 .infoContainer {
   float: right;

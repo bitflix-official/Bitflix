@@ -1,2 +1,24 @@
-Bitflix is an open-source web application that allows you to watch movies through torrents in an easy and fast way. 
-Developed with love by <a href="https://github.com/nuzzesick" target="_blank">Nuzze</a>
+# bitflix
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

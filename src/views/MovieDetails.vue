@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       movies: list.movies,
-      moviesVotes: {}
+      moviesVotes: {},
     };
   },
   props: {
