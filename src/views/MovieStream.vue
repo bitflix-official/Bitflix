@@ -53,7 +53,7 @@
                 <track kind="subtitles" :src="subsUrlRo" srclang="ro" label="Romanian">
                 <track kind="subtitles" :src="subsUrlRu" srclang="ru" label="Russian">
                 <track kind="subtitles" :src="subsUrlSr" srclang="sr" label="Serbian"> -->
-                <track kind="subtitles" :src="subsUrlEs" srclang="es" label="Spanish" default>
+                <track kind="subtitles" :src="subsUrlEs" srclang="es" label="Spanish">
                 <!-- <track kind="subtitles" :src="subsUrlSv" srclang="sv" label="Swedish">
                 <track kind="subtitles" :src="subsUrlTr" srclang="tr" label="Turkish">
                 <track kind="subtitles" :src="subsUrlVi" srclang="vi" label="Vietnamese"> -->
