@@ -10,7 +10,7 @@
             </div>
             <div class="col-6">
               <div class="favorites-container">
-                <a id="downloadButton" class="btn btn-primary" :href="'https://server-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'" data-toggle="tooltip" data-placement="bottom" title="Download movie"><i class="fas fa-download"></i> Download</a>
+                <a id="downloadButton" class="btn btn-primary" :href="option4" data-toggle="tooltip" data-placement="bottom" title="Download movie"><i class="fas fa-download"></i> Download</a>
                 <a @click="setVote(movie.id)" class="btn" :class="moviesVotes[movie.id] ? 'unfavorite' : 'favorite'" data-toggle="tooltip" data-placement="bottom" title="Favorites"><i class="fa fa-heart"></i></a>
               </div>
             </div>
@@ -20,12 +20,13 @@
         <div  class="container">
           <div class="playerContainer text-center">
             <h4 class="movie-info-title">Watching: {{movie.title}}</h4>
-            <vue-plyr v-if="option1 || option2 || option3 || option4" class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
+            <vue-plyr v-if="option1 || option2 || option3 || option4 || option5" class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
               <video id="player" playsinline autoplay preload="metadata" controls :data-poster="'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/' + movie.backdrop_path" crossorigin="anonymous">
                 <source :src="option1" type="video/mp4">
                 <source :src="option2" type="video/mp4">
                 <source :src="option3" type="video/mp4">
                 <source :src="option4" type="video/mp4">
+                <source :src="option5" type="video/mp4">
                 <track kind="subtitles" :src="subsUrlAr" srclang="ar" label="Arabic">
                 <track kind="subtitles" :src="subsUrlBn" srclang="bn" label="Bengali">
                 <track kind="subtitles" :src="subsUrlPb" srclang="pb" label="Brazilian Portuguese">
@@ -61,7 +62,7 @@
             </vue-plyr>
             <div class="share-buttons text-center">
               <div class="mobile-download">
-                <a id="downloadButtonMobile" class="btn btn-primary" :href="'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'" data-toggle="tooltip" data-placement="bottom" title="Download movie"><i class="fas fa-download"></i> Download movie</a>
+                <a id="downloadButtonMobile" class="btn btn-primary" :href="option4" data-toggle="tooltip" data-placement="bottom" title="Download movie"><i class="fas fa-download"></i> Download movie</a>
               </div>
               <a class="btn twitter-share-button" :href="'https://twitter.com/intent/tweet?text=Hey!%20I\'m%20watching%20' + movie.title + '%20on%20Bitflix.%20' + 'https://bitflix.now.sh/' + 'movie/' + movie.imdb_id" target="_blank" data-size="large"><i class="fab fa-twitter"></i> Share on Twitter</a>
               <a class="btn whatsapp-share-button" :href="'https://wa.me/?text=Hey!%20I\'m%20watching%20' + movie.title + '%20on%20Bitflix.%20' + 'https://bitflix.now.sh/' + 'movie/' + movie.imdb_id" target="_blank" data-size="large"><i class="fab fa-whatsapp"></i> Share on WhatsApp</a>
@@ -89,6 +90,7 @@ export default {
       option2: '',
       option3: '',
       option4: '',
+      option5: '',
       subsUrlAr: 'null',
       subsUrlBn: 'null',
       subsUrlPb: 'null',
@@ -122,10 +124,11 @@ export default {
   },
   async mounted() {
     this.setVotesFromPersistence();
-    this.option1 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option1 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option2 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option3 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option4 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option5 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
 
     // Get all subtitles
 
