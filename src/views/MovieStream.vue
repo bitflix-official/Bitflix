@@ -17,32 +17,24 @@
           </div>
         </div>
       </div>
-        <div class="container">
+        <div  class="container">
           <div class="playerContainer text-center">
             <h4 class="movie-info-title">Watching: {{movie.title}}</h4>
-            <vue-plyr v-if="subsUrlEs && subsUrlEn" class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
-              <video id="player" playsinline autoplay preload="metadata" controls :data-poster="'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/' + movie.backdrop_path" crossorigin="anonymous">
+            <vue-plyr v-if="stream" class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
+              <video :src="stream" id="player" playsinline autoplay preload="metadata" controls :data-poster="'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/' + movie.backdrop_path" crossorigin="anonymous">
+                <!-- <source :src="'https://server-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'">
                 <source :src="'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'">
-                <source :src="'https://server-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'">
                 <source :src="'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'">
-                <source :src="'https://nm-bitflix.herokuapp.com//api/torrent/serve/' + movie.torrent + '/:video'">
-                <!--<track kind="subtitles" :src="subsUrlAr" srclang="ar" label="Arabic">
+                <source :src="'https://nm-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'"> -->
+                <track kind="subtitles" :src="subsUrlAr" srclang="ar" label="Arabic">
                 <track kind="subtitles" :src="subsUrlBn" srclang="bn" label="Bengali">
                 <track kind="subtitles" :src="subsUrlPb" srclang="pb" label="Brazilian Portuguese">
                 <track kind="subtitles" :src="subsUrlZh" srclang="zh" label="Chinese">
                 <track kind="subtitles" :src="subsUrlHr" srclang="hr" label="Croatian">
                 <track kind="subtitles" :src="subsUrlDa" srclang="da" label="Danish">
-                <track kind="subtitles" :src="subsUrlNl" srclang="nl" label="Dutch">-->
-                <!-- The Simpsons -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0462538'" src="https://www.seedr.cc/subtitles/1952184131/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-199c0c4c%2Fsid-mv14fkl4OEuwLbbUoK3cZwCFQz2%2Ffilead%2F1952184131.gz/sub.vtt" srclang="es" label="Spanish (2)">
-                <!-- High School Musical -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0475293'" src="https://www.seedr.cc/subtitles/1951657604/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19bc0c55%2Fsid-5d6ZExBj6o3Yss6OBsdwASYVnu1%2Ffilead%2F1951657604.gz/sub.vtt" srclang="es" label="Spanish (2)">
-                <!-- High School Musical 2 -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0810900'" src="https://www.seedr.cc/subtitles/1954219657/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19ba0c5a%2Fsid-vlBfK6CtJHBCEZXXArpkimrr8a4%2Ffilead%2F1954219657.gz/sub.vtt" srclang="es" label="Spanish (2)">
-                  <!-- High School Musical 3 -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0962726'" src="https://www.seedr.cc/subtitles/1954113792/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19a20c53%2Fsid-alKzS11sqV66Rn5sQllDZzk3Uxa%2Ffilead%2F1954113792.gz/sub.vtt" srclang="es" label="Spanish (2)">
+                <track kind="subtitles" :src="subsUrlNl" srclang="nl" label="Dutch">
                 <track kind="subtitles" :src="subsUrlEn" srclang="en" label="English">
-                <!-- <track kind="subtitles" :src="subsUrlFa" srclang="fa" label="Farsi/Persian">
+                <track kind="subtitles" :src="subsUrlFa" srclang="fa" label="Farsi/Persian">
                 <track kind="subtitles" :src="subsUrlFr" srclang="fr" label="French">
                 <track kind="subtitles" :src="subsUrlEl" srclang="el" label="Greek">
                 <track kind="subtitles" :src="subsUrlHu" srclang="hu" label="Hungarian">
@@ -52,11 +44,19 @@
                 <track kind="subtitles" :src="subsUrlPt" srclang="pt" label="Portuguese">
                 <track kind="subtitles" :src="subsUrlRo" srclang="ro" label="Romanian">
                 <track kind="subtitles" :src="subsUrlRu" srclang="ru" label="Russian">
-                <track kind="subtitles" :src="subsUrlSr" srclang="sr" label="Serbian"> -->
+                <track kind="subtitles" :src="subsUrlSr" srclang="sr" label="Serbian">
                 <track kind="subtitles" :src="subsUrlEs" srclang="es" label="Spanish">
-                <!-- <track kind="subtitles" :src="subsUrlSv" srclang="sv" label="Swedish">
+                <track kind="subtitles" :src="subsUrlSv" srclang="sv" label="Swedish">
                 <track kind="subtitles" :src="subsUrlTr" srclang="tr" label="Turkish">
-                <track kind="subtitles" :src="subsUrlVi" srclang="vi" label="Vietnamese"> -->
+                <track kind="subtitles" :src="subsUrlVi" srclang="vi" label="Vietnamese">
+                <!-- The Simpsons -->
+                <track kind="subtitles" v-if="movie.imdb_id === 'tt0462538'" src="https://www.seedr.cc/subtitles/1952184131/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-199c0c4c%2Fsid-mv14fkl4OEuwLbbUoK3cZwCFQz2%2Ffilead%2F1952184131.gz/sub.vtt" srclang="es" label="Spanish (2)">
+                <!-- High School Musical -->
+                <track kind="subtitles" v-if="movie.imdb_id === 'tt0475293'" src="https://www.seedr.cc/subtitles/1951657604/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19bc0c55%2Fsid-5d6ZExBj6o3Yss6OBsdwASYVnu1%2Ffilead%2F1951657604.gz/sub.vtt" srclang="es" label="Spanish (2)">
+                <!-- High School Musical 2 -->
+                <track kind="subtitles" v-if="movie.imdb_id === 'tt0810900'" src="https://www.seedr.cc/subtitles/1954219657/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19ba0c5a%2Fsid-vlBfK6CtJHBCEZXXArpkimrr8a4%2Ffilead%2F1954219657.gz/sub.vtt" srclang="es" label="Spanish (2)">
+                <!-- High School Musical 3 -->
+                <track kind="subtitles" v-if="movie.imdb_id === 'tt0962726'" src="https://www.seedr.cc/subtitles/1954113792/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19a20c53%2Fsid-alKzS11sqV66Rn5sQllDZzk3Uxa%2Ffilead%2F1954113792.gz/sub.vtt" srclang="es" label="Spanish (2)">
               </video>
             </vue-plyr>
             <div class="share-buttons text-center">
@@ -85,6 +85,7 @@ export default {
     return {
       movies: list.movies,
       moviesVotes: {},
+      stream: '',
       subsUrlAr: 'null',
       subsUrlBn: 'null',
       subsUrlPb: 'null',
@@ -117,89 +118,343 @@ export default {
     }
   },
   async mounted() {
-    let appScript = document.createElement("script");
-    appScript.setAttribute("src", "/js/script.js");
-    document.head.appendChild(appScript);
     this.setVotesFromPersistence();
-    const allsubs = await fetch(`https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id).then(res => res.json())
+    this.stream = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
 
-    //Find subtitles
+    // Get all subtitles
 
-    // const firstAr = allsubs.find(s => s.langShort === 'ar')
-    // const firstBn = allsubs.find(s => s.langShort === 'bn')
-    // const firstPb = allsubs.find(s => s.langShort === 'pb')
-    // const firstZh = allsubs.find(s => s.langShort === 'zh')
-    // const firstHr = allsubs.find(s => s.langShort === 'hr')
-    // const firstDa = allsubs.find(s => s.langShort === 'da')
-    // const firstNl = allsubs.find(s => s.langShort === 'nl')
-    const firstEn = allsubs.find(s => s.langShort === 'en')
-    // const firstFa = allsubs.find(s => s.langShort === 'fa')
-    // const firstFr = allsubs.find(s => s.langShort === 'fr')
-    // const firstEl = allsubs.find(s => s.langShort === 'el')
-    // const firstHu = allsubs.find(s => s.langShort === 'hu')
-    // const firstKo = allsubs.find(s => s.langShort === 'ko')
-    // const firstMs = allsubs.find(s => s.langShort === 'ms')
-    // const firstPl = allsubs.find(s => s.langShort === 'pl')
-    // const firstPt = allsubs.find(s => s.langShort === 'pt')
-    // const firstRo = allsubs.find(s => s.langShort === 'ro')
-    // const firstRu = allsubs.find(s => s.langShort === 'ru')
-    // const firstSr = allsubs.find(s => s.langShort === 'sr')
-    const firstEs = allsubs.find(s => s.langShort === 'es')
-    // const firstSv = allsubs.find(s => s.langShort === 'sv')
-    // const firstTr = allsubs.find(s => s.langShort === 'tr')
-    // const firstVi = allsubs.find(s => s.langShort === 'vi')
+      const allsubs = await fetch(`https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id).then(res => res.json())
+
+    // Find subtitles
+
+      // Ar
+        var firstAr
+        if (allsubs.find(s => s.langShort === 'ar') === undefined) {
+          firstAr = ""
+        } else {
+          firstAr = allsubs.find(s => s.langShort === 'ar')
+        }
+      // Bn
+        var firstBn
+        if (allsubs.find(s => s.langShort === 'bn') === undefined) {
+          firstBn = ""
+        } else {
+          firstBn = allsubs.find(s => s.langShort === 'bn')
+        }
+      // Pb
+        var firstPb
+        if (allsubs.find(s => s.langShort === 'pb') === undefined) {
+          firstPb = ""
+        } else {
+          firstPb = allsubs.find(s => s.langShort === 'pb')
+        }
+      // Zh
+        var firstZh
+        if (allsubs.find(s => s.langShort === 'zh') === undefined) {
+          firstZh = ""
+        } else {
+          firstZh = allsubs.find(s => s.langShort === 'zh')
+        }
+      // Hr
+        var firstHr
+        if (allsubs.find(s => s.langShort === 'hr') === undefined) {
+          firstHr = ""
+        } else {
+          firstHr = allsubs.find(s => s.langShort === 'hr')
+        }
+      // Da
+        var firstDa
+        if (allsubs.find(s => s.langShort === 'da') === undefined) {
+          firstDa = ""
+        } else {
+          firstDa = allsubs.find(s => s.langShort === 'da')
+        }
+      // Nl
+        var firstNl
+        if (allsubs.find(s => s.langShort === 'nl') === undefined) {
+          firstNl = ""
+        } else {
+          firstNl = allsubs.find(s => s.langShort === 'nl')
+        }
+      // En
+        var firstEn
+        if (allsubs.find(s => s.langShort === 'en') === undefined) {
+          firstEn = ""
+        } else {
+          firstEn = allsubs.find(s => s.langShort === 'en')
+        }
+      // Fa
+        var firstFa
+        if (allsubs.find(s => s.langShort === 'fa') === undefined) {
+          firstFa = ""
+        } else {
+          firstFa = allsubs.find(s => s.langShort === 'fa')
+        }
+      // Fr
+        var firstFr
+        if (allsubs.find(s => s.langShort === 'fr') === undefined) {
+          firstFr = ""
+        } else {
+          firstFr = allsubs.find(s => s.langShort === 'fr')
+        }
+      // El
+        var firstEl
+        if (allsubs.find(s => s.langShort === 'el') === undefined) {
+          firstEl = ""
+        } else {
+          firstEl = allsubs.find(s => s.langShort === 'el')
+        }
+      // Hu
+        var firstHu
+        if (allsubs.find(s => s.langShort === 'hu') === undefined) {
+          firstHu = ""
+        } else {
+          firstHu = allsubs.find(s => s.langShort === 'hu')
+        }
+      // Ko
+        var firstKo
+        if (allsubs.find(s => s.langShort === 'ko') === undefined) {
+          firstKo = ""
+        } else {
+          firstKo = allsubs.find(s => s.langShort === 'ko')
+        }
+      // Ms
+        var firstMs
+        if (allsubs.find(s => s.langShort === 'ms') === undefined) {
+          firstMs = ""
+        } else {
+          firstMs = allsubs.find(s => s.langShort === 'ms')
+        }
+      // Pl
+        var firstPl
+        if (allsubs.find(s => s.langShort === 'pl') === undefined) {
+          firstPl = ""
+        } else {
+          firstPl = allsubs.find(s => s.langShort === 'pl')
+        }
+      // Pt
+        var firstPt
+        if (allsubs.find(s => s.langShort === 'pt') === undefined) {
+          firstPt = ""
+        } else {
+          firstPt = allsubs.find(s => s.langShort === 'pt')
+        }
+      // Ro
+        var firstRo
+        if (allsubs.find(s => s.langShort === 'ro') === undefined) {
+          firstRo = ""
+        } else {
+          firstRo = allsubs.find(s => s.langShort === 'ro')
+        }
+      // Ru
+        var firstRu
+        if (allsubs.find(s => s.langShort === 'ru') === undefined) {
+          firstRu = ""
+        } else {
+          firstRu = allsubs.find(s => s.langShort === 'ru')
+        }
+      // Sr
+        var firstSr
+        if (allsubs.find(s => s.langShort === 'sr') === undefined) {
+          firstSr = ""
+        } else {
+          firstSr = allsubs.find(s => s.langShort === 'sr')
+        }
+      // Es
+        var firstEs
+        if (allsubs.find(s => s.langShort === 'es') === undefined) {
+          firstEs = ""
+        } else {
+          firstEs = allsubs.find(s => s.langShort === 'es')
+        }
+      // Sv
+        var firstSv
+        if (allsubs.find(s => s.langShort === 'sv') === undefined) {
+          firstSv = ""
+        } else {
+          firstSv = allsubs.find(s => s.langShort === 'sv')
+        }
+      // Tr
+        var firstTr
+        if (allsubs.find(s => s.langShort === 'tr') === undefined) {
+          firstTr = ""
+        } else {
+          firstTr = allsubs.find(s => s.langShort === 'tr')
+        }
+      // Vi
+        var firstVi
+        if (allsubs.find(s => s.langShort === 'vi') === undefined) {
+          firstVi = ""
+        } else {
+          firstVi = allsubs.find(s => s.langShort === 'vi')
+        }
 
     //Get best subtitles
 
-    // const firstIndexAr = firstAr.subs[0].index
-    // const firstIndexBn = firstBn.subs[0].index
-    // const firstIndexPb = firstPb.subs[0].index
-    // const firstIndexZh = firstZh.subs[0].index
-    // const firstIndexHr = firstHr.subs[0].index
-    // const firstIndexDa = firstDa.subs[0].index
-    // const firstIndexNl = firstNl.subs[0].index
-    const firstIndexEn = firstEn.subs[0].index
-    // const firstIndexFa = firstFa.subs[0].index
-    // const firstIndexFr = firstFr.subs[0].index
-    // const firstIndexEl = firstEl.subs[0].index
-    // const firstIndexHu = firstHu.subs[0].index
-    // const firstIndexKo = firstKo.subs[0].index
-    // const firstIndexMs = firstMs.subs[0].index
-    // const firstIndexPl = firstPl.subs[0].index
-    // const firstIndexPt = firstPt.subs[0].index
-    // const firstIndexRo = firstRo.subs[0].index
-    // const firstIndexRu = firstRu.subs[0].index
-    // const firstIndexSr = firstSr.subs[0].index
-    const firstIndexEs = firstEs.subs[0].index
-    // const firstIndexSv = firstSv.subs[0].index
-    // const firstIndexTr = firstTr.subs[0].index
-    // const firstIndexVi = firstVi.subs[0].index
+    var firstIndexAr
+    if (firstAr === "") {
+      firstIndexAr = ""
+    } else if (firstAr === allsubs.find(s => s.langShort === 'ar')) {
+      firstIndexAr = firstAr.subs[0].index
+    }
+    var firstIndexBn
+    if (firstBn === "") {
+      firstIndexBn = ""
+    } else if (firstBn === allsubs.find(s => s.langShort === 'bn')) {
+      firstIndexBn = firstBn.subs[0].index
+    }
+    var firstIndexPb
+    if (firstPb === "") {
+      firstIndexPb = ""
+    } else if (firstPb === allsubs.find(s => s.langShort === 'pb')) {
+      firstIndexPb = firstPb.subs[0].index
+    }
+    var firstIndexZh
+    if (firstZh === "") {
+      firstIndexZh = ""
+    } else if (firstZh === allsubs.find(s => s.langShort === 'zh')) {
+      firstIndexZh = firstZh.subs[0].index
+    }
+    var firstIndexHr
+    if (firstHr === "") {
+      firstIndexHr = ""
+    } else if (firstHr === allsubs.find(s => s.langShort === 'hr')) {
+      firstIndexHr = firstHr.subs[0].index
+    }
+    var firstIndexDa
+    if (firstDa === "") {
+      firstIndexDa = ""
+    } else if (firstDa === allsubs.find(s => s.langShort === 'da')) {
+      firstIndexDa = firstDa.subs[0].index
+    }
+    var firstIndexNl
+    if (firstNl === "") {
+      firstIndexNl = ""
+    } else if (firstNl === allsubs.find(s => s.langShort === 'nl')) {
+      firstIndexNl = firstNl.subs[0].index
+    }
+    var firstIndexEn
+    if (firstEn === "") {
+      firstIndexEn = ""
+    } else if (firstEn === allsubs.find(s => s.langShort === 'en')) {
+      firstIndexEn = firstEn.subs[0].index
+    }
+    var firstIndexFa
+    if (firstFa === "") {
+      firstIndexFa = ""
+    } else if (firstFa === allsubs.find(s => s.langShort === 'fa')) {
+      firstIndexFa = firstFa.subs[0].index
+    }
+    var firstIndexFr
+    if (firstFr === "") {
+      firstIndexFr = ""
+    } else if (firstFr === allsubs.find(s => s.langShort === 'fr')) {
+      firstIndexFr = firstFr.subs[0].index
+    }
+    var firstIndexEl
+    if (firstEl === "") {
+      firstIndexEl = ""
+    } else if (firstEl === allsubs.find(s => s.langShort === 'el')) {
+      firstIndexEl = firstEl.subs[0].index
+    }
+    var firstIndexHu
+    if (firstHu === "") {
+      firstIndexHu = ""
+    } else if (firstHu === allsubs.find(s => s.langShort === 'hu')) {
+      firstIndexHu = firstHu.subs[0].index
+    }
+    var firstIndexKo
+    if (firstKo === "") {
+      firstIndexKo = ""
+    } else if (firstKo === allsubs.find(s => s.langShort === 'ko')) {
+      firstIndexKo = firstKo.subs[0].index
+    }
+    var firstIndexMs
+    if (firstMs === "") {
+      firstIndexMs = ""
+    } else if (firstMs === allsubs.find(s => s.langShort === 'ms')) {
+      firstIndexMs = firstMs.subs[0].index
+    }
+    var firstIndexPl
+    if (firstPl === "") {
+      firstIndexPl = ""
+    } else if (firstPl === allsubs.find(s => s.langShort === 'pl')) {
+      firstIndexPl = firstPl.subs[0].index
+    }
+    var firstIndexPt
+    if (firstPt === "") {
+      firstIndexPt = ""
+    } else if (firstPt === allsubs.find(s => s.langShort === 'pt')) {
+      firstIndexPt = firstPt.subs[0].index
+    }
+    var firstIndexRo
+    if (firstRo === "") {
+      firstIndexRo = ""
+    } else if (firstRo === allsubs.find(s => s.langShort === 'ro')) {
+      firstIndexRo = firstRo.subs[0].index
+    }
+    var firstIndexRu
+    if (firstRu === "") {
+      firstIndexRu = ""
+    } else if (firstRu === allsubs.find(s => s.langShort === 'ru')) {
+      firstIndexRu = firstRu.subs[0].index
+    }
+    var firstIndexSr
+    if (firstSr === "") {
+      firstIndexSr = ""
+    } else if (firstSr === allsubs.find(s => s.langShort === 'sr')) {
+      firstIndexSr = firstSr.subs[0].index
+    }
+    var firstIndexEs
+    if (firstEs === "") {
+      firstIndexEs = ""
+    } else if (firstEs === allsubs.find(s => s.langShort === 'es')) {
+      firstIndexEs = firstEs.subs[0].index
+    }
+    var firstIndexSv
+    if (firstSv === "") {
+      firstIndexSv = ""
+    } else if (firstSv === allsubs.find(s => s.langShort === 'sv')) {
+      firstIndexSv = firstSv.subs[0].index
+    }
+    var firstIndexTr
+    if (firstTr === "") {
+      firstIndexTr = ""
+    } else if (firstTr === allsubs.find(s => s.langShort === 'tr')) {
+      firstIndexTr = firstTr.subs[0].index
+    }
+    var firstIndexVi
+    if (firstVi === "") {
+      firstIndexVi = ""
+    } else if (firstVi === allsubs.find(s => s.langShort === 'vi')) {
+      firstIndexVi = firstVi.subs[0].index
+    }
 
     //Final subtitles
 
-    // this.subsUrlAr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexAr}`
-    // this.subsUrlBn = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexBn}`
-    // this.subsUrlPb = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexPb}`
-    // this.subsUrlZh = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexZh}`
-    // this.subsUrlHr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexHr}`
-    // this.subsUrlDa = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexDa}`
-    // this.subsUrlNl = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexNl}`
+    this.subsUrlAr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexAr}`
+    this.subsUrlBn = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexBn}`
+    this.subsUrlPb = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexPb}`
+    this.subsUrlZh = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexZh}`
+    this.subsUrlHr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexHr}`
+    this.subsUrlDa = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexDa}`
+    this.subsUrlNl = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexNl}`
     this.subsUrlEn = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexEn}`
-    // this.subsUrlFa = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexFa}`
-    // this.subsUrlFr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexFr}`
-    // this.subsUrlEl = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexEl}`
-    // this.subsUrlHu = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexHu}`
-    // this.subsUrlKo = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexKo}`
-    // this.subsUrlMs = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexMs}`
-    // this.subsUrlPl = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexPl}`
-    // this.subsUrlPt = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexPt}`
-    // this.subsUrlRo = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexRo}`
-    // this.subsUrlRu = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexRu}`
-    // this.subsUrlSr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexSr}`
+    this.subsUrlFa = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexFa}`
+    this.subsUrlFr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexFr}`
+    this.subsUrlEl = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexEl}`
+    this.subsUrlHu = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexHu}`
+    this.subsUrlKo = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexKo}`
+    this.subsUrlMs = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexMs}`
+    this.subsUrlPl = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexPl}`
+    this.subsUrlPt = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexPt}`
+    this.subsUrlRo = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexRo}`
+    this.subsUrlRu = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexRu}`
+    this.subsUrlSr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexSr}`
     this.subsUrlEs = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexEs}`
-    // this.subsUrlSv = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexSv}`
-    // this.subsUrlTr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexTr}`
-    // this.subsUrlVi = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexVi}`
+    this.subsUrlSv = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexSv}`
+    this.subsUrlTr = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexTr}`
+    this.subsUrlVi = `https://bitflix-subs.herokuapp.com/subs/` + this.imdb_id + `/${firstIndexVi}`
   },
   methods: {
   /**
@@ -247,5 +502,14 @@ export default {
 }
 .plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true] {
   background: var(--blue)!important;
+}
+.plyr__menu__container [role=menu] {
+  max-height: 21rem!important;
+  overflow-y: overlay!important
+}
+@media only screen and (max-width: 768px) {
+  .plyr__menu__container [role=menu] {
+    max-height: 15rem!important;
+  }
 }
 </style>

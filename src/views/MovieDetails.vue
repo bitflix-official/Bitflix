@@ -41,7 +41,7 @@
               <p class="overview">{{movie.overview}}</p>
             </div>
             <div class="streaming-container">
-              <router-link :to="{ name: 'movieStream', params: { imdb_id: movie.imdb_id } }">
+              <router-link v-if="stream" :to="{ name: 'movieStream', params: { imdb_id: movie.imdb_id } }">
                 <button class="btn btn-primary watch-button"><i class="fas fa-play"></i>Watch now</button>
               </router-link>
               <a class="btn btn-outline-secondary watch-button" :href="'https://server-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'"><i class="fas fa-download"></i>Download</a>
@@ -67,6 +67,7 @@ export default {
     return {
       movies: list.movies,
       moviesVotes: {},
+      stream: '',
     };
   },
   props: {
@@ -76,10 +77,8 @@ export default {
     }
   },
   mounted() {
-    let appScript = document.createElement("script");
-    appScript.setAttribute("src", "/js/script.js");
-    document.head.appendChild(appScript);
     this.setVotesFromPersistence();
+    this.stream = 'https://nm-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
   },
   methods: {
   /**
