@@ -20,12 +20,12 @@
         <div  class="container">
           <div class="playerContainer text-center">
             <h4 class="movie-info-title">Watching: {{movie.title}}</h4>
-            <vue-plyr v-if="stream" class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
-              <video :src="stream" id="player" playsinline autoplay preload="metadata" controls :data-poster="'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/' + movie.backdrop_path" crossorigin="anonymous">
-                <!-- <source :src="'https://server-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'">
-                <source :src="'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'">
-                <source :src="'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'">
-                <source :src="'https://nm-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'"> -->
+            <vue-plyr v-if="option1 || option2 || option3 || option4" class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
+              <video id="player" playsinline autoplay preload="metadata" controls :data-poster="'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/' + movie.backdrop_path" crossorigin="anonymous">
+                <source :src="option1" type="video/mp4">
+                <source :src="option2" type="video/mp4">
+                <source :src="option3" type="video/mp4">
+                <source :src="option4" type="video/mp4">
                 <track kind="subtitles" :src="subsUrlAr" srclang="ar" label="Arabic">
                 <track kind="subtitles" :src="subsUrlBn" srclang="bn" label="Bengali">
                 <track kind="subtitles" :src="subsUrlPb" srclang="pb" label="Brazilian Portuguese">
@@ -85,7 +85,10 @@ export default {
     return {
       movies: list.movies,
       moviesVotes: {},
-      stream: '',
+      option1: '',
+      option2: '',
+      option3: '',
+      option4: '',
       subsUrlAr: 'null',
       subsUrlBn: 'null',
       subsUrlPb: 'null',
@@ -119,7 +122,10 @@ export default {
   },
   async mounted() {
     this.setVotesFromPersistence();
-    this.stream = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option1 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option2 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option3 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option4 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
 
     // Get all subtitles
 

@@ -41,10 +41,10 @@
               <p class="overview">{{movie.overview}}</p>
             </div>
             <div class="streaming-container">
-              <router-link v-if="stream" :to="{ name: 'movieStream', params: { imdb_id: movie.imdb_id } }">
+              <router-link v-if="option1 || option2 || option3 || option4" :to="{ name: 'movieStream', params: { imdb_id: movie.imdb_id } }">
                 <button class="btn btn-primary watch-button"><i class="fas fa-play"></i>Watch now</button>
               </router-link>
-              <a class="btn btn-outline-secondary watch-button" :href="'https://server-bitflix.herokuapp.com/api/torrent/serve/' + movie.torrent + '/:video'"><i class="fas fa-download"></i>Download</a>
+              <a class="btn btn-outline-secondary watch-button" :href="option4"><i class="fas fa-download"></i>Download</a>
             </div>
           </div>
         </div>
@@ -67,7 +67,10 @@ export default {
     return {
       movies: list.movies,
       moviesVotes: {},
-      stream: '',
+      option1: '',
+      option2: '',
+      option3: '',
+      option4: '',
     };
   },
   props: {
@@ -78,7 +81,10 @@ export default {
   },
   mounted() {
     this.setVotesFromPersistence();
-    this.stream = 'https://nm-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option1 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option2 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option3 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option4 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
   },
   methods: {
   /**
