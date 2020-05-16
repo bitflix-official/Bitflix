@@ -6,7 +6,9 @@
         <div class="container">
           <div class="row">
             <div class="col-6">
-              <GoBack />
+              <router-link class="btn back" :to="{ name: 'movieDetails', params: { imdb_id: movie.imdb_id } }">
+                <i class="fas fa-chevron-left"></i> Back
+              </router-link>
             </div>
             <div class="col-6">
               <div class="favorites-container">
@@ -75,11 +77,9 @@
 </template>
 <script>
 import list from "@/list";
-import GoBack from "@/components/GoBack";
 import Footer from "@/components/Footer";
 export default {
   components: {
-    GoBack,
     Footer
   },
   data() {
@@ -91,6 +91,7 @@ export default {
       option3: '',
       option4: '',
       option5: '',
+      option6: '',
       subsUrlAr: 'null',
       subsUrlBn: 'null',
       subsUrlPb: 'null',
@@ -124,11 +125,12 @@ export default {
   },
   async mounted() {
     this.setVotesFromPersistence();
-    this.option1 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option2 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option3 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option4 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option5 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option1 = 'https://live-torrent.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option2 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option3 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option4 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option5 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option6 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
 
     // Get all subtitles
 

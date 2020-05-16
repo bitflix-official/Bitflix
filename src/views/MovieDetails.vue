@@ -9,7 +9,9 @@
       <div class="container">
         <div class="row">
           <div class="col-6">
-            <GoBack />
+            <router-link class="btn back" :to="{ name: 'home', params: { } }">
+              <i class="fas fa-chevron-left"></i> Back
+            </router-link>
           </div>
           <div class="col-6">
             <div class="favorites-container">
@@ -41,7 +43,7 @@
               <p class="overview">{{movie.overview}}</p>
             </div>
             <div class="streaming-container">
-              <router-link v-if="option1 || option2 || option3 || option4 || option5" :to="{ name: 'movieStream', params: { imdb_id: movie.imdb_id } }">
+              <router-link v-if="option1 || option2 || option3 || option4 || option5" :to="{ name: 'movieLoad', params: { imdb_id: movie.imdb_id } }">
                 <button class="btn btn-primary watch-button"><i class="fas fa-play"></i>Watch now</button>
               </router-link>
               <a class="btn btn-outline-secondary watch-button" :href="option4"><i class="fas fa-download"></i>Download</a>
@@ -55,12 +57,10 @@
 </template>
 <script>
 import list from "@/list";
-import GoBack from "@/components/GoBack";
 import Footer from "@/components/Footer";
 export default {
   name: "movieDetails",
   components: {
-    GoBack,
     Footer
   },
   data() {
@@ -71,7 +71,8 @@ export default {
       option2: '',
       option3: '',
       option4: '',
-      option5: ''
+      option5: '',
+      option6: ''
     };
   },
   props: {
@@ -82,11 +83,12 @@ export default {
   },
   mounted() {
     this.setVotesFromPersistence();
-    this.option1 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option2 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option3 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option4 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option5 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option1 = 'https://live-torrent.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option2 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option3 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option4 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option5 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option6 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
   },
   methods: {
   /**

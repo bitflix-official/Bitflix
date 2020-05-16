@@ -4,7 +4,9 @@
         <div class="container">
           <div class="row">
             <div class="col-6">
-              <GoBack />
+              <router-link class="btn back" :to="{ name: 'home', params: { } }">
+                <i class="fas fa-chevron-left"></i> Back
+              </router-link>
             </div>
           </div>
         </div>
@@ -38,12 +40,10 @@
     </div>
 </template>
 <script>
-import GoBack from "@/components/GoBack";
 import Footer from "@/components/Footer";
 export default {
   name: "movieDetails",
   components: {
-    GoBack,
     Footer
   },
   data() {

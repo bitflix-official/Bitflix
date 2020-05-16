@@ -67,6 +67,23 @@ const router = new Router({
       }
     },
     {
+      path: "/loading/:imdb_id",
+      name: "movieLoad",
+      props: true,
+      component: () =>
+        import(/* webpackChunkName: "movieDetails"*/ "./views/MovieLoad"),
+      beforeEnter: (to, from, next) => {
+        const exists = list.movies.find(
+          movie => movie.imdb_id === to.params.imdb_id
+        );
+        if (exists) {
+          next();
+        } else {
+          next({ name: "notFound" });
+        }
+      }
+    },
+    {
       path: "/stream/:imdb_id",
       name: "movieStream",
       props: true,

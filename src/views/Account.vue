@@ -4,7 +4,9 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <GoBack />
+            <router-link class="btn back" :to="{ name: 'home', params: { } }">
+              <i class="fas fa-chevron-left"></i> Back
+            </router-link>
           </div>
         </div>
       </div>
@@ -70,13 +72,11 @@
 // @ is an alias to /src
 import list from "@/list.js";
 import MovieList from "@/components/AccountMovies";
-import GoBack from "@/components/GoBack";
 import Footer from "@/components/Footer";
 export default {
   name: "home",
   components: {
     MovieList,
-    GoBack,
     Footer
   },
   data() {
