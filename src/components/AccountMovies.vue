@@ -1,15 +1,16 @@
 <template>
   <div class="container movies">
-    <ul id="search-ul">
-      <div class="row">
-        <li :id="movie.imdb_id" v-for="movie in movies" :class="['filterDiv' + ' ' + 'col-sm-6' + ' ' + 'col-md-4' + ' ' + 'col-lg-3', {'favorites show': moviesVotes[movie.id]}, movie.genres]" :key="movie.id">
-          <router-link :to="{ name: 'movieDetails', params: { imdb_id: movie.imdb_id } }">
-            <img class="poster" :src="'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + movie.poster_path" :alt="movie.title" />
-          </router-link>
-          <h2 class="movie-title" data-toggle="tooltip" data-placement="bottom" :title="movie.title" >{{ movie.title }}</h2>
-          <p class="year">{{ movie.release_date }}</p>
-        </li>
-      </div>
+    <ul id="search-ul" class="movie-list">
+      <li :id="movie.imdb_id" v-for="movie in movies" :class="['filterDiv' + ' ', {'favorites show': moviesVotes[movie.id]}, movie.genres]" :key="movie.id">
+        <router-link :to="{ name: 'movieDetails', params: { imdb_id: movie.imdb_id } }" class="item-poster">
+          <img class="poster" :src="'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + movie.poster_path" :alt="movie.title" />
+          <div class="rate-item">
+            <p class="rate-item-text"><i class="fa fa-star"></i> {{movie.vote_average}}</p>
+          </div>
+        </router-link>
+        <h2 class="movie-title" data-toggle="tooltip" data-placement="bottom" :title="movie.title" >{{ movie.title }}</h2>
+        <p class="year">{{ movie.release_date }}</p>
+      </li>
     </ul>
   </div>
 </template>

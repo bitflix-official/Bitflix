@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="col-sm-12 col-md-6">
-            <div class="searchContainer">
+            <div class="col-sm-12 col-md-8 searchContainer">
               <input id="search" type="text" placeholder="Search movies.." autocomplete="off" /><i id="searchIcon" class="fas fa-search"></i>
             </div>
           </div>

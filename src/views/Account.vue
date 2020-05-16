@@ -59,7 +59,7 @@
         </div>
       </div>
       <h5 class="marked text-center">Movies marked as favorites</h5>
-      <MovieList />
+      <MovieList/>
       <h6 class="thanks-for-using text-center">Thanks for using Bitflix <i class="fa fa-heart"></i></h6>
     </div>
     <Footer />

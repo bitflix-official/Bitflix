@@ -32,7 +32,7 @@
            <a class="btn about-social-icon github" href="https://instagram.com/bitflixapp" target="_blank"><i class="fa fa-github"></i></a>
            <a class="btn about-social-icon twitter" href="https://twitter.com/bitflixapp" target="_blank"><i class="fa fa-twitter"></i></a>
          </div>
-         <p>0.0.1 beta version</p>
+         <p>0.1.1 beta version</p>
       </div>
       <Footer/>
     </div>
