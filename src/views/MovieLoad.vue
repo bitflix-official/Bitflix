@@ -36,7 +36,7 @@ export default {
   async mounted() {
     let refresh = document.createElement("meta");
     refresh.setAttribute("http-equiv", "refresh");
-    refresh.setAttribute("content", "15; url=/stream/" + this.imdb_id + "");
+    refresh.setAttribute("content", "25; url=/stream/" + this.imdb_id + "");
     document.head.appendChild(refresh);
     this.option1 = 'https://live-torrent.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option2 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
