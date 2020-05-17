@@ -626,9 +626,19 @@ body {
   margin-top: 30px;
   margin-bottom: 30px;
   width: 100%;
+  -moz-box-shadow: 0 0 12px #0000008f;
   -webkit-box-shadow: 0 0 12px #0000008f;
   box-shadow: 0 0 12px #0000008f;
   border-radius: 5px;
+}
+::cue {
+  background: transparent;
+  text-shadow: 1px 2px 5px black;
+  -moz-box-shadow: 0 0 6px #0000008f;
+  -webkit-box-shadow: 0 0 6px #0000008f;
+  box-shadow: 0 0 6px #0000008f;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500
 }
 .share-buttons {
   margin-bottom: 15vh;

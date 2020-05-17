@@ -86,7 +86,7 @@ export default {
     this.option1 = 'https://live-torrent.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option2 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option3 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option4 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option4 = 'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option5 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option6 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
   },

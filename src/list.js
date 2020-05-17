@@ -2393,8 +2393,8 @@ export default {
       "video": false,
       "vote_average": 7.4,
       "vote_count": 25,
-      "trailer": "",
-      "torrent": "",
+      "trailer": "954b9vLAT6Y",
+      "torrent": "AA87BE94B74B9CA4172939E7F1045D2E50DD1C56",
     },
     {
       "adult": false,

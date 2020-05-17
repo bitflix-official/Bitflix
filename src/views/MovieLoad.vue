@@ -3,6 +3,7 @@
     <div class="spinner-grow text-primary" role="status"></div>
     <div id="loading-time" class="loading-time">0</div>
     <div class="loading-movie-text">Making some popcorn</div>
+    <div id="imdb_id">{{movie.imdb_id}}</div>
     <video id="player" style="width: 0.1px" playsinline autoplay preload="metadata" crossorigin="anonymous" muted>
       <source :src="option1" type="video/mp4">
       <source :src="option2" type="video/mp4">
@@ -34,14 +35,10 @@ export default {
     }
   },
   async mounted() {
-    let refresh = document.createElement("meta");
-    refresh.setAttribute("http-equiv", "refresh");
-    refresh.setAttribute("content", "25; url=/stream/" + this.imdb_id + "");
-    document.head.appendChild(refresh);
     this.option1 = 'https://live-torrent.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option2 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option3 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option4 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option4 = 'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option5 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option6 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     let timer = document.createElement("script");
@@ -56,6 +53,9 @@ export default {
 };
 </script>
 <style media="screen">
+  #imdb_id {
+    display: none;
+  }
   .loading-container {
     width: 20rem;
     height: max-content;

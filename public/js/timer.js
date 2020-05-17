@@ -1,3 +1,7 @@
+const imdb_id = document.getElementById("imdb_id").innerText;
+window.setTimeout(function() {
+    window.location.href = "/stream/" + imdb_id;
+}, 20000);
 setTimeout(start, 5000);
 
 var i = 0;

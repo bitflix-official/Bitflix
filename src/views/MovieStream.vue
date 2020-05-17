@@ -22,46 +22,46 @@
         <div  class="container">
           <div class="playerContainer text-center">
             <h4 class="movie-info-title">Watching: {{movie.title}}</h4>
-            <vue-plyr v-if="option1 || option2 || option3 || option4 || option5" class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
-              <video id="player" playsinline autoplay preload="metadata" controls :data-poster="'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/' + movie.backdrop_path" crossorigin="anonymous">
-                <source :src="option1" type="video/mp4">
-                <source :src="option2" type="video/mp4">
-                <source :src="option3" type="video/mp4">
-                <source :src="option4" type="video/mp4">
-                <source :src="option5" type="video/mp4">
-                <track kind="subtitles" :src="subsUrlAr" srclang="ar" label="Arabic">
-                <track kind="subtitles" :src="subsUrlBn" srclang="bn" label="Bengali">
-                <track kind="subtitles" :src="subsUrlPb" srclang="pb" label="Brazilian Portuguese">
-                <track kind="subtitles" :src="subsUrlZh" srclang="zh" label="Chinese">
-                <track kind="subtitles" :src="subsUrlHr" srclang="hr" label="Croatian">
-                <track kind="subtitles" :src="subsUrlDa" srclang="da" label="Danish">
-                <track kind="subtitles" :src="subsUrlNl" srclang="nl" label="Dutch">
-                <track kind="subtitles" :src="subsUrlEn" srclang="en" label="English">
-                <track kind="subtitles" :src="subsUrlFa" srclang="fa" label="Farsi/Persian">
-                <track kind="subtitles" :src="subsUrlFr" srclang="fr" label="French">
-                <track kind="subtitles" :src="subsUrlEl" srclang="el" label="Greek">
-                <track kind="subtitles" :src="subsUrlHu" srclang="hu" label="Hungarian">
-                <track kind="subtitles" :src="subsUrlKo" srclang="ko" label="Korean">
-                <track kind="subtitles" :src="subsUrlMs" srclang="ms" label="Malay">
-                <track kind="subtitles" :src="subsUrlPl" srclang="pl" label="Polish">
-                <track kind="subtitles" :src="subsUrlPt" srclang="pt" label="Portuguese">
-                <track kind="subtitles" :src="subsUrlRo" srclang="ro" label="Romanian">
-                <track kind="subtitles" :src="subsUrlRu" srclang="ru" label="Russian">
-                <track kind="subtitles" :src="subsUrlSr" srclang="sr" label="Serbian">
-                <track kind="subtitles" :src="subsUrlEs" srclang="es" label="Spanish">
-                <track kind="subtitles" :src="subsUrlSv" srclang="sv" label="Swedish">
-                <track kind="subtitles" :src="subsUrlTr" srclang="tr" label="Turkish">
-                <track kind="subtitles" :src="subsUrlVi" srclang="vi" label="Vietnamese">
-                <!-- The Simpsons -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0462538'" src="https://www.seedr.cc/subtitles/1952184131/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-199c0c4c%2Fsid-mv14fkl4OEuwLbbUoK3cZwCFQz2%2Ffilead%2F1952184131.gz/sub.vtt" srclang="es" label="Spanish (2)">
-                <!-- High School Musical -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0475293'" src="https://www.seedr.cc/subtitles/1951657604/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19bc0c55%2Fsid-5d6ZExBj6o3Yss6OBsdwASYVnu1%2Ffilead%2F1951657604.gz/sub.vtt" srclang="es" label="Spanish (2)">
-                <!-- High School Musical 2 -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0810900'" src="https://www.seedr.cc/subtitles/1954219657/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19ba0c5a%2Fsid-vlBfK6CtJHBCEZXXArpkimrr8a4%2Ffilead%2F1954219657.gz/sub.vtt" srclang="es" label="Spanish (2)">
-                <!-- High School Musical 3 -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0962726'" src="https://www.seedr.cc/subtitles/1954113792/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19a20c53%2Fsid-alKzS11sqV66Rn5sQllDZzk3Uxa%2Ffilead%2F1954113792.gz/sub.vtt" srclang="es" label="Spanish (2)">
-              </video>
-            </vue-plyr>
+            <video v-if="option1 || option2 || option3 || option4 || option5" id="player" class="player" autoplay preload="metadata" controls :data-poster="'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/' + movie.backdrop_path" crossorigin="anonymous">
+              <source :src="option1" type="video/mp4">
+              <source :src="option2" type="video/mp4">
+              <source :src="option3" type="video/mp4">
+              <source :src="option4" type="video/mp4">
+              <source :src="option5" type="video/mp4">
+              <track kind="subtitles" :src="subsUrlAr" srclang="ar" label="Arabic">
+              <track kind="subtitles" :src="subsUrlBn" srclang="bn" label="Bengali">
+              <track kind="subtitles" :src="subsUrlPb" srclang="pb" label="Brazilian Portuguese">
+              <track kind="subtitles" :src="subsUrlZh" srclang="zh" label="Chinese">
+              <track kind="subtitles" :src="subsUrlHr" srclang="hr" label="Croatian">
+              <track kind="subtitles" :src="subsUrlDa" srclang="da" label="Danish">
+              <track kind="subtitles" :src="subsUrlNl" srclang="nl" label="Dutch">
+              <track kind="subtitles" :src="subsUrlEn" srclang="en" label="English">
+              <track kind="subtitles" :src="subsUrlFa" srclang="fa" label="Farsi/Persian">
+              <track kind="subtitles" :src="subsUrlFr" srclang="fr" label="French">
+              <track kind="subtitles" :src="subsUrlEl" srclang="el" label="Greek">
+              <track kind="subtitles" :src="subsUrlHu" srclang="hu" label="Hungarian">
+              <track kind="subtitles" :src="subsUrlKo" srclang="ko" label="Korean">
+              <track kind="subtitles" :src="subsUrlMs" srclang="ms" label="Malay">
+              <track kind="subtitles" :src="subsUrlPl" srclang="pl" label="Polish">
+              <track kind="subtitles" :src="subsUrlPt" srclang="pt" label="Portuguese">
+              <track kind="subtitles" :src="subsUrlRo" srclang="ro" label="Romanian">
+              <track kind="subtitles" :src="subsUrlRu" srclang="ru" label="Russian">
+              <track kind="subtitles" :src="subsUrlSr" srclang="sr" label="Serbian">
+              <track kind="subtitles" :src="subsUrlEs" srclang="es" label="Spanish">
+              <track kind="subtitles" :src="subsUrlSv" srclang="sv" label="Swedish">
+              <track kind="subtitles" :src="subsUrlTr" srclang="tr" label="Turkish">
+              <track kind="subtitles" :src="subsUrlVi" srclang="vi" label="Vietnamese">
+              <!-- Mean Machine -->
+              <track kind="subtitles" v-if="movie.imdb_id === 'tt0291341'" src="https://stoic-swirles-b7d2ec.netlify.app/meanmachine.vtt" srclang="es" label="Spanish (2)">
+              <!-- The Simpsons -->
+              <track kind="subtitles" v-if="movie.imdb_id === 'tt0462538'" src="https://www.seedr.cc/subtitles/1952184131/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-199c0c4c%2Fsid-mv14fkl4OEuwLbbUoK3cZwCFQz2%2Ffilead%2F1952184131.gz/sub.vtt" srclang="es" label="Spanish (2)">
+              <!-- High School Musical -->
+              <track kind="subtitles" v-if="movie.imdb_id === 'tt0475293'" src="https://www.seedr.cc/subtitles/1951657604/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19bc0c55%2Fsid-5d6ZExBj6o3Yss6OBsdwASYVnu1%2Ffilead%2F1951657604.gz/sub.vtt" srclang="es" label="Spanish (2)">
+              <!-- High School Musical 2 -->
+              <track kind="subtitles" v-if="movie.imdb_id === 'tt0810900'" src="https://www.seedr.cc/subtitles/1954219657/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19ba0c5a%2Fsid-vlBfK6CtJHBCEZXXArpkimrr8a4%2Ffilead%2F1954219657.gz/sub.vtt" srclang="es" label="Spanish (2)">
+              <!-- High School Musical 3 -->
+              <track kind="subtitles" v-if="movie.imdb_id === 'tt0962726'" src="https://www.seedr.cc/subtitles/1954113792/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19a20c53%2Fsid-alKzS11sqV66Rn5sQllDZzk3Uxa%2Ffilead%2F1954113792.gz/sub.vtt" srclang="es" label="Spanish (2)">
+            </video>
             <div class="share-buttons text-center">
               <div class="mobile-download">
                 <a id="downloadButtonMobile" class="btn btn-primary" :href="option4" data-toggle="tooltip" data-placement="bottom" title="Download movie"><i class="fas fa-download"></i> Download movie</a>
@@ -128,7 +128,7 @@ export default {
     this.option1 = 'https://live-torrent.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option2 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option3 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
-    this.option4 = 'https://sv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option4 = 'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option5 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option6 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
 
@@ -498,29 +498,8 @@ export default {
 };
 </script>
 <style>
-.plyr__captions .plyr__caption {
-  background: transparent!important;
-  text-shadow: 0 0 5px black!important;
-}
-.plyr__menu__container {
-  background-color: var(--bg)!important;
-}
-.plyr--full-ui input[type=range] {
-  color: var(--blue)!important;
-}
-.plyr__control--overlaid {
-  background: var(--blue)!important;
-}
-.plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true] {
-  background: var(--blue)!important;
-}
-.plyr__menu__container [role=menu] {
-  max-height: 21rem!important;
-  overflow-y: overlay!important
-}
-@media only screen and (max-width: 768px) {
-  .plyr__menu__container [role=menu] {
-    max-height: 15rem!important;
+  progress::-moz-progress-bar {
+    background-color: red;
   }
-}
+  progress::-webkit-progress-value { background: blue; }
 </style>
