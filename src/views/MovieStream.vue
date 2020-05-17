@@ -52,7 +52,7 @@
               <track kind="subtitles" :src="subsUrlTr" srclang="tr" label="Turkish">
               <track kind="subtitles" :src="subsUrlVi" srclang="vi" label="Vietnamese">
               <!-- Mean Machine -->
-              <track kind="subtitles" v-if="movie.imdb_id === 'tt0291341'" src="https://stoic-swirles-b7d2ec.netlify.app/meanmachine.vtt" srclang="es" label="Spanish (2)">
+              <track kind="subtitles" v-if="movie.imdb_id === 'tt0291341'" src="/subs/MeanMachineEs.vtt" srclang="es" label="Spanish (2)">
               <!-- The Simpsons -->
               <track kind="subtitles" v-if="movie.imdb_id === 'tt0462538'" src="https://www.seedr.cc/subtitles/1952184131/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-199c0c4c%2Fsid-mv14fkl4OEuwLbbUoK3cZwCFQz2%2Ffilead%2F1952184131.gz/sub.vtt" srclang="es" label="Spanish (2)">
               <!-- High School Musical -->

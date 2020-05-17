@@ -352,6 +352,7 @@ body {
 }
 #search-ul {
   padding: 0;
+  margin-top: 20px;
   margin-bottom: 80px;
 }
 .filterDiv {
