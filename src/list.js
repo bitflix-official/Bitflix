@@ -221,7 +221,7 @@ export default {
       "vote_count": 4062,
       "trailer": "1RgKlnG5aQY",
       "torrent": "F777147438E22C15C8E16EF61133F97BD58E09CF"
-    }
+    },
     {
       "adult": false,
       "backdrop_path": "/4z0IzDq6QWAjzvyXQRuNaQSReP5.jpg",
