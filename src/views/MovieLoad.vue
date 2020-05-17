@@ -41,6 +41,10 @@ export default {
     this.option4 = 'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option5 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option6 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    let refresh = document.createElement("meta");
+    refresh.setAttribute("http-equiv", "refresh");
+    refresh.setAttribute("content", "20; url=/stream/" + this.imdb_id);
+    document.head.appendChild(refresh);
     let timer = document.createElement("script");
     timer.setAttribute("src", "/js/timer.js");
     document.body.appendChild(timer);
