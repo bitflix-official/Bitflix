@@ -9,7 +9,7 @@ function start() {
 
 function increase() {
     if (i < 90) {
-      i = i + Math.floor(Math.random() * 10) + 6  ;
+      i = i + Math.floor(Math.random() * 6) + 3  ;
       num.innerText = i;
     }
 }
