@@ -51,6 +51,8 @@
               <track kind="subtitles" :src="subsUrlSv" srclang="sv" label="Swedish">
               <track kind="subtitles" :src="subsUrlTr" srclang="tr" label="Turkish">
               <track kind="subtitles" :src="subsUrlVi" srclang="vi" label="Vietnamese">
+              <!-- Nancy Drew -->
+              <track kind="subtitles" v-if="movie.imdb_id === 'tt0479500'" src="https://www.seedr.cc/subtitles/1956272789/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19d50c61%2Fsid-ugFiYbTuZm6djMY9-PdjrbUsLaa%2Ffilead%2F1956272789.gz/sub.vtt" srclang="es" label="Spanish (2)">
               <!-- Mean Machine -->
               <track kind="subtitles" v-if="movie.imdb_id === 'tt0291341'" src="/subs/MeanMachineEs.vtt" srclang="es" label="Spanish (2)">
               <!-- The Simpsons -->
