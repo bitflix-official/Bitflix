@@ -70,7 +70,7 @@ export default {
       "vote_average": 7.3,
       "vote_count": 16,
       "trailer": "u7R3zjLXSp4",
-      "torrent": "E73E47276033A91423ADE8C32FD4B3C024EDF5E4"
+      "torrent": "69D5B002CC27341C1A5D51E3E5A4E229B274643A"
     },
     {
       "adult": false,
