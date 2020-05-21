@@ -122,7 +122,7 @@ export default {
       "vote_average": 5.9,
       "vote_count": 322,
       "trailer": "Y9UEn5ojXkM",
-      "torrent": "E6B6CB1586A68274C7B8A450B6054CEBF1D6EDD1"
+      "torrent": "F33A153CCF887608FC60A6CA49263105C3984189"
     },
     {
       "adult": false,
