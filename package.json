@@ -1,6 +1,7 @@
 {
   "name": "bitflix",
   "version": "0.1.1",
+  "autor": "nuzze",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,6 +13,7 @@
     "jquery": "^3.5.1",
     "plyr": "^3.6.2",
     "vue": "^2.6.11",
+    "vue-i18n": "^8.18.1",
     "vue-plyr": "^6.0.4",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.1.6",

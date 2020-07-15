@@ -10,71 +10,40 @@
             </div>
             <div class="col-6">
               <div class="favorites-container">
-                <router-link :to="{ name: 'Download', params: { imdb_id: movie.imdb_id } }">
-                  <button id="downloadButton" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" :title="$t('content.offline')"><i class="fas fa-download"></i> {{ $t("content.offline") }}</button>
-                </router-link>
                 <a @click="setVote(movie.id)" class="btn" :class="moviesVotes[movie.id] ? 'unfavorite' : 'favorite'" data-toggle="tooltip" data-placement="bottom" :title="$t('content.favorites')"><i class="fa fa-heart"></i></a>
               </div>
             </div>
           </div>
         </div>
       </div>
-        <div  class="container">
-          <div class="playerContainer text-center">
-            <h4 class="movie-info-title">{{ $t("content.watching") }}: {{movie.title}}</h4>
-            <vue-plyr v-if="option1 || option2 || option3 || option4" class="player" style="--plyr-color-main: var(--blue)!important; --plyr-captions-background: transparent!important;">
-              <video v-if="option1 || option2 || option3 || option4" autoplay preload="metadata" controls :data-poster="'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/' + movie.backdrop_path" crossorigin="anonymous">
-                <source :src="option1" type="video/mp4">
-                <source :src="option2" type="video/mp4">
-                <source :src="option3" type="video/mp4">
-                <source :src="option4" type="video/mp4">
-                <track kind="subtitles" :src="subsUrlAr" srclang="ar" label="Arabic">
-                <track kind="subtitles" :src="subsUrlBn" srclang="bn" label="Bengali">
-                <track kind="subtitles" :src="subsUrlPb" srclang="pb" label="Brazilian Portuguese">
-                <track kind="subtitles" :src="subsUrlZh" srclang="zh" label="Chinese">
-                <track kind="subtitles" :src="subsUrlHr" srclang="hr" label="Croatian">
-                <track kind="subtitles" :src="subsUrlDa" srclang="da" label="Danish">
-                <track kind="subtitles" :src="subsUrlNl" srclang="nl" label="Dutch">
-                <track kind="subtitles" :src="subsUrlEn" srclang="en" label="English">
-                <track kind="subtitles" :src="subsUrlFa" srclang="fa" label="Farsi/Persian">
-                <track kind="subtitles" :src="subsUrlFr" srclang="fr" label="French">
-                <track kind="subtitles" :src="subsUrlEl" srclang="el" label="Greek">
-                <track kind="subtitles" :src="subsUrlHu" srclang="hu" label="Hungarian">
-                <track kind="subtitles" :src="subsUrlKo" srclang="ko" label="Korean">
-                <track kind="subtitles" :src="subsUrlMs" srclang="ms" label="Malay">
-                <track kind="subtitles" :src="subsUrlPl" srclang="pl" label="Polish">
-                <track kind="subtitles" :src="subsUrlPt" srclang="pt" label="Portuguese">
-                <track kind="subtitles" :src="subsUrlRo" srclang="ro" label="Romanian">
-                <track kind="subtitles" :src="subsUrlRu" srclang="ru" label="Russian">
-                <track kind="subtitles" :src="subsUrlSr" srclang="sr" label="Serbian">
-                <track kind="subtitles" :src="subsUrlEs" srclang="es" label="Spanish">
-                <track kind="subtitles" :src="subsUrlSv" srclang="sv" label="Swedish">
-                <track kind="subtitles" :src="subsUrlTr" srclang="tr" label="Turkish">
-                <track kind="subtitles" :src="subsUrlVi" srclang="vi" label="Vietnamese">
-                <!-- Nancy Drew -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0479500'" src="/subs/NancyDrew2007Es.vtt" srclang="es" label="Spanish (2)">
-                <!-- Default -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt7233726'" src="/subs/DefaultEs.vtt" srclang="es" label="Spanish (2)">
-                <!-- Mean Machine -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0291341'" src="/subs/MeanMachineEs.vtt" srclang="es" label="Spanish (2)">
-                <!-- The Simpsons -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0462538'" src="https://www.seedr.cc/subtitles/1952184131/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-199c0c4c%2Fsid-mv14fkl4OEuwLbbUoK3cZwCFQz2%2Ffilead%2F1952184131.gz/sub.vtt" srclang="es" label="Spanish (3)">
-                <!-- High School Musical -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0475293'" src="https://www.seedr.cc/subtitles/1951657604/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19bc0c55%2Fsid-5d6ZExBj6o3Yss6OBsdwASYVnu1%2Ffilead%2F1951657604.gz/sub.vtt" srclang="es" label="Spanish (3)">
-                <!-- High School Musical 2 -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0810900'" src="https://www.seedr.cc/subtitles/1954219657/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19ba0c5a%2Fsid-vlBfK6CtJHBCEZXXArpkimrr8a4%2Ffilead%2F1954219657.gz/sub.vtt" srclang="es" label="Spanish (3)">
-                <!-- High School Musical 3 -->
-                <track kind="subtitles" v-if="movie.imdb_id === 'tt0962726'" src="https://www.seedr.cc/subtitles/1954113792/spa/dl.opensubtitles.org%2Fen%2Fdownload%2Fsrc-api%2Fvrf-19a20c53%2Fsid-alKzS11sqV66Rn5sQllDZzk3Uxa%2Ffilead%2F1954113792.gz/sub.vtt" srclang="es" label="Spanish (3)">
-              </video>
-            </vue-plyr>
-            <div class="share-buttons text-center">
-              <div class="mobile-download">
-                <router-link :to="{ name: 'Download', params: { imdb_id: movie.imdb_id } }">
-                  <button id="downloadButtonMobile" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" :title="$t('content.offline')"><i class="fas fa-download"></i> {{ $t("content.offline") }}</button>
-                </router-link>
+        <div class="container text-center">
+          <div class="row">
+            <div class="col-12">
+              <a :href="option4" target="_blank" class="movie-download-poster">
+                <div class="details-poster download-poster" :style="'background-image: url(https://image.tmdb.org/t/p/w600_and_h900_bestv2' + movie.poster_path + ')'"></div>
+                <i class="far fa-arrow-alt-circle-down download-movie-button"></i>
+              </a>
+            </div>
+          </div>
+          <div class="container-fluid subtitles-container">
+            <h4 class="movie-subs">{{ $t("content.subtitles") }} {{movie.title}}</h4>
+            <p v-if="subsUrlEs" class="subtitle-file" id="subES" crossorigin="anonymous">{{this.subsUrlEs}}</p>
+            <p v-if="subsUrlEn" class="subtitle-file" id="subEN" crossorigin="anonymous">{{this.subsUrlEn}}</p>
+            <p v-if="subsUrlPb" class="subtitle-file" id="subPB" crossorigin="anonymous">{{this.subsUrlPb}}</p>
+            <p v-if="subsUrlFr" class="subtitle-file" id="subFR" crossorigin="anonymous">{{this.subsUrlFr}}</p>
+            <div class="row">
+              <div class="col-sm-4 col-md-3">
+                <a class="btn btn-outline-secondary subtitle-download" name="dl" id="dlES" download="subtitleES.vtt" target="_blank" crossorigin="anonymous"><i class="far fa-closed-captioning"></i> Spanish</a>
               </div>
-              <a class="btn twitter-share-button" :href="'https://twitter.com/intent/tweet?text=Hey!%20I\'m%20watching%20' + movie.title + '%20on%20Bitflix.%20' + 'https://bitflix.surge.sh/' + 'movie/' + movie.imdb_id" target="_blank" data-size="large"><i class="fab fa-twitter"></i> {{ $t("content.share") }} Twitter</a>
-              <a class="btn whatsapp-share-button" :href="'https://wa.me/?text=Hey!%20I\'m%20watching%20' + movie.title + '%20on%20Bitflix.%20' + 'https://bitflix.surge.sh/' + 'movie/' + movie.imdb_id" target="_blank" data-size="large"><i class="fab fa-whatsapp"></i> {{ $t("content.share") }} WhatsApp</a>
+              <div class="col-sm-4 col-md-3">
+                <a class="btn btn-outline-secondary subtitle-download" name="dl" id="dlEN" download="subtitleEN.vtt" target="_blank" crossorigin="anonymous"><i class="far fa-closed-captioning"></i> English</a>
+              </div>
+              <div class="col-sm-4 col-md-3">
+                <a class="btn btn-outline-secondary subtitle-download" name="dl" id="dlPB" download="subtitlePB.vtt" target="_blank" crossorigin="anonymous"><i class="far fa-closed-captioning"></i> Brazilian Portuguese</a>
+              </div>
+              <div class="col-sm-4 col-md-3">
+                <a class="btn btn-outline-secondary subtitle-download" name="dl" id="dlFR" download="subtitleFR.vtt" target="_blank" crossorigin="anonymous"><i class="far fa-closed-captioning"></i> French</a>
+              </div>
             </div>
           </div>
         </div>
@@ -99,6 +68,8 @@ export default {
       option2: '',
       option3: '',
       option4: '',
+      option5: '',
+      option6: '',
       subsUrlAr: 'null',
       subsUrlBn: 'null',
       subsUrlPb: 'null',
@@ -131,12 +102,19 @@ export default {
     }
   },
   async mounted() {
+
+    let subs = document.createElement("script");
+    subs.setAttribute("src", "/js/subs.js");
+    document.body.appendChild(subs);
+
     this.setVotesFromPersistence();
     this.setVotesFromPersistence();
     this.option1 = 'https://live-torrent.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option2 = 'https://svflw.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option3 = 'https://nam-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
     this.option4 = 'https://sv-bitflx.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option5 = 'https://svv-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
+    this.option6 = 'https://server-bitflix.herokuapp.com/api/torrent/serve/' + this.movie.torrent + '/:video'
 
     // Get all subtitles
 

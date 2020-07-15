@@ -1,7 +1,7 @@
 body, html {
   margin: 0;
   padding: 0;
-  webkit-user-select: none;
+  -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
   /* Color variables */
@@ -189,11 +189,54 @@ body {
   background-color: #080808f2;
   backdrop-filter: blur(6px);
   -webkit-box-shadow: 0 8px 12px #00000063;
+  -moz-box-shadow: 0 8px 12px #00000063;
   box-shadow: 0 8px 12px #00000063;
 }
+.desktop-title {
+  display: block;
+}
+.mobile-title {
+  display: none;
+}
 .current-movies {
+  display: flex;
   float: left;
   width: 0;
+}
+.mobile-menu {
+  display: none;
+  margin-top: -0.35rem;
+  margin-right: 0.7rem;
+}
+.navbar-nav {
+  margin: 0!important;
+}
+#navbarDropdownMenuLink {
+  font-size: 1.3rem;
+}
+.collapse {
+  display: block;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 6px;
+  top: .8em;
+}
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: .1rem;
+  margin-right: .1rem;
+}
+.navbar-nav .dropdown-menu {
+  position: fixed;
+}
+.profile-name-home {
+  display: inline-block;
 }
 .profile-menu {
   float: right;
@@ -202,6 +245,8 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  -webkit-box-shadow: 0 0 8px black;
+  -moz-box-shadow: 0 0 8px black;
   box-shadow: 0 0 8px black;
   margin-right: 10px;
 }
@@ -314,8 +359,9 @@ body {
 .show > .btn-secondary.dropdown-toggle {
   background-color: #1d1d1d;
   border-color: #1d1d1d;
-  box-shadow: none !important;
   -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
 }
 .searchContainer {
   float: right;
@@ -379,8 +425,9 @@ body {
 }
 .poster {
   width: 100%;
-  box-shadow: 0px 0px 6px #080808;
   -webkit-box-shadow: 0px 0px 6px #080808;
+  -moz-box-shadow: 0px 0px 6px #080808;
+  box-shadow: 0px 0px 6px #080808;
   border-radius: 5px;
 }
 .rate-item {
@@ -430,8 +477,9 @@ body {
   bottom: 0;
   left: 0;
   z-index: -99;
-  filter: blur(15px) brightness(0.25);
   -webkit-filter: blur(15px) brightness(0.25);
+  -moz-filter: blur(15px) brightness(0.25);
+  filter: blur(15px) brightness(0.25);
 }
 .video-foreground,
 .video-background iframe {
@@ -539,6 +587,7 @@ body {
   background-size: 320px 470px;
   border-radius: 5px;
   -webkit-box-shadow: 0 0 12px #0000006b;
+  -moz-box-shadow: 0 0 12px #0000006b;
   box-shadow: 0 0 12px #0000006b;
 }
 .info-container {
@@ -599,6 +648,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   -webkit-filter: blur(8px) brightness(0.3);
+  -moz-filter: blur(8px) brightness(0.3);
   filter: blur(30px) brightness(0.3);
 }
 .download-disabled {
@@ -671,6 +721,7 @@ body {
   width: 100%;
   height: 60px;
   -webkit-box-shadow: 0 0 12px #00000063;
+  -moz-box-shadow: 0 0 12px #00000063;
   box-shadow: 0 0 12px #00000063;
 }
 .footerContainer {
@@ -697,16 +748,76 @@ body {
 .love {
   color: #ff4343;
 }
+/* Download */
+.movie-download-poster {
+  display: contents;
+  color: var(--white);
+}
+.movie-download-poster:hover {
+  color: var(--blue);
+}
+.download-poster {
+  position: relative;
+  margin: auto;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  -webkit-filter: brightness(0.7);
+  -moz-filter: brightness(0.7);
+  filter: brightness(0.7);
+}
+.download-poster:hover {
+  -webkit-filter: brightness(0.3);
+  -moz-filter: brightness(0.3);
+  filter: brightness(0.3);
+}
+.download-movie-button {
+  font-size: 5rem;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-shadow: 0 0 15px black;
+}
+.subtitles-container {
+  margin-bottom: 10rem;
+}
+.movie-subs {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+.subtitle-download {
+  width: 80%;
+}
+.subtitle-file {
+  display: none;
+}
+.fa-closed-captioning {
+  margin-right: 0.5rem;
+}
 /* Responsive */
 /* Mobile */
 @media only screen and (max-width: 768px) {
+  .mobile-menu {
+    display: block;
+  }
+  .desktop-title {
+    display: none;
+  }
+  .mobile-title {
+    margin-top: 0.23rem;
+    display: block;
+  }
+  .profile-name-home {
+    display: none;
+  }
   #btn-container {
-    justify-content: center;
+    display: none;
   }
   .searchContainer {
     margin: 0 auto;
     text-align: center;
-    margin-top: 15px;
   }
   .footerContainer {
     margin-top: 0px;
@@ -823,6 +934,7 @@ body {
     background-size: 320px 470px;
     border-radius: 5px;
     -webkit-box-shadow: 0 0 12px #0000006b;
+    -moz-box-shadow: 0 0 12px #0000006b;
     box-shadow: 0 0 12px #0000006b;
   }
   .info-container {

@@ -9,13 +9,11 @@
       <div class="container">
         <div class="row">
           <div class="col-6">
-            <router-link class="btn back" :to="{ name: 'home', params: { } }">
-              <i class="fas fa-chevron-left"></i> Back
-            </router-link>
+            <GoBack/>
           </div>
           <div class="col-6">
             <div class="favorites-container">
-              <a @click="setVote(movie.id)" class="btn" :class="moviesVotes[movie.id] ? 'unfavorite' : 'favorite'" data-toggle="tooltip" data-placement="bottom" title="Favorites"><i class="fa fa-heart"></i></a>
+              <a @click="setVote(movie.id)" class="btn" :class="moviesVotes[movie.id] ? 'unfavorite' : 'favorite'" data-toggle="tooltip" data-placement="bottom" :title="$t('content.favorites')"><i class="fa fa-heart"></i></a>
             </div>
           </div>
         </div>
@@ -43,10 +41,15 @@
               <p class="overview">{{movie.overview}}</p>
             </div>
             <div class="streaming-container">
-              <router-link v-if="option1 || option2 || option3 || option4 || option5" :to="{ name: 'movieLoad', params: { imdb_id: movie.imdb_id } }">
-                <button class="btn btn-primary watch-button"><i class="fas fa-play"></i>Watch now</button>
+              <router-link v-if="movie.torrent" :to="{ name: 'movieStream', params: { imdb_id: movie.imdb_id } }">
+                <button class="btn btn-primary watch-button"><i class="fas fa-play"></i>{{ $t("content.watch") }}</button>
               </router-link>
-              <a class="btn btn-outline-secondary watch-button" :href="option4"><i class="fas fa-download"></i>Download</a>
+              <router-link v-if="movie.torrentES" :to="{ name: 'movieStreamES', params: { imdb_id: movie.imdb_id } }">
+                <button class="btn btn-primary watch-button"><i class="fas fa-play"></i>{{ $t("content.watch") }} (ES)</button>
+              </router-link>
+              <router-link :to="{ name: 'Download', params: { imdb_id: movie.imdb_id } }">
+                <button class="btn btn-outline-secondary watch-button"><i class="fas fa-download"></i>{{ $t("content.offline") }}</button>
+              </router-link>
             </div>
           </div>
         </div>
@@ -57,10 +60,12 @@
 </template>
 <script>
 import list from "@/list";
+import GoBack from "@/components/GoBack";
 import Footer from "@/components/Footer";
 export default {
   name: "movieDetails",
   components: {
+    GoBack,
     Footer
   },
   data() {

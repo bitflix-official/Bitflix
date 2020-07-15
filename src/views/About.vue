@@ -4,9 +4,7 @@
         <div class="container">
           <div class="row">
             <div class="col-6">
-              <router-link class="btn back" :to="{ name: 'home', params: { } }">
-                <i class="fas fa-chevron-left"></i> Back
-              </router-link>
+              <GoBack />
             </div>
           </div>
         </div>
@@ -31,7 +29,7 @@
          <span>Bitflix is an open-source web application that allows you to watch movies through torrents in an easy and fast way.</span>
          <div class="social-container-about">
            <a class="btn about-social-icon instagram" href="https://instagram.com/bitflixapp" target="_blank"><i class="fa fa-instagram"></i></a>
-           <a class="btn about-social-icon github" href="https://instagram.com/bitflixapp" target="_blank"><i class="fa fa-github"></i></a>
+           <a class="btn about-social-icon github" href="https://github.com/bitflix-official" target="_blank"><i class="fa fa-github"></i></a>
            <a class="btn about-social-icon twitter" href="https://twitter.com/bitflixapp" target="_blank"><i class="fa fa-twitter"></i></a>
          </div>
          <p>0.1.1 beta version</p>
@@ -40,10 +38,12 @@
     </div>
 </template>
 <script>
+import GoBack from "@/components/GoBack";
 import Footer from "@/components/Footer";
 export default {
   name: "movieDetails",
   components: {
+    GoBack,
     Footer
   },
   data() {

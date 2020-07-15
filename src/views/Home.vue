@@ -4,21 +4,46 @@
       <div class="container header">
         <div class="row">
           <div class="col-sm-6 current-movies">
-            <h2>Movies</h2>
+            <!-- Mobile menu -->
+            <div class="mobile-menu">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item dropdown">
+                  <a class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <button class="filter filter-active" @click="sortByTrending" id="sortByTrending">{{ $t("content.trending") }}</button>
+                    <button class="filter" @click="sortByPopularity" id="sortByPopularity">{{ $t("content.popularity") }}</button>
+                    <button class="filter" @click="sortByYear" id="sortByYear">{{ $t("content.year") }}</button>
+                    <button class="filter" @click="sortByRate" id="sortByRate">{{ $t("content.rate") }}</button>
+                    <li class="dropdown-submenu"><a class="btn filter btn-secondary dropdown-item dropdown-toggle btn-group dropright" href="#">{{ $t("content.genre") }}</a>
+                      <ul class="dropdown-menu">
+                        <button class="btn btn-primary genre" onclick="filterSelection('all')">
+                          {{ $t("content.all") }}
+                        </button>
+                        <button class="genre btn" v-for="(genre, index) of genres" :key="index" :onclick="'filterSelection(\'' + genre.name + '\')'">{{genre.name}}</button>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <h2 class="desktop-title">{{ $t("content.title") }}</h2>
+            <h4 id="mobile-title" class="mobile-title">{{ $t("content.title") }}</h4>
           </div>
           <div class="col-sm-6">
             <div class="profile-menu">
               <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="menu-pic" :src="'/assets/' + this.avatar + '.png'"> Hi, {{name}}</button>
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="menu-pic" :src="'/assets/' + this.avatar + '.png'"> <p class="profile-name-home">{{ $t("content.hello") }}, {{name}}</p></button>
                 <div class="dropdown-menu dropdown-profile dropdown-menu-right" aria-labelledby="dropdownMenu2">
                   <router-link :to="{ name: 'account', params: {} }">
-                    <button class="btn dropdown-item profile-item" type="button">Profile</button>
+                    <button class="btn dropdown-item profile-item" type="button">{{ $t("content.profile") }}</button>
                   </router-link>
                   <a href="https://twitter.com/bitflixapp" target="_blank">
-                    <button class="btn dropdown-item profile-item" type="button"><i class="fa fa-twitter twitter-support"></i> Support</button>
+                    <button class="btn dropdown-item profile-item" type="button"><i class="fa fa-twitter twitter-support"></i> {{ $t("content.support") }}</button>
                   </a>
                   <router-link :to="{ name: 'about', params: {} }">
-                    <button class="btn dropdown-item profile-item" type="button">About</button>
+                    <button class="btn dropdown-item profile-item" type="button">{{ $t("content.about") }}</button>
                   </router-link>
                 </div>
               </div>
@@ -33,28 +58,28 @@
           <div class="col-sm-12 col-md-6">
             <div id="btn-container">
               <div class="dropdown">
-                <button class="filter btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Order by: <p id="currentFilter" class="current"></p></button>
+                <button class="filter btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $t("content.order") }} <p id="currentFilter" class="current"></p></button>
                 <div class="dropdown-menu filter-dropdown" aria-labelledby="dropdownMenuButton">
-                  <button class="filter filter-active" @click="sortByTrending" id="sortByTrending">Trending</button>
-                  <button class="filter filter-active" @click="sortByPopularity" id="sortByPopularity">Popularity</button>
-                  <button class="filter" @click="sortByYear" id="sortByYear">Year</button>
-                  <button class="filter" @click="sortByRate" id="sortByRate">Rating</button>
+                  <button class="filter filter-active" @click="sortByTrending" id="sortByTrending">{{ $t("content.trending") }}</button>
+                  <button class="filter" @click="sortByPopularity" id="sortByPopularity">{{ $t("content.popularity") }}</button>
+                  <button class="filter" @click="sortByYear" id="sortByYear">{{ $t("content.year") }}</button>
+                  <button class="filter" @click="sortByRate" id="sortByRate">{{ $t("content.rate") }}</button>
                 </div>
               </div>
               <div class="dropdown">
-                <button class="filter btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Genre: <p id="current">All</p></button>
+                <button class="filter btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $t("content.genre") }} <p id="current">{{ $t("content.all") }}</p></button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                   <button class="btn btn-primary genre" onclick="filterSelection('all')">
-                    All
+                    {{ $t("content.all") }}
                   </button>
-                  <button class="genre btn" v-for="(genre, index) of genres" :key="index" :onclick="'filterSelection(\'' + genre.name + '\')'">{{ genre.name }}</button>
+                  <button class="genre btn" v-for="(genre, index) of genres" :key="index" :onclick="'filterSelection(\'' + genre.name + '\')'">{{genre.name}}</button>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="col-sm-12 col-md-8 searchContainer">
-              <input id="search" type="text" placeholder="Search movies.." autocomplete="off" /><i id="searchIcon" class="fas fa-search"></i>
+              <input id="search" type="text" :placeholder="$t('content.search')" autocomplete="off" /><i id="searchIcon" class="fas fa-search"></i>
             </div>
           </div>
         </div>
@@ -71,7 +96,7 @@ import list from "@/list.js";
 import MovieList from "@/components/MovieList";
 import Footer from "@/components/Footer";
 export default {
-  name: "home",
+  name: 'home',
   components: {
     MovieList,
     Footer
@@ -82,6 +107,7 @@ export default {
       avatar: 'cat',
       genres: list.genres,
       movies: list.movies,
+      langs: ['Español', 'English']
     };
   },
   mounted() {
@@ -89,7 +115,7 @@ export default {
     if(localStorage.avatar) this.avatar = localStorage.avatar;
     this.sortByTrending();
   },
-  watch:{
+  watch: {
     name(newName) {
       localStorage.name = newName;
     },

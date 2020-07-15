@@ -7,7 +7,7 @@
         </div>
         <div class="col-sm-12 col-md-6 footer-info-container">
           <div class="infoContainer">
-            <p class="info">Made with <i class="fa fa-heart love"></i> in BA</p>
+            <p class="info">{{ $t("content.made") }} <i class="fa fa-heart love"></i> {{ $t("content.ba") }}</p>
           </div>
         </div>
       </div>

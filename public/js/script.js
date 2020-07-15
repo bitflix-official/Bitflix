@@ -11,6 +11,7 @@ filterSelection("all")
       var x, i;
       x = document.getElementsByClassName("filterDiv");
       elem = document.getElementById("current");
+      elem = document.getElementById("mobile-title");
       elem.innerText = c.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
       if (c == "all") c = "";
       for (i = 0; i < x.length; i++) {
@@ -59,3 +60,22 @@ filterSelection("all")
         });
       });
     });
+
+
+    //Mobile menu
+
+    $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+  if (!$(this).next().hasClass('show')) {
+    $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+  }
+  var $subMenu = $(this).next(".dropdown-menu");
+  $subMenu.toggleClass('show');
+
+
+  $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+    $('.dropdown-submenu .show').removeClass("show");
+  });
+
+
+  return false;
+});

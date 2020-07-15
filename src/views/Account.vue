@@ -3,10 +3,15 @@
     <div class="top">
       <div class="container">
         <div class="row">
-          <div class="col-12">
-            <router-link class="btn back" :to="{ name: 'home', params: { } }">
-              <i class="fas fa-chevron-left"></i> Back
-            </router-link>
+          <div class="col-6">
+            <GoBack />
+          </div>
+          <div class="col-6">
+            <div class="locale-changer">
+              <select v-model="$i18n.locale" class="btn">
+                <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -23,7 +28,7 @@
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-body">
-                <h4 class="text-center">Edit profile</h4>
+                <h4 class="text-center">{{ $t("content.editProfile") }}</h4>
                 <img class="profile-pic" :src="'/assets/' + this.avatar + '.png'"/>
                 <br>
                 <input type="text" class="form-control input-name" v-model="name" placeholder="Name">
@@ -54,15 +59,14 @@
                 </label>
               </div>
               <div class="closediv text-center">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Nice</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{{ $t("content.nice") }}</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <h5 class="marked text-center">Movies marked as favorites</h5>
+      <h5 class="marked text-center">{{ $t("content.favoritesMarked") }}</h5>
       <MovieList/>
-      <h6 class="thanks-for-using text-center">Thanks for using Bitflix <i class="fa fa-heart"></i></h6>
     </div>
     <Footer />
   </div>
@@ -71,11 +75,13 @@
 <script>
 // @ is an alias to /src
 import list from "@/list.js";
+import GoBack from "@/components/GoBack";
 import MovieList from "@/components/AccountMovies";
 import Footer from "@/components/Footer";
 export default {
   name: "home",
   components: {
+    GoBack,
     MovieList,
     Footer
   },
@@ -83,7 +89,8 @@ export default {
     return {
       name:'Stranger',
       genres: list.genres,
-      avatar: 'cat'
+      avatar: 'cat',
+      langs: ['Español', 'English']
     };
   },
   mounted() {
@@ -101,6 +108,9 @@ export default {
 };
 </script>
 <style>
+  .locale-changer {
+    float: right;
+  }
   .profile-pic {
     width: 130px;
     border-radius: 50%;
@@ -115,13 +125,6 @@ export default {
   .marked {
     color: var(--grey);
     padding-bottom: 20px;
-  }
-  .thanks-for-using {
-    color: var(--grey);
-    padding-bottom: 100px;
-  }
-  .thanks-for-using .fa-heart {
-    color: #ff4343;
   }
   .edit-name {
     display: inline-block;
