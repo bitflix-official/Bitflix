@@ -16,37 +16,10 @@
 </template>
 <script>
 // @ is an alias to /src
-import list from "@/list.js";
 export default {
   data() {
     return {
-      genres: list.genres,
-      movies: list.movies,
-      moviesVotes: {}
     };
-  },
-  mounted() {
-    let appScript = document.createElement("script");
-    appScript.setAttribute("src", "/js/favorites.js");
-    document.head.appendChild(appScript);
-    this.setVotesFromPersistence();
-  },
-  methods: {
-    setVote(movieId) {
-      if (localStorage.getItem(movieId)) {
-        localStorage.removeItem(movieId);
-        this.moviesVotes[movieId] = null;
-      } else {
-        localStorage.setItem(movieId, true);
-        this.moviesVotes[movieId] = true;
-      }
-    },
-    setVotesFromPersistence() {
-      this.moviesVotes = this.movies.reduce((acc, item) => {
-        acc[item.id] = localStorage.getItem(item.id);
-        return acc;
-      }, {});
-    }
   }
 }
 </script>

@@ -1,14 +1,14 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Search from "./views/Search.vue";
 import About from "./views/About.vue";
 import Account from "./views/Account.vue";
-import list from "@/list";
 Vue.use(Router);
 
 const router = new Router({
   mode: "history",
-  linkExactActiveClass: "vue-school-active-class",
+  linkExactActiveClass: "active",
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
@@ -16,9 +16,6 @@ const router = new Router({
       const position = {};
       if (to.hash) {
         position.selector = to.hash;
-        if (to.hash === "#experience") {
-          position.offset = { y: 140 };
-        }
         if (document.querySelector(to.hash)) {
           return position;
         }
@@ -50,72 +47,32 @@ const router = new Router({
     },
 
     {
-      path: "/movie/:imdb_id",
+      path: "/search",
+      name: "search",
+      component: Search,
+      props: true
+    },
+
+    {
+      path: "/movie/:id",
       name: "movieDetails",
       props: true,
       component: () =>
-        import(/* webpackChunkName: "movieDetails"*/ "./views/MovieDetails"),
-      beforeEnter: (to, from, next) => {
-        const exists = list.movies.find(
-          movie => movie.imdb_id === to.params.imdb_id
-        );
-        if (exists) {
-          next();
-        } else {
-          next({ name: "notFound" });
-        }
-      }
+        import(/* webpackChunkName: "movieDetails"*/ "./views/MovieDetails")
     },
     {
-      path: "/download/:imdb_id",
+      path: "/download/:id",
       name: "Download",
       props: true,
       component: () =>
-        import(/* webpackChunkName: "movieDetails"*/ "./views/Download"),
-      beforeEnter: (to, from, next) => {
-        const exists = list.movies.find(
-          movie => movie.imdb_id === to.params.imdb_id
-        );
-        if (exists) {
-          next();
-        } else {
-          next({ name: "notFound" });
-        }
-      }
+        import(/* webpackChunkName: "movieDetails"*/ "./views/Download")
     },
     {
-      path: "/stream/:imdb_id",
+      path: "/stream/:id",
       name: "movieStream",
       props: true,
       component: () =>
-        import(/* webpackChunkName: "movieDetails"*/ "./views/MovieStream"),
-      beforeEnter: (to, from, next) => {
-        const exists = list.movies.find(
-          movie => movie.imdb_id === to.params.imdb_id
-        );
-        if (exists) {
-          next();
-        } else {
-          next({ name: "notFound" });
-        }
-      }
-    },
-    {
-      path: "/stream/es/:imdb_id",
-      name: "movieStreamES",
-      props: true,
-      component: () =>
-        import(/* webpackChunkName: "movieDetails"*/ "./views/MovieStreamES"),
-      beforeEnter: (to, from, next) => {
-        const exists = list.movies.find(
-          movie => movie.imdb_id === to.params.imdb_id
-        );
-        if (exists) {
-          next();
-        } else {
-          next({ name: "notFound" });
-        }
-      }
+        import(/* webpackChunkName: "movieDetails"*/ "./views/MovieStream")
     },
     {
       path: "/404",
@@ -129,5 +86,4 @@ const router = new Router({
     }
   ]
 });
-
 export default router;

@@ -12,16 +12,13 @@
                     <i class="fas fa-bars"></i>
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <button class="filter filter-active" @click="sortByTrending" id="sortByTrending">{{ $t("content.trending") }}</button>
-                    <button class="filter" @click="sortByPopularity" id="sortByPopularity">{{ $t("content.popularity") }}</button>
-                    <button class="filter" @click="sortByYear" id="sortByYear">{{ $t("content.year") }}</button>
-                    <button class="filter" @click="sortByRate" id="sortByRate">{{ $t("content.rate") }}</button>
+                    <button class="filter filter-active" id="sortByPopularity">{{ $t("content.popularity") }}</button>
                     <li class="dropdown-submenu"><a class="btn filter btn-secondary dropdown-item dropdown-toggle btn-group dropright" href="#">{{ $t("content.genre") }}</a>
                       <ul class="dropdown-menu">
                         <button class="btn btn-primary genre" onclick="filterSelection('all')">
                           {{ $t("content.all") }}
                         </button>
-                        <button class="genre btn" v-for="(genre, index) of genres" :key="index" :onclick="'filterSelection(\'' + genre.name + '\')'">{{genre.name}}</button>
+                        <button class="genre btn"></button>
                       </ul>
                     </li>
                   </ul>
@@ -58,41 +55,61 @@
           <div class="col-sm-12 col-md-6">
             <div id="btn-container">
               <div class="dropdown">
-                <button class="filter btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $t("content.order") }} <p id="currentFilter" class="current"></p></button>
+                <button class="filter btn-secondary dropdown-toggle filter-container-button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ $t("content.order") }} 
+                  <p v-if="$route.query.sort_by==='popularity.desc'" class="current">{{$t('content.popularity')}}</p>
+                  <p v-if="$route.query.sort_by==='primary_release_date.desc'" class="current">{{$t('content.year')}}</p>
+                  <p v-if="$route.query.sort_by==='vote_average.desc'" class="current">{{$t('content.rate')}}</p>
+                </button>
                 <div class="dropdown-menu filter-dropdown" aria-labelledby="dropdownMenuButton">
-                  <button class="filter filter-active" @click="sortByTrending" id="sortByTrending">{{ $t("content.trending") }}</button>
-                  <button class="filter" @click="sortByPopularity" id="sortByPopularity">{{ $t("content.popularity") }}</button>
-                  <button class="filter" @click="sortByYear" id="sortByYear">{{ $t("content.year") }}</button>
-                  <button class="filter" @click="sortByRate" id="sortByRate">{{ $t("content.rate") }}</button>
+                  <a :href="$router.resolve({name: 'home', query: { sort_by: 'popularity.desc', with_genres: this.$route.query.with_genres} }).href">
+                    <button v-if="$route.query.sort_by==='popularity.desc'" class="btn genre-link active">{{$t('content.popularity')}}</button>
+                    <button v-else class="btn genre-link">{{$t('content.popularity')}}</button>
+                  </a>
+                  <a :href="$router.resolve({name: 'home', query: { sort_by: 'primary_release_date.desc', with_genres: this.$route.query.with_genres} }).href">
+                    <button v-if="$route.query.sort_by==='primary_release_date.desc'" class="btn genre-link active">{{$t('content.year')}}</button>
+                    <button v-else class="btn genre-link">{{$t('content.year')}}</button>
+                  </a>
+                  <a :href="$router.resolve({name: 'home', query: { sort_by: 'vote_average.desc', with_genres: this.$route.query.with_genres} }).href">
+                    <button v-if="$route.query.sort_by==='vote_average.desc'" class="btn genre-link active">{{$t('content.rate')}}</button>
+                    <button v-else class="btn genre-link">{{$t('content.rate')}}</button>
+                  </a>
                 </div>
               </div>
               <div class="dropdown">
-                <button class="filter btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $t("content.genre") }} <p id="current">{{ $t("content.all") }}</p></button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                  <button class="btn btn-primary genre" onclick="filterSelection('all')">
-                    {{ $t("content.all") }}
-                  </button>
-                  <button class="genre btn" v-for="(genre, index) of genres" :key="index" :onclick="'filterSelection(\'' + genre.name + '\')'">{{genre.name}}</button>
+                <button class="filter genre btn-secondary dropdown-toggle filter-container-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ $t("content.genre") }}
+                  <p v-if="$route.query.with_genres===''||$route.query.with_genres===undefined" class="current">{{$t('content.all')}}</p>
+                  <p v-else id="current" class="current"></p>
+                </button>
+                <div class="dropdown-menu genres-dropdown" aria-labelledby="dropdownMenu2">
+                  <a v-if="$route.query.with_genres===''||$route.query.with_genres===undefined" class="btn genre-link active" :href="$router.resolve({ query: { sort_by: $route.query.sort_by, with_genres: '' }}).href">
+                    <button class="btn genre-link" @click="select($event)">{{$t('content.all')}}</button>
+                  </a>
+                  <a v-else class="btn genre-link" :href="$router.resolve({ query: { sort_by: $route.query.sort_by, with_genres: '' }}).href">
+                    <button class="btn genre-link" @click="select($event)">{{$t('content.all')}}</button>
+                  </a>
+                  <a v-for="genre in genres" :key="genre.id" :id="genre.id" class="btn genre-link" :href="$router.resolve({ query: { sort_by: $route.query.sort_by, with_genres: genre.id} }).href">
+                    <button class="btn genre-link">{{genre.name}}</button>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="col-sm-12 col-md-8 searchContainer">
-              <input id="search" type="text" :placeholder="$t('content.search')" autocomplete="off" /><i id="searchIcon" class="fas fa-search"></i>
+              <input id="search" @keyup.enter="search($event)" @focus="activeSearch()" @blur="quitSearch()" type="text" :placeholder="$t('content.search')" autocomplete="off" /><i id="searchIcon" class="fas fa-search"></i>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <MovieList />
+    <MovieList /> 
     <Footer />
   </div>
 </template>
-
 <script>
 // @ is an alias to /src
-import list from "@/list.js";
 import MovieList from "@/components/MovieList";
 import Footer from "@/components/Footer";
 export default {
@@ -105,15 +122,44 @@ export default {
     return {
       name: 'Stranger',
       avatar: 'cat',
-      genres: list.genres,
-      movies: list.movies,
-      langs: ['Español', 'English']
+      langs: ['Español', 'English'],
+      genres: '',
+      genreSelected: this.$route.query.with_genres
     };
   },
   mounted() {
     if(localStorage.name) this.name = localStorage.name;
     if(localStorage.avatar) this.avatar = localStorage.avatar;
-    this.sortByTrending();
+    if (this.$route.fullPath == '/') {
+      window.location.replace('/?sort_by=popularity.desc')
+    }
+    const getGenres = () => new Promise((resolve, reject)=> {
+      const APIKey = '8352f04eb7024b5a4dd28b1f096b629b';
+      let language = this.$i18n.locale;
+      const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${APIKey}&language=${language}`;
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          resolve(JSON.parse(xhr.responseText));
+        } else {
+          reject(Error(xhr.statusText));
+        }
+      }
+      xhr.send();
+    });
+    getGenres().then(result => this.genres = result.genres);
+    setTimeout(()=> {
+      this.genres.forEach((el)=> {
+        if (el.id == this.genreSelected) {
+          this.genreSelected = el;
+          let button = document.getElementById('current');
+          button.innerHTML = this.genreSelected.name;
+          let active = document.getElementById(this.genreSelected.id)
+          active.classList.add('active');
+        }
+      })
+    });
   },
   watch: {
     name(newName) {
@@ -124,38 +170,67 @@ export default {
     }
   },
   methods: {
-    sortByTrending() {
-      document.getElementById('currentFilter').innerHTML = "Trending";
-      document.getElementById('sortByTrending').classList.add("filter-active");
-      document.getElementById('sortByRate').classList.remove("filter-active");
-      document.getElementById('sortByYear').classList.remove("filter-active");
-      document.getElementById('sortByPopularity').classList.remove("filter-active");
-      this.movies = this.movies.sort(function(a, b) { return b.popularity - a.popularity });
+    search: (e) => {
+      window.location.href = `/search?query=${e.target.value}`
     },
-    sortByRate() {
-      document.getElementById('currentFilter').innerHTML = "Rating";
-      document.getElementById('sortByRate').classList.add("filter-active");
-      document.getElementById('sortByTrending').classList.remove("filter-active");
-      document.getElementById('sortByYear').classList.remove("filter-active");
-      document.getElementById('sortByPopularity').classList.remove("filter-active");
-      this.movies = this.movies.sort(function(a, b) { return b.vote_average - a.vote_average });
+    activeSearch() {
+      let searchIcon = document.querySelector('#searchIcon');
+      searchIcon.style.color = 'var(--blue)';
     },
-    sortByYear() {
-      document.getElementById('currentFilter').innerHTML = "Year";
-      document.getElementById('sortByYear').classList.add("filter-active");
-      document.getElementById('sortByTrending').classList.remove("filter-active");
-      document.getElementById('sortByRate').classList.remove("filter-active");
-      document.getElementById('sortByPopularity').classList.remove("filter-active");
-      this.movies = this.movies.sort(function(a, b) { return b.release_date - a.release_date });
-    },
-    sortByPopularity() {
-      document.getElementById('currentFilter').innerHTML = "Popularity";
-      document.getElementById('sortByPopularity').classList.add("filter-active");
-      document.getElementById('sortByTrending').classList.remove("filter-active");
-      document.getElementById('sortByRate').classList.remove("filter-active");
-      document.getElementById('sortByYear').classList.remove("filter-active");
-      this.movies = this.movies.sort(function(a, b) { return b.vote_count - a.vote_count });
+    quitSearch() {
+      let searchIcon = document.querySelector('#searchIcon');
+      searchIcon.style.color = '#585858';
     }
   }
 };
 </script>
+<style>
+  .filter-dropdown {
+    transform: initial;
+    width: 210px;
+    height: 550px;
+    overflow-y: scroll;
+  }
+  .dropdown-menu {
+    top: 10px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 8px 5px #06060666;
+    -moz-box-shadow: 0px 0px 8px 5px #06060666;
+    box-shadow: 0px 0px 8px 5px #06060666;
+    background: #080808fc;
+  }
+  .genres-dropdown {
+    transform: initial;
+    width: 210px;
+    height: 550px;
+    overflow-y: scroll;
+  }
+  .filter {
+    width: 100%;
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  .filter-container-button {
+    width: 115%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .genre {
+    margin-left: 25px;
+  }
+  .genre-link {
+    width: 100%;
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .active {
+    background-color: var(--blue);
+    border-radius: 0px;
+  }
+</style>

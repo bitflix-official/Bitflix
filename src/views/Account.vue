@@ -4,12 +4,17 @@
       <div class="container">
         <div class="row">
           <div class="col-6">
-            <GoBack />
+            <router-link :to="{ name: 'home', query: {sort_by:'popularity.desc'} }">
+              <button class="btn back">
+                <i class="fas fa-chevron-left"></i> {{ $t("content.back") }}
+              </button>
+            </router-link>
           </div>
           <div class="col-6">
             <div class="locale-changer">
-              <select v-model="$i18n.locale" class="btn">
-                <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
+              <select v-model="$i18n.locale" @change="lang($i18n.locale)" class="btn locale-selector">
+                <option disabled>{{ $t("content.language") }}</option>
+                <option v-for="(lang, i) in $i18n.availableLocales" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
               </select>
             </div>
           </div>
@@ -65,39 +70,30 @@
           </div>
         </div>
       </div>
-      <h5 class="marked text-center">{{ $t("content.favoritesMarked") }}</h5>
-      <MovieList/>
     </div>
     <Footer />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import list from "@/list.js";
-import GoBack from "@/components/GoBack";
-import MovieList from "@/components/AccountMovies";
 import Footer from "@/components/Footer";
 export default {
-  name: "home",
+  name: "account",
   components: {
-    GoBack,
-    MovieList,
     Footer
   },
   data() {
     return {
-      name:'Stranger',
-      genres: list.genres,
+      name: 'Stranger',
       avatar: 'cat',
-      langs: ['Español', 'English']
-    };
+      langs: ['es', 'en']
+    }
   },
   mounted() {
-    if(localStorage.name) this.name = localStorage.name;
-    if(localStorage.avatar) this.avatar = localStorage.avatar;
+    if (localStorage.name) this.name = localStorage.name;
+    if (localStorage.avatar) this.avatar = localStorage.avatar;
   },
-  watch:{
+  watch: {
     name(newName) {
       localStorage.name = newName;
     },
@@ -105,11 +101,39 @@ export default {
       localStorage.avatar = newAvatar;
     }
   },
+  created: function() {
+    if (process.browser) {
+      if (localStorage.getItem("lang")) {
+        if (this.$route.query.lang) {
+          this.$i18n.locale = this.$route.query.lang;
+        } else {
+            this.$i18n.locale = localStorage.getItem("lang");
+          }
+      }
+    }
+  },
+  methods: {
+    lang: function(l) {
+      this.$router.push({
+        query: {
+          lang: l
+        }
+      });
+      this.$i18n.locale = l;
+        if (process.browser) {
+          localStorage.setItem("lang", l);
+        }
+    }
+  }
 };
 </script>
 <style>
   .locale-changer {
     float: right;
+  }
+  .locale-selector {
+    font-size: 1.3rem;
+    width: 58%;
   }
   .profile-pic {
     width: 130px;
@@ -176,5 +200,10 @@ export default {
   .closediv {
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+  @media only screen and (max-width: 768px) {
+    .locale-selector {
+      width: 50%;
+    }
   }
 </style>

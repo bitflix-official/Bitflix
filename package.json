@@ -10,14 +10,17 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "filepond": "^4.18.0",
     "jquery": "^3.5.1",
     "plyr": "^3.6.2",
     "vue": "^2.6.11",
+    "vue-filepond": "^6.0.2",
     "vue-i18n": "^8.18.1",
     "vue-plyr": "^6.0.4",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.1.6",
-    "webtorrent": "^0.108.1"
+    "vuex": "^3.5.1",
+    "webtorrent": "^0.108.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

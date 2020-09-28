@@ -15,6 +15,7 @@ body, html {
 ::-webkit-scrollbar {
   border-radius: 2px;
   width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: #30333c;
@@ -40,7 +41,7 @@ span,
 a,
 button,
 li {
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
   color: var(--white);
 }
 * {
@@ -60,6 +61,9 @@ button:focus {
 button:active {
   outline: 0;
   border: none;
+}
+body {
+  background-color: var(--bg);
 }
 .col,
 .col-1,
@@ -134,14 +138,56 @@ button:active {
   padding-left: 0;
   padding-right: 0;
 }
-body {
-  background-color: var(--bg);
-}
 #app {
   animation: fadein 2s;
   -moz-animation: fadein 2s;
   -webkit-animation: fadein 2s;
   -o-animation: fadein 2s;
+}
+.loading {
+  position: relative;
+  height: 100vh;
+}
+.loading-container {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.lds-ripple {
+  margin: auto;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid var(--blue);
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
 }
 @keyframes fadein {
   from {
@@ -319,6 +365,7 @@ body {
   margin-left: 10px;
   margin-right: 8px;
   color: var(--blue);
+  font-weight: 500;
 }
 #current {
   display: initial;
@@ -365,8 +412,8 @@ body {
 }
 .searchContainer {
   float: right;
-  background: #0e0e0ed9;
-  border-radius: 30px;
+  background: #212121d9;
+  border-radius: 10px;
   border: none;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -376,7 +423,9 @@ body {
   margin-right: 0.50rem;
 }
 .searchContainer:focus-within {
-  box-shadow: 0px 0px 8px #1f1f1f;
+  -webkit-box-shadow: 0px 0px 8px #0f0f0f;
+  -moz-box-shadow: 0px 0px 8px #0f0f0f;
+  box-shadow: 0px 0px 8px #0f0f0f;
 }
 #search {
   width: 90%;
@@ -399,14 +448,14 @@ body {
 #search-ul {
   padding: 0;
   margin-top: 20px;
-  margin-bottom: 80px;
+  margin-bottom: 100px;
+  height: 70vh;
+  overflow: auto;
 }
-.filterDiv {
+.movie-item {
   width: 100%;
   display: none;
   list-style: none;
-}
-.show {
   display: block;
 }
 .item-poster {
@@ -425,6 +474,7 @@ body {
 }
 .poster {
   width: 100%;
+  height: 260px;
   -webkit-box-shadow: 0px 0px 6px #080808;
   -moz-box-shadow: 0px 0px 6px #080808;
   box-shadow: 0px 0px 6px #080808;
@@ -457,7 +507,7 @@ body {
   overflow: hidden;
   font-size: 13px;
   font-weight: 500;
-  margin-top: 10px;
+  padding-top: 20px;
   color: white;
   font-weight: 600;
 }
@@ -481,6 +531,11 @@ body {
   -moz-filter: blur(15px) brightness(0.25);
   filter: blur(15px) brightness(0.25);
 }
+.no-filters {
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
+}
 .video-foreground,
 .video-background iframe {
   position: absolute;
@@ -488,7 +543,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
 }
 #vidtop-content {
   top: 0;
@@ -560,7 +614,7 @@ body {
 .fa-chevron-left {
   margin-right: 5px;
 }
-.favorites-container {
+.offline-container {
   float: right;
   cursor: pointer;
 }
@@ -574,33 +628,18 @@ body {
   font-size: 1.4rem;
   color: #ff4343 !important;
 }
-.details-container {
-  margin-top: 40px;
-}
-.poster-container {
-  float: left;
-}
-.details-poster {
-  display: block;
-  width: 320px;
-  height: 470px;
-  background-size: 320px 470px;
-  border-radius: 5px;
-  -webkit-box-shadow: 0 0 12px #0000006b;
-  -moz-box-shadow: 0 0 12px #0000006b;
-  box-shadow: 0 0 12px #0000006b;
-}
 .info-container {
+  padding-left: 20px;
   margin-top: 20px;
   float: left;
 }
 .tagline {
-  padding-top: 5px;
+  padding-top: 8px;
   color: var(--white);
 }
 .details-info {
-  display: inline-block;
-  margin-top: 3px;
+  display: inline;
+  padding-top: 8px;
   color: var(--grey);
 }
 .separator {
@@ -619,10 +658,7 @@ body {
   color: #efefef;
   line-height: 1.7rem;
   width: 90%;
-}
-.streaming-container {
-  position: absolute;
-  bottom: 20px;
+  padding-bottom: 20px;
 }
 .watch-button {
   padding-top: 8px;
@@ -637,6 +673,151 @@ body {
 .fa-download {
   font-size: 0.9rem;
   margin-right: 15px;
+}
+.extra-info-container {
+  padding-top: 30px;
+  padding-bottom: 60px;
+  margin-top: 80px;
+  background: #080808eb;
+}
+.extra-info {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.extra-info-content {
+  padding-bottom: 10px;
+}
+.extra-info-title {
+  padding-top: 10px
+}
+.tab-button {
+  background: transparent;
+  margin-right: 10px;
+  padding: 5px 8px 8px 5px;
+  border-radius: 0px;
+  border: none;
+  color: var(--grey);
+}
+.tab-button:hover, .tab-button:focus {
+  background: transparent;
+  border-bottom: 3px solid var(--blue);
+  color: var(--white);
+}
+.tab-active {
+  border-bottom: 3px solid var(--blue);
+  color: var(--white);
+}
+.card-body {
+  background: var(--bg);
+  padding: 0;
+}
+.based {
+  color: var(--grey);
+}
+.media-carrousel {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.carrousel-item {
+  display: inline;
+  margin-right: 20px;
+}
+.image-backdrop {
+  vertical-align: inherit;
+  width: 60%;
+  height: 360px;
+}
+.image-backdrop:hover {
+  filter: brightness(0.5);
+}
+.person-item {
+  display: inline-block;
+  text-align: center;
+  margin-right: 25px;
+}
+.person-image {
+  vertical-align: inherit;
+  width: 140px;
+  height: 200px;
+  border-radius: 5px;
+  background: black;
+}
+.person-character {
+  margin-top: 8px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+  width: 140px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.person-name {
+  font-weight: 500;
+  color: var(--grey);
+  font-size: 0.8rem;
+  width: 140px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.movie-trailer {
+  width: 60%;
+  height: 360px;
+}
+.reviews-obtained {
+  margin-top: 30px;
+  color: var(--grey);
+}
+.review {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: #151515;
+}
+.review-container {
+  padding: 20px;
+}
+.review-profile {
+  display: flex;
+}
+.review-profile-pic {
+  border-radius: 50%;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+.review-person-name {
+  margin-left: 20px;
+  margin-top: 10px;
+  width: 80%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.review-content {
+  margin-top: 10px;
+  width: 100%;
+  height: 200px;
+  text-overflow: ellipsis;
+  overflow: auto;
+}
+.read-full-review {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  padding: 6px 8px 8px 6px;
+  background: var(--blue);
+  width: 40%;
+  text-decoration: none;
+  border-radius: 3px;
+}
+.read-full-review:hover {
+  background: var(--bhover);
+  color: var(--white);
+  text-decoration: none;
 }
 /* Streaming */
 .background-movie {
@@ -688,7 +869,7 @@ body {
   -moz-box-shadow: 0 0 6px #0000008f;
   -webkit-box-shadow: 0 0 6px #0000008f;
   box-shadow: 0 0 6px #0000008f;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 500
 }
 .share-buttons {
@@ -712,7 +893,6 @@ body {
   background: #2a8835;
 }
 /* Footer */
-
 .footer {
   position: fixed;
   background-color: #080808f2;
@@ -731,7 +911,6 @@ body {
   color: var(--white);
   font-size: 23px;
   font-weight: 600;
-  float: left;
   display: inline-block;
   background: top left url(logo.png) no-repeat;
   background-size: 40px 40px;
@@ -747,6 +926,10 @@ body {
 }
 .love {
   color: #ff4343;
+}
+.nuzze:hover {
+  text-decoration: none;
+  color: var(--grey);
 }
 /* Download */
 .movie-download-poster {
@@ -799,6 +982,9 @@ body {
 /* Responsive */
 /* Mobile */
 @media only screen and (max-width: 768px) {
+  ::-webkit-scrollbar {
+    height: 0px;
+  }
   .mobile-menu {
     display: block;
   }
@@ -834,41 +1020,56 @@ body {
   .profile-menu {
     margin-top: -5px;
   }
-  .item-poster {
-    width: 100%;
+  .info-container {
+    margin-top: 15px;
   }
   .movie-title {
     width: 100%;
   }
-  .favorites-container {
-    margin-top: 0px;
+  .tagline {
+    display: none
   }
   .details-container {
-    text-align: center;
+    text-align: left;
   }
-  .poster-container {
-    text-align: -webkit-center;
-    float: none;
+  .download-movie-details {
+    display: none!important;
   }
-  .details-poster {
-    width: 220px;
-    height: 310px;
-    background-size: 220px 310px;
+  .top {
+    padding-left: 10px;
+    padding-right: 20px;
+  }
+  .movie-details-title {
+    display: block;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 50px;
+    font-size: 2.2rem;
+  }
+  .details-info {
+    line-height: 30px;
   }
   .overview {
-    margin: 0 auto;
+    width: 90%;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
-  .streaming-container {
-    position: relative;
-    bottom: 0;
-    display: inline-block;
-    margin-top: 30px;
-    margin-bottom: 80px;
+  .read-full-review {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 0.9rem;
   }
   .watch-button {
-    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 12px;
     margin-left: 3px;
-    margin-right: 0px;
+    margin-right: 5px;
+  }
+  .movie-trailer {
+    height: 120px;
+  }
+  .image-backdrop {
+    height: 120px;
   }
   .mobile-download {
     display: block;
@@ -885,19 +1086,16 @@ body {
     width: 100%;
   }
   .overview {
-    margin-top: 0px;
+    padding-top: 20px;
+    width: 90%;
   }
   .info-container {
-    margin-top: 5px;
+    margin-top: 8px;
   }
   .details-poster {
     width: 200px;
     height: 310px;
     background-size: 200px 310px;
-  }
-  .streaming-container {
-    position: relative;
-    bottom: 0;
   }
 }
 /* Large devices (laptops/desktops, 992px and up) */
@@ -909,10 +1107,6 @@ body {
     width: 260px;
     height: 380px;
     background-size: 260px 380px;
-  }
-  .streaming-container {
-    position: absolute;
-    bottom: 20px;
   }
 }
 
@@ -942,16 +1136,12 @@ body {
     float: left;
   }
   .overview {
-    margin-top: 5px;
+    padding-top: 14px;
   }
   .details-info {
-    display: inline-block;
-    margin-top: 3px;
+    display: inline;
+    padding-top: 8px;
     color: var(--grey);
-  }
-  .streaming-container {
-    position: absolute;
-    bottom: 20px;
   }
   .watch-button {
     padding-top: 8px;

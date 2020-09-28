@@ -52,7 +52,6 @@
   </div>
 </template>
 <script>
-import list from "@/list";
 import GoBack from "@/components/GoBack";
 import Footer from "@/components/Footer";
 export default {
@@ -62,8 +61,6 @@ export default {
   },
   data() {
     return {
-      movies: list.movies,
-      moviesVotes: {},
       option1: '',
       option2: '',
       option3: '',
@@ -96,7 +93,7 @@ export default {
     };
   },
   props: {
-    imdb_id: {
+    id: {
       type: String,
       required: true
     }
@@ -472,11 +469,6 @@ export default {
         acc[item.id] = localStorage.getItem(item.id);
         return acc;
       }, {});
-    }
-  },
-  computed: {
-    movie() {
-      return list.movies.find(movie => movie.imdb_id === this.imdb_id);
     }
   }
 };
