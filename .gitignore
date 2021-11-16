@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/.next
 
 # testing
 /coverage
@@ -12,6 +13,10 @@
 /build
 /dist
 .vscode
+
+# next.js
+/.next/
+/out/
 
 # misc
 .DS_Store
