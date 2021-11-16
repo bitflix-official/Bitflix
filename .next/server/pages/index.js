@@ -4,33 +4,39 @@ exports.id = 405;
 exports.ids = [405];
 exports.modules = {
 
-/***/ 521:
+/***/ 865:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(282);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(297);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  "default": function() { return /* binding */ pages; }
+
+
+const Home = () => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
+  children: "Home page"
 });
 
-;// CONCATENATED MODULE: external "react/jsx-runtime"
-var jsx_runtime_namespaceObject = require("react/jsx-runtime");;
-;// CONCATENATED MODULE: external "react"
-var external_react_namespaceObject = require("react");;
-;// CONCATENATED MODULE: ./pages/index.js
+/* harmony default export */ __webpack_exports__["default"] = (Home);
 
+/***/ }),
 
+/***/ 297:
+/***/ (function(module) {
 
-const Home = () => {
-  return /*#__PURE__*/jsx_runtime_namespaceObject.jsx("div", {
-    children: "Home page"
-  });
-};
+"use strict";
+module.exports = require("react");;
 
-/* harmony default export */ var pages = (Home);
+/***/ }),
+
+/***/ 282:
+/***/ (function(module) {
+
+"use strict";
+module.exports = require("react/jsx-runtime");;
 
 /***/ })
 
@@ -41,7 +47,7 @@ const Home = () => {
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-var __webpack_exports__ = (__webpack_exec__(521));
+var __webpack_exports__ = (__webpack_exec__(865));
 module.exports = __webpack_exports__;
 
 })();
