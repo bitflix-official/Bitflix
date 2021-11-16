@@ -1,45 +1,57 @@
-(function() {
+"use strict";
+(() => {
 var exports = {};
 exports.id = 888;
 exports.ids = [888];
 exports.modules = {
 
-/***/ 156:
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ 949:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(282);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(297);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
-
-
-const App = ({
-  Component,
-  pageProps
-}) => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(Component, {
-  pageProps: pageProps
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "default": () => (/* binding */ _app)
 });
 
-/* harmony default export */ __webpack_exports__["default"] = (App);
+// EXTERNAL MODULE: external "react/jsx-runtime"
+var jsx_runtime_ = __webpack_require__(997);
+;// CONCATENATED MODULE: external "prop-types"
+const external_prop_types_namespaceObject = require("prop-types");
+var external_prop_types_default = /*#__PURE__*/__webpack_require__.n(external_prop_types_namespaceObject);
+// EXTERNAL MODULE: external "react"
+var external_react_ = __webpack_require__(689);
+;// CONCATENATED MODULE: ./pages/_app.js
+
+
+
+const App = ({ Component , pageProps  })=>/*#__PURE__*/ jsx_runtime_.jsx(Component, {
+        pageProps: pageProps
+    })
+;
+App.propTypes = {
+    Component: (external_prop_types_default()).func.isRequired,
+    pageProps: external_prop_types_default().shape({
+    }).isRequired
+};
+/* harmony default export */ const _app = (App);
+
 
 /***/ }),
 
-/***/ 297:
-/***/ (function(module) {
+/***/ 689:
+/***/ ((module) => {
 
-"use strict";
-module.exports = require("react");;
+module.exports = require("react");
 
 /***/ }),
 
-/***/ 282:
-/***/ (function(module) {
+/***/ 997:
+/***/ ((module) => {
 
-"use strict";
-module.exports = require("react/jsx-runtime");;
+module.exports = require("react/jsx-runtime");
 
 /***/ })
 
@@ -49,8 +61,8 @@ module.exports = require("react/jsx-runtime");;
 // load runtime
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
-var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-var __webpack_exports__ = (__webpack_exec__(156));
+var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+var __webpack_exports__ = (__webpack_exec__(949));
 module.exports = __webpack_exports__;
 
 })();
