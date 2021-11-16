@@ -1,0 +1,44 @@
+{
+  "name": "bitflix",
+  "version": "1.0.0",
+  "description": "Bitflix is an open source web application to watch movies using torrents in an easy way.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitflix-official/Bitflix.git"
+  },
+  "keywords": [
+    "bitflix",
+    "movies",
+    "torrents",
+    "webtorrent"
+  ],
+  "author": "nuzze",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bitflix-official/Bitflix/issues"
+  },
+  "homepage": "https://github.com/bitflix-official/Bitflix#readme",
+  "dependencies": {
+    "next": "^12.0.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "postcss": "^8.3.11",
+    "tailwindcss": "^2.2.19"
+  }
+}
