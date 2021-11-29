@@ -1,31 +1,38 @@
+/* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
-import CarouselItem from './CarouselItem';
+import { SkeletonItem, Item } from 'components';
 
 const TitlesCarousel = ({ title, subtitle, items }) => (
   <div className="flex flex-col my-12">
-    <span className="text-white text-xl font-semibold">{title}</span>
+    {title && <span className="text-white text-xl font-semibold">{title}</span>}
     {subtitle && <span className="text-gray-300 text-md mt-1">{subtitle}</span>}
-    <div className="flex items-center flex-nowrap overflow-x-scroll mt-5">
+    <ul className="flex items-center flex-nowrap overflow-x-auto mt-5">
       {
-        items.map((item, index) => (
-          <CarouselItem item={item} index={index} key={`title-id-${item.id}`} />
-        ))
+        items ? items.map((item, index) => (
+          <Item item={item} index={index} key={`title-id-${item.id}`} />
+        )) : (
+          Array.from(Array(9)).map((el, index) => (
+            <SkeletonItem index={index} key={`skeleton-item-${index}`} />
+          ))
+        )
       }
-    </div>
+    </ul>
   </div>
 );
 
 TitlesCarousel.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   subtitle: PropTypes.string,
   items: PropTypes.arrayOf(
     PropTypes.shape({}),
-  ).isRequired,
+  ),
 };
 
 TitlesCarousel.defaultProps = {
+  title: '',
   subtitle: '',
+  items: null,
 };
 
 export default TitlesCarousel;

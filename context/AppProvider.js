@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { downloadImage } from 'utils';
 import { supabase } from 'utils/supabaseClient';
 import AppContext from './AppContext';
 
@@ -41,6 +40,45 @@ const AppProvider = ({ children }) => {
     });
   };
 
+  const addItemToMyList = async (id) => {
+    const currentList = userData.list ? JSON.parse(userData.list) : [];
+    currentList.push({ id });
+    const newList = JSON.stringify(currentList);
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .update({ list: newList });
+
+      if (error) {
+        throw error;
+      } else {
+        handleUserData();
+      }
+      return data;
+    } catch (err) {
+      return err;
+    }
+  };
+
+  const removeItemFromMyList = async (id) => {
+    const currentList = userData.list ? JSON.parse(userData.list) : [];
+    const newList = JSON.stringify(currentList.filter((el) => el.id !== id));
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .update({ list: newList });
+
+      if (error) {
+        throw error;
+      } else {
+        handleUserData();
+      }
+      return data;
+    } catch (err) {
+      return err;
+    }
+  };
+
   useEffect(async () => {
     getProfile().then(async (data) => {
       setUserData({
@@ -56,6 +94,8 @@ const AppProvider = ({ children }) => {
     },
     actions: {
       handleUserData,
+      addItemToMyList,
+      removeItemFromMyList,
     },
   };
 

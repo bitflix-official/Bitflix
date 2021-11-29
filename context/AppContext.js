@@ -7,6 +7,8 @@ export const defaultValue = {
   },
   actions: {
     handleUserData: () => undefined,
+    addItemToMyList: () => undefined,
+    removeItemFromMyList: () => undefined,
   },
 };
 

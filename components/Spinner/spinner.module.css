@@ -1,6 +1,5 @@
 .spinner {
   border-radius: 50%;
-  border-left-color: var(--primary);
   animation: spin 1s ease infinite;
 }
 

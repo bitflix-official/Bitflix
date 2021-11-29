@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-const useNotification = (message, type) => () => {
+const useNotification = (message, type = 'default') => () => {
   toast(message, {
     position: 'bottom-left',
     autoClose: 5000,

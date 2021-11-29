@@ -26,3 +26,7 @@ export const YTS_API_URL = 'https://yts.mx/api/v2';
 export const supabaseBucketPhotosURL = `${supabaseUrl}/storage/v1/object/public/photos`;
 
 export const defaultProfilePicture = `${supabaseBucketPhotosURL}/cat.png`;
+
+export const primaryColor = '#2361e0';
+
+export const summaryUnavailablePlaceholder = 'Summary not available for this title.';

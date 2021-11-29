@@ -15,7 +15,7 @@ const BackButton = ({ link }) => {
       <Tooltip.Trigger>
         <button
           type="button"
-          className="text-white text-lg font-semibold cursor-pointer select-none flex items-center px-4 py-1 hover:bg-gray-800 rounded-md -ml-4 transition duration-300"
+          className="text-white text-base font-semibold cursor-pointer select-none flex items-center px-4 py-1 hover:bg-gray-800 rounded-md -ml-4 transition duration-300"
           onClick={goBack}
         >
           <ArrowLeftIcon className="mr-2" />
@@ -23,7 +23,7 @@ const BackButton = ({ link }) => {
         </button>
       </Tooltip.Trigger>
       <Tooltip.Content>
-        <div className="text-white bg-gray-800 shadow-md rounded-md px-2 text-sm py-2 mt-4">Go to the previous page</div>
+        <div className="text-white bg-gray-800 shadow-md rounded-md px-2 py-1.5 text-xs mt-4">Go to the previous page</div>
       </Tooltip.Content>
     </Tooltip.Root>
   );

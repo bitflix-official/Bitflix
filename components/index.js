@@ -7,3 +7,5 @@ export { default as TopProgressBar } from './TopProgressBar';
 export { default as BackButton } from './BackButton';
 export { default as Loading } from './Loading';
 export { default as Spinner } from './Spinner';
+export { default as SkeletonItem } from './SkeletonItem';
+export { default as Item } from './Item';

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {
   DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuSeparator,
 } from '@radix-ui/react-dropdown-menu';
-import { ChevronDownIcon } from '@radix-ui/react-icons';
+import { ChevronDownIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import AppContext from 'context/AppContext';
 import { defaultProfilePicture, supabaseBucketPhotosURL } from 'constants';
 import { signOut } from 'api/auth';
@@ -12,6 +12,7 @@ import {
   LOGIN_ROUTE, SIGNUP_ROUTE, PROFILE_ROUTE,
 } from 'routes';
 import { Command, DropdownMenuItem } from '..';
+import styles from './header.module.css';
 
 const HeaderMenu = () => {
   const { asPath } = useRouter();
@@ -60,11 +61,27 @@ const HeaderMenu = () => {
           <span className={`ml-2 ${open && 'transform rotate-180'}`}><ChevronDownIcon /></span>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-gray-900 text-white rounded-sm shadow-xl py-2 transition duration-200 w-48" sideOffset={5}>
+      <DropdownMenuContent className="bg-gray-900 text-white rounded-sm shadow-xl py-2 transition duration-200 w-48 text-sm" sideOffset={5}>
         <Link href={PROFILE_ROUTE}>
           <DropdownMenuItem className={`my-1 px-6 ${asPath === PROFILE_ROUTE ? 'bg-blue-600' : 'hover:bg-gray-700 focus:bg-gray-700'}`}>
             <span className="mr-2">Profile</span>
             <Command>p</Command>
+          </DropdownMenuItem>
+        </Link>
+        <DropdownMenuSeparator className="border border-gray-700 my-2" />
+        <Link href={PROFILE_ROUTE}>
+          <DropdownMenuItem className={`my-1 px-6 ${asPath === PROFILE_ROUTE ? 'bg-blue-600' : 'hover:bg-gray-700 focus:bg-gray-700'}`}>
+            <div className="flex items-center">
+              <TwitterLogoIcon className={`${styles.twitterIcon} w-3`} />
+              <span className="ml-2">Support</span>
+            </div>
+            <Command>s</Command>
+          </DropdownMenuItem>
+        </Link>
+        <Link href={PROFILE_ROUTE}>
+          <DropdownMenuItem className={`my-1 px-6 ${asPath === PROFILE_ROUTE ? 'bg-blue-600' : 'hover:bg-gray-700 focus:bg-gray-700'}`}>
+            <span>About us</span>
+            <Command>a</Command>
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator className="border border-gray-700 my-2" />

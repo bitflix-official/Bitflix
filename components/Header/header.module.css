@@ -2,3 +2,7 @@
   background-color: #080808d9;
   backdrop-filter: blur(6px);
 }
+
+.twitterIcon path {
+  fill-rule: unset;
+}
