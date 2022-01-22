@@ -29,3 +29,24 @@ body {
 #nprogress .spinner {
   display: none;
 }
+
+.video-js .vjs-control-bar {
+  background: #0c0c0c;
+}
+
+.vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  background-color: #1d1d1d;
+}
+
+.vjs-menu li.vjs-menu-item:focus, .vjs-menu li.vjs-menu-item:hover {
+  background-color: var(--primary);
+}
+
+.vjs-menu li.vjs-selected, .vjs-menu li.vjs-selected:focus, .vjs-menu li.vjs-selected:hover {
+  color: #ffffff;
+  background-color: var(--primary);
+}
+
+.video-js .vjs-play-progress {
+  background-color: var(--primary);
+}

@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { supabase } from 'utils/supabaseClient';
+import { useTranslation } from 'react-i18next';
 import AppContext from './AppContext';
 
 const AppProvider = ({ children }) => {
-  const [userSession, setUserSession] = useState(null);
-  const [userData, setUserData] = useState({});
+  const { i18n } = useTranslation();
+  const [userSession, setUserSession] = useState(undefined);
+  const [userData, setUserData] = useState(undefined);
 
   useEffect(() => {
     setUserSession(supabase.auth.session());
@@ -13,6 +15,12 @@ const AppProvider = ({ children }) => {
       setUserSession(session);
     });
   }, []);
+
+  useEffect(() => {
+    if (userData?.language) {
+      i18n.changeLanguage(userData?.language || 'en');
+    }
+  }, [userData]);
 
   const getProfile = async () => {
     try {
@@ -40,8 +48,20 @@ const AppProvider = ({ children }) => {
     });
   };
 
+  const changeUserLanguage = async (language) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .update({ language });
+    if (error) {
+      throw error;
+    } else {
+      handleUserData();
+    }
+    return data;
+  };
+
   const addItemToMyList = async (id) => {
-    const currentList = userData.list ? JSON.parse(userData.list) : [];
+    const currentList = userData?.list ? JSON.parse(userData.list) : [];
     currentList.push({ id });
     const newList = JSON.stringify(currentList);
     try {
@@ -61,7 +81,7 @@ const AppProvider = ({ children }) => {
   };
 
   const removeItemFromMyList = async (id) => {
-    const currentList = userData.list ? JSON.parse(userData.list) : [];
+    const currentList = userData?.list ? JSON.parse(userData.list) : [];
     const newList = JSON.stringify(currentList.filter((el) => el.id !== id));
     try {
       const { data, error } = await supabase
@@ -96,6 +116,7 @@ const AppProvider = ({ children }) => {
       handleUserData,
       addItemToMyList,
       removeItemFromMyList,
+      changeUserLanguage,
     },
   };
 

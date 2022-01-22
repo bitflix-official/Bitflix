@@ -74,3 +74,25 @@ export const canGoBack = () => {
   if (length > 2) return true;
   return false;
 };
+
+export const humanizeGenres = (genres) => genres?.length && genres.join(', ');
+
+export const getTitleYear = (date) => date.match(/\d{4}/)[0];
+
+export const getGenresNames = (genres, ids) => {
+  const genreNames = [];
+  genres.forEach((genre) => {
+    ids.forEach((id) => {
+      if (genre.id === id) genreNames.push(genre.name);
+    });
+  });
+  return genreNames;
+};
+
+export const getFullDate = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return (`${year}-${month}-${day}`);
+};

@@ -1,82 +1,66 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable react/no-array-index-key */
-import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import AppContext from 'context/AppContext';
 import Link from 'next/link';
-import { AppWrapper, Header, TitlesCarousel } from 'components';
+import {
+  AppWrapper, Header, Loading, TitlesCarousel,
+} from 'components';
+import { useNotification } from 'hooks';
 import { HOME_ROUTE } from 'routes';
 import { getTitles } from 'api/titles';
+import { genres } from 'constants';
 
-const Home = ({ pageProps }) => {
-  const { lastAdded } = pageProps;
-  const [initialData, setInitialData] = useState([{}]);
-  const [secondData, setSecondData] = useState([{}]);
-  const [thirdData, setThirdData] = useState([{}]);
-  const [quarterData, setQuarterData] = useState([{}]);
-
-  useEffect(async () => {
-    const { data: { movies: actionMovies } } = await getTitles({ genre: 'action' });
-    const { data: { movies: dramaMovies } } = await getTitles({ genre: 'drama' });
-    const { data: { movies: romanceMovies } } = await getTitles({ genre: 'romance' });
-    const { data: { movies: sciFiMovies } } = await getTitles({ genre: 'sci-fi' });
-    setInitialData([
-      { title: 'Action', items: actionMovies },
-      { title: 'Drama', items: dramaMovies },
-      { title: 'Romance', items: romanceMovies },
-      { title: 'Sci-Fi', items: sciFiMovies },
-    ]);
-  }, []);
+const Home = () => {
+  const { data: { userSession, userData } } = useContext(AppContext);
+  const { t, i18n } = useTranslation();
+  const [loading, setLoading] = useState(true);
+  const showError = useNotification('An error ocurred when getting latest titles', 'error');
+  const [recentlyAdded, setRecentlyAdded] = useState([{}]);
+  const [dataByGenre, setDataByGenre] = useState([{}]);
 
   useEffect(async () => {
-    if (initialData.length > 1) {
-      const { data: { movies: comedyMovies } } = await getTitles({ genre: 'comedy' });
-      const { data: { movies: horrorMovies } } = await getTitles({ genre: 'horror' });
-      const { data: { movies: animationMovies } } = await getTitles({ genre: 'animation' });
-      const { data: { movies: fantasyMovies } } = await getTitles({ genre: 'fantasy' });
-      setSecondData([
-        { title: 'Comedy', items: comedyMovies },
-        { title: 'Horror', items: horrorMovies },
-        { title: 'Animation', items: animationMovies },
-        { title: 'Fantasy', items: fantasyMovies },
-      ]);
+    const getData = async (language) => {
+      try {
+        const { results } = await getTitles({ language });
+        setRecentlyAdded([
+          { title: t('RECENTLY_ADDED'), subtitle: t('DISCOVER_NEW_TITLES'), items: results },
+        ]);
+      } catch (err) {
+        showError();
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (!recentlyAdded[0].items && userSession !== undefined && userData !== undefined) {
+      getData(userData.language || i18n.language);
     }
-  }, [initialData]);
+  }, [userSession, userData, userData?.language]);
 
   useEffect(async () => {
-    if (secondData.length > 1) {
-      const { data: { movies: thrillerMovies } } = await getTitles({ genre: 'thriller' });
-      const { data: { movies: mysteryMovies } } = await getTitles({ genre: 'mystery' });
-      const { data: { movies: crimeMovies } } = await getTitles({ genre: 'crime' });
-      const { data: { movies: historyMovies } } = await getTitles({ genre: 'history' });
-      setThirdData([
-        { title: 'Thriller', items: thrillerMovies },
-        { title: 'Mystery', items: mysteryMovies },
-        { title: 'Crime', items: crimeMovies },
-        { title: 'History', items: historyMovies },
-      ]);
+    if (recentlyAdded[0].items) {
+      const items = [];
+      for await (const genre of genres) {
+        const { results } = await getTitles({ genres: genre.id, language: userData.language });
+        items.push({ items: results, title: t(genre.name) });
+      }
+      setDataByGenre(items);
     }
-  }, [secondData]);
+  }, [recentlyAdded]);
 
-  useEffect(async () => {
-    if (thirdData.length > 1) {
-      const { data: { movies: thisYearMovies } } = await getTitles({ sortBy: 'year' });
-      const { data: { movies: mostWatchedMovies } } = await getTitles({ sortBy: 'download_count' });
-      const { data: { movies: mostLikedMovies } } = await getTitles({ sortBy: 'like_count' });
-      const { data: { movies: mostValoratedMovies } } = await getTitles({ sortBy: 'rating' });
-      setQuarterData([
-        { title: 'From this year', items: thisYearMovies },
-        { title: 'Most watched', items: mostWatchedMovies },
-        { title: 'Most liked', items: mostLikedMovies },
-        { title: 'Top rated', items: mostValoratedMovies },
-      ]);
-    }
-  }, [thirdData]);
+  if (loading) {
+    return (
+      <Loading />
+    );
+  }
 
   return (
     <div>
       <Header leftContent={(
         <Link href={HOME_ROUTE}>
           <span className="text-white text-2xl font-semibold cursor-pointer select-none">
-            Movies
+            {t('MOVIES')}
           </span>
         </Link>
     )}
@@ -84,52 +68,22 @@ const Home = ({ pageProps }) => {
       <AppWrapper>
         <div className="mt-16">
           {
-            lastAdded.map((carousel) => (
+            recentlyAdded.map((carousel, index) => (
               <TitlesCarousel
                 title={carousel.title}
                 subtitle={carousel.subtitle}
                 items={carousel.items}
-                key={carousel.title}
+                key={`${carousel.item}-${index}`}
               />
             ))
           }
           {
-            initialData?.map((carousel, index) => (
+            dataByGenre?.map((carousel, index) => (
               <TitlesCarousel
                 title={carousel.title}
                 subtitle={carousel.subtitle}
                 items={carousel.items}
-                key={`carousel-item-${index}`}
-              />
-            ))
-          }
-          {
-            secondData?.map((carousel, index) => (
-              <TitlesCarousel
-                title={carousel.title}
-                subtitle={carousel.subtitle}
-                items={carousel.items}
-                key={`carousel-item-${index}`}
-              />
-            ))
-          }
-          {
-            thirdData?.map((carousel, index) => (
-              <TitlesCarousel
-                title={carousel.title}
-                subtitle={carousel.subtitle}
-                items={carousel.items}
-                key={`carousel-item-${index}`}
-              />
-            ))
-          }
-          {
-            quarterData?.map((carousel, index) => (
-              <TitlesCarousel
-                title={carousel.title}
-                subtitle={carousel.subtitle}
-                items={carousel.items}
-                key={`carousel-item-${index}`}
+                key={`carousel-item-by-genre-${index}`}
               />
             ))
           }
@@ -137,23 +91,6 @@ const Home = ({ pageProps }) => {
       </AppWrapper>
     </div>
   );
-};
-
-Home.propTypes = {
-  pageProps: PropTypes.shape({
-    lastAdded: PropTypes.arrayOf(PropTypes.shape({})),
-  }).isRequired,
-};
-
-export const getStaticProps = async () => {
-  const { data: { movies: lastAddedItems } } = await getTitles({});
-  return {
-    props: {
-      lastAdded: [
-        { title: 'Last added', subtitle: 'The latest movies added on YTS', items: lastAddedItems },
-      ],
-    },
-  };
 };
 
 export default Home;

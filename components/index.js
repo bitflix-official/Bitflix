@@ -9,3 +9,5 @@ export { default as Loading } from './Loading';
 export { default as Spinner } from './Spinner';
 export { default as SkeletonItem } from './SkeletonItem';
 export { default as Item } from './Item';
+export { default as UserTopContent } from './UserTopContent';
+export { default as Player } from './Player';

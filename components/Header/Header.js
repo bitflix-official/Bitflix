@@ -3,8 +3,8 @@ import React from 'react';
 import HeaderMenu from './HeaderMenu';
 import styles from './header.module.css';
 
-const Header = ({ leftContent }) => (
-  <div className={`${styles.header} fixed w-full bg-black px-12 2xl:px-16 h-18 flex items-center z-10 shadow-xl`}>
+const Header = ({ leftContent, transparent }) => (
+  <div style={{ backgroundColor: transparent ? 'transparent' : '#080808d9' }} className={`${!transparent && styles.header} fixed w-full px-16 md:px-24 2xl:px-32 h-16 flex items-center z-30 ${!transparent && 'shadow-xl'}`}>
     <div className="py-5 flex items-center w-full justify-between">
       <div className="flex items-center">
         {leftContent}
@@ -16,6 +16,11 @@ const Header = ({ leftContent }) => (
 
 Header.propTypes = {
   leftContent: PropTypes.element.isRequired,
+  transparent: PropTypes.bool,
+};
+
+Header.defaultProps = {
+  transparent: false,
 };
 
 export default Header;

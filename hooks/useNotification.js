@@ -1,6 +1,7 @@
+/* eslint-disable default-param-last */
 import { toast } from 'react-toastify';
 
-const useNotification = (message, type = 'default') => () => {
+const useNotification = (message, type = 'default', { ...args } = {}) => () => {
   toast(message, {
     position: 'bottom-left',
     autoClose: 5000,
@@ -10,6 +11,7 @@ const useNotification = (message, type = 'default') => () => {
     draggable: true,
     theme: 'dark',
     type,
+    ...args,
   });
 };
 

@@ -6,9 +6,11 @@ import { KBarProvider } from 'kbar';
 import { ToastContainer } from 'react-toastify';
 import Logo from 'assets/logo.png';
 import { appName, shortcuts } from '../constants';
+import '../i18n';
 import AppProvider from '../context/AppProvider';
 import 'tailwindcss/tailwind.css';
 import 'nprogress/nprogress.css';
+import 'video.js/dist/video-js.css';
 import './index.css';
 
 const TopProgressBar = dynamic(

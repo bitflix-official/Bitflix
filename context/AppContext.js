@@ -2,13 +2,14 @@ import React from 'react';
 
 export const defaultValue = {
   data: {
-    userSession: null,
-    userData: {},
+    userSession: undefined,
+    userData: undefined,
   },
   actions: {
     handleUserData: () => undefined,
     addItemToMyList: () => undefined,
     removeItemFromMyList: () => undefined,
+    changeUserLanguage: () => undefined,
   },
 };
 

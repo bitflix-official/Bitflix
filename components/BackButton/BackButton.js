@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import { canGoBack } from 'utils';
 
-const BackButton = ({ link }) => {
+const BackButton = ({ link, customText }) => {
   const { push, back } = useRouter();
+  const { t } = useTranslation();
   const goBack = () => {
     if (canGoBack()) { back(); } else push(link);
   };
@@ -19,11 +21,11 @@ const BackButton = ({ link }) => {
           onClick={goBack}
         >
           <ArrowLeftIcon className="mr-2" />
-          Back
+          {customText || t('BACK')}
         </button>
       </Tooltip.Trigger>
       <Tooltip.Content>
-        <div className="text-white bg-gray-800 shadow-md rounded-md px-2 py-1.5 text-xs mt-4">Go to the previous page</div>
+        <div className="text-white bg-gray-800 shadow-md rounded-md px-2 py-1.5 text-xs mt-4">{t('GO_PREVIOUS')}</div>
       </Tooltip.Content>
     </Tooltip.Root>
   );
@@ -31,6 +33,11 @@ const BackButton = ({ link }) => {
 
 BackButton.propTypes = {
   link: PropTypes.string.isRequired,
+  customText: PropTypes.string,
+};
+
+BackButton.defaultProps = {
+  customText: '',
 };
 
 export default BackButton;
