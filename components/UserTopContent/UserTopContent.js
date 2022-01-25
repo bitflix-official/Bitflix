@@ -68,9 +68,6 @@ const UserTopContent = () => {
           </Tooltip.Root>
           <div className={`transition-all w-80 text-center duration-700 text-white bg-primary mt-12 absolute py-2 px-4 rounded-md cursor-default ${uploadingProfilePhoto.status ? 'visible opacity-100' : 'invisible opacity-0'}`}>{uploadingProfilePhoto.message}</div>
           <span className="font-semibold text-white text-xl mt-4">{`${userData?.first_name} ${userData?.last_name}`}</span>
-          <span className="text-gray-200 text-sm">
-            {`@${userData?.username}`}
-          </span>
         </div>
       </div>
       <div className="w-full mx-auto border border-gray-900 my-10" />

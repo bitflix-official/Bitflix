@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
-import PropTypes from 'prop-types';
 import React, {
   useContext, useState, useEffect,
 } from 'react';
@@ -12,8 +11,9 @@ import {
   Header, AppWrapper, BackButton, Spinner, Player,
 } from 'components';
 import { getTitleData } from 'api/titles';
-import { startStreaming } from 'api/streaming';
+import { getStreamingData, getSubtitles, startStreaming } from 'api/streaming';
 import { useTranslation } from 'react-i18next';
+import styles from './index.module.css';
 
 const STREAMING_URL = process.env.NEXT_PUBLIC_STREAMING_URL;
 
@@ -28,25 +28,19 @@ const formatTracks = (subs) => {
   return arr;
 };
 
-const Stream = ({ pageProps: { video, subs } }) => {
+const Stream = () => {
   const {
     data: { userData },
   } = useContext(AppContext);
   const [title, setTitle] = useState({});
-  const [videoProgress, setVideoProgress] = useState(0);
-  const [videoIsDone, setVideoIsDone] = useState(false);
+  const [torrent, setTorrent] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const { query: { id, torrentId } } = useRouter();
-  const streamingURL = `${STREAMING_URL}${video?.slice(14)}`;
-  const videoOptions = {
+  const [videoOptions, setVideoOptions] = useState({
     autoplay: true,
     controls: true,
-    sources: [
-      {
-        src: streamingURL,
-      },
-    ],
-    tracks: formatTracks(subs),
-  };
+  });
 
   useEffect(() => {
     const getData = async () => {
@@ -63,35 +57,47 @@ const Stream = ({ pageProps: { video, subs } }) => {
     }
   }, [userData]);
 
-  useEffect(() => {
-    const getVideoProgress = async () => {
-      const { progress } = await startStreaming(torrentId, title.imdb_id);
-      setVideoProgress(progress);
-      if (progress === 1) {
-        setVideoIsDone(true);
-      }
-    };
-    if (id && videoProgress !== 1) {
-      setTimeout(() => {
-        getVideoProgress();
-      }, 4000);
+  useEffect(async () => {
+    if (torrent && isLoading) {
+      setTimeout(async () => {
+        const { files } = await getStreamingData(torrent);
+        if (files) {
+          const { link } = await files.find((file) => file.name.endsWith('.mp4' || '.mkv'));
+          setVideoOptions({ ...videoOptions, sources: [{ src: `${STREAMING_URL}${link}` }] });
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 2000);
+        } else {
+          setProgress(progress + 0.0000001);
+        }
+      }, 1000);
     }
-  }, [videoProgress]);
+  }, [torrent, progress, isLoading]);
+
+  useEffect(() => {
+    const getStreaming = async () => {
+      const { infoHash } = await startStreaming(torrentId);
+      const { subs } = await getSubtitles(title.imdb_id);
+      setVideoOptions({ ...videoOptions, tracks: formatTracks(subs) });
+      setTorrent(infoHash);
+    };
+    if (process.browser && torrentId && title.imdb_id) {
+      getStreaming();
+    }
+  }, [torrentId, title]);
 
   const { t } = useTranslation();
 
-  if (!videoIsDone || videoOptions.tracks?.length === 0) {
+  if (isLoading) {
     return (
       <>
-        <div style={{ backgroundImage: `url(${`${TMDB_PHOTO_URL}/${title.backdrop_path}`})` }} className="h-full absolute block w-full bg-no-repeat bg-cover opacity-10" />
-        <div className="h-screen flex items-center justify-center text-white">
+        <div style={{ backgroundImage: `url(${`${TMDB_PHOTO_URL}/${title.backdrop_path}`})` }} className={`${styles.titleBackground} absolute block w-full bg-no-repeat bg-cover opacity-40 h-screen`} />
+        <div className="flex items-center h-screen justify-center content-center z-20">
           <div className="flex flex-col items-center">
-            <Spinner />
-            <span className="font-bold text-white mt-4">
-              {Math.round(videoProgress * 100)}
-              %
-            </span>
+            <Spinner border="border-gray-400" />
+            <span className={`${styles.loadingText} text-white mt-4`}>{t('LOADING')}</span>
           </div>
+
         </div>
       </>
     );
@@ -107,34 +113,11 @@ const Stream = ({ pageProps: { video, subs } }) => {
       />
       <AppWrapper>
         <div className="h-screen flex items-center justify-center text-white">
-          <Player {...videoOptions} />
+          {videoOptions.sources?.length > 0 && videoOptions.tracks?.length > 0 && <Player {...videoOptions} name="media" />}
         </div>
       </AppWrapper>
     </div>
   );
-};
-
-export const getStaticPaths = () => ({
-  paths: [],
-  fallback: true,
-});
-
-export const getStaticProps = async (context) => {
-  const { params: { id, torrentId } } = context;
-  try {
-    const title = await getTitleData(id);
-    const { video, subs } = await startStreaming(torrentId, await title.imdb_id);
-    return { props: { video, subs } };
-  } catch (err) {
-    return { props: { video: null, subs: null } };
-  }
-};
-
-Stream.propTypes = {
-  pageProps: PropTypes.shape({
-    video: PropTypes.string,
-    subs: PropTypes.shape({}),
-  }).isRequired,
 };
 
 export default Stream;

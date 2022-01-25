@@ -5,6 +5,7 @@ import videojs from 'video.js';
 
 const Player = (props) => {
   const [videoEl, setVideoEl] = useState(null);
+  const [videoWasPlayed, setVideoWasPlayed] = useState(false);
   const onVideo = useCallback((el) => {
     setVideoEl(el);
   }, []);
@@ -12,10 +13,11 @@ const Player = (props) => {
   useEffect(() => {
     if (videoEl == null) return;
     videojs(videoEl, props);
-    if (videoEl) {
+    if (videoEl && !videoWasPlayed) {
       setTimeout(() => {
         videoEl.play();
-      }, 1000);
+        setVideoWasPlayed(true);
+      }, 500);
     }
   }, [props, videoEl]);
 

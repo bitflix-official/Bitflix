@@ -11,3 +11,6 @@ export { default as SkeletonItem } from './SkeletonItem';
 export { default as Item } from './Item';
 export { default as UserTopContent } from './UserTopContent';
 export { default as Player } from './Player';
+export { default as ErrorMessage } from './ErrorMessage';
+export { default as SearchBar } from './SearchBar';
+export { default as CompaniesContainer } from './CompaniesContainer';

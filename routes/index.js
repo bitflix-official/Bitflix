@@ -6,3 +6,6 @@ export const SIGNUP_ROUTE = '/signup';
 export const TITLE_ROUTE = '/title';
 export const STREAM_ROUTE = '/stream';
 export const ABOUT_ROUTE = '/about';
+export const GENRE_ROUTE = '/genre';
+export const SEARCH_ROUTE = '/search';
+export const COMPANY_ROUTE = '/company';

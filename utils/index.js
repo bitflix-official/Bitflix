@@ -77,7 +77,7 @@ export const canGoBack = () => {
 
 export const humanizeGenres = (genres) => genres?.length && genres.join(', ');
 
-export const getTitleYear = (date) => date.match(/\d{4}/)[0];
+export const getTitleYear = (date) => date && date.match(/\d{4}/)[0];
 
 export const getGenresNames = (genres, ids) => {
   const genreNames = [];

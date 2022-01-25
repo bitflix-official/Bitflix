@@ -17,18 +17,46 @@ import { summaryUnavailablePlaceholder, TMDB_PHOTO_URL, genres } from 'constants
 import { Spinner } from 'components';
 import { getGenresNames, getTitleYear, humanizeGenres } from 'utils';
 import { LOGIN_ROUTE, STREAM_ROUTE, TITLE_ROUTE } from 'routes';
+import { getTitleByIMDBId, getTitleData } from 'api/titles';
 import styles from './item.module.css';
 
-const Item = ({ item, index }) => {
+const Item = ({ item, index, isOnList }) => {
   const { push } = useRouter();
   const { t } = useTranslation();
   const {
-    data: { userData: { id: userId, list } = {} },
+    data: { userData: { id: userId, list, language } = {} },
     actions: { addItemToMyList, removeItemFromMyList },
   } = useContext(AppContext);
+  const [streamingData, setStreamingData] = useState(undefined);
   const isItemOnList = list ? JSON.parse(list).find((el) => el.id === item.id) : false;
   const showError = useNotification('An error ocurred when adding the item to your list', 'error');
+  const [loadingStreamingData, setLoadingStreamingData] = useState(false);
   const [updatingList, setUpdatingList] = useState({ status: false, message: '' });
+  const fullHDTorrent = streamingData?.torrents
+    .filter((torrent) => torrent.quality === '1080p');
+
+  const hdTorrent = streamingData?.torrents
+    .filter((torrent) => torrent.quality === '720p');
+
+  const getStreamingData = async () => {
+    setLoadingStreamingData(true);
+    if (streamingData) {
+      setLoadingStreamingData(false);
+      return null;
+    }
+    try {
+      const { imdb_id: imdbId } = await getTitleData(item.id, language);
+      const { data: { movies } } = await getTitleByIMDBId(imdbId);
+      const [movie] = movies;
+      setStreamingData(await movie);
+      return movie;
+    } catch (err) {
+      setStreamingData(null);
+      return err;
+    } finally {
+      setLoadingStreamingData(false);
+    }
+  };
 
   const handleList = () => {
     if (!userId) {
@@ -62,11 +90,11 @@ const Item = ({ item, index }) => {
   if (!TMDB_PHOTO_URL && !item.imdb_id) return null;
 
   return (
-    <ContextMenu.Root>
+    <ContextMenu.Root onOpenChange={getStreamingData}>
       <ContextMenu.Trigger>
         <li
           key={`title-id-${item.id}`}
-          className={`${styles.item} flex flex-col text-white ${index === 0 ? 'mr-4' : 'mx-4'} focus:border-primary pb-4`}
+          className={`flex flex-col text-white ${!isOnList ? (index === 0 ? 'mr-4' : 'mx-4') : ''} focus:border-primary pb-4`}
           tabIndex="-1"
           data-section="titles"
           data-title-id={item.id}
@@ -111,53 +139,61 @@ const Item = ({ item, index }) => {
       </ContextMenu.Trigger>
       <ContextMenu.Content>
         <div className="flex flex-col py-2 px-2 bg-gray-800 shadow-xl rounded-md text-white">
-          <div className="flex justify-between items-center pl-4 pr-2 py-1 select-none text-sm rounded-sm w-60 my-1 text-gray-300">
-            {item.title}
-          </div>
-          <div className="border border-gray-700 my-1" />
-          <Link href={`${STREAM_ROUTE}/${item.id}`}>
-            <div className="flex justify-between items-center pl-4 pr-2 cursor-pointer py-1 hover:bg-primary text-sm rounded-sm w-full my-1 transition duration-300">
-              <div className="flex items-center">
-                <TriangleRightIcon className="mr-2 -ml-1" />
-                {t('WATCH_NOW')}
+          {!loadingStreamingData ? (
+            <>
+              <div className="flex justify-between items-center pl-4 pr-2 py-1 select-none text-sm rounded-sm w-60 my-1 text-gray-300">
+                {item.title}
               </div>
-            </div>
-          </Link>
-          <button
-            type="button"
-            className="flex items-center pl-4 pr-2 cursor-pointer py-1 hover:bg-primary text-sm rounded-sm w-full my-1 transition duration-300"
-            onClick={() => {
-              if (!updatingList.status) {
-                handleList();
-              }
-            }}
-          >
-            {
-              !updatingList.status ? (
-                isItemOnList ? (
-                  <>
-                    <Cross2Icon className="mr-2 -ml-1" />
-                    {t('REMOVE_FROM_LIST')}
-                  </>
-                ) : (
-                  <>
-                    <PlusIcon className="mr-2 -ml-1" />
-                    {t('ADD_TO_LIST')}
-                  </>
-                )
-              ) : (
-                <div className="text-white flex items-center">
-                  <Spinner size="0.65rem" color="#ffffff" border="border-transparent" />
-                  <span className="ml-2">{updatingList.message}</span>
+              <div className="border border-gray-700 my-1" />
+              {streamingData && (
+              <Link href={`${TITLE_ROUTE}/${item.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}`}>
+                <div className="flex justify-between items-center pl-4 pr-2 cursor-pointer py-1 hover:bg-primary text-sm rounded-sm w-full my-1 transition duration-300">
+                  <div className="flex items-center">
+                    <TriangleRightIcon className="mr-2 -ml-1" />
+                    {t('WATCH_NOW')}
+                  </div>
                 </div>
+              </Link>
+              )}
+              <button
+                type="button"
+                className="flex items-center pl-4 pr-2 cursor-pointer py-1 hover:bg-primary text-sm rounded-sm w-full my-1 transition duration-300"
+                onClick={() => {
+                  if (!updatingList.status) {
+                    handleList();
+                  }
+                }}
+              >
+                {
+            !updatingList.status ? (
+              isItemOnList ? (
+                <>
+                  <Cross2Icon className="mr-2 -ml-1" />
+                  {t('REMOVE_FROM_LIST')}
+                </>
+              ) : (
+                <>
+                  <PlusIcon className="mr-2 -ml-1" />
+                  {t('ADD_TO_LIST')}
+                </>
               )
-            }
-          </button>
-          <Link href={`${TITLE_ROUTE}/${item.id}`}>
-            <div className="flex justify-between items-center pl-4 pr-2 cursor-pointer py-1 hover:bg-primary text-sm rounded-sm w-full my-1 transition duration-300">
-              {t('SEE_MORE_DETAILS')}
-            </div>
-          </Link>
+            ) : (
+              <div className="text-white flex items-center">
+                <Spinner size="0.65rem" color="#ffffff" border="border-transparent" />
+                <span className="ml-2">{updatingList.message}</span>
+              </div>
+            )
+          }
+              </button>
+              <Link href={`${TITLE_ROUTE}/${item.id}`}>
+                <div className="flex justify-between items-center pl-4 pr-2 cursor-pointer py-1 hover:bg-primary text-sm rounded-sm w-full my-1 transition duration-300">
+                  {t('SEE_MORE_DETAILS')}
+                </div>
+              </Link>
+            </>
+          ) : (
+            <Spinner size="1rem" />
+          )}
         </div>
       </ContextMenu.Content>
     </ContextMenu.Root>
@@ -177,6 +213,11 @@ Item.propTypes = {
     genres: PropTypes.arrayOf(),
   }).isRequired,
   index: PropTypes.number.isRequired,
+  isOnList: PropTypes.bool,
+};
+
+Item.defaultProps = {
+  isOnList: false,
 };
 
 export default Item;

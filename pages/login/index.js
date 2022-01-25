@@ -5,14 +5,15 @@ import React, {
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import Logo from '../../assets/logo.png';
-import { appName } from '../../constants';
-import AppContext from '../../context/AppContext';
-import { isEmail } from '../../utils';
-import { HOME_ROUTE } from '../../routes';
+import { useTranslation } from 'react-i18next';
+import Logo from 'assets/logo.png';
+import { appName } from 'constants';
+import AppContext from 'context/AppContext';
+import { isEmail } from 'utils';
+import { HOME_ROUTE } from 'routes';
+import { signIn } from 'api/auth';
+import { Header, ErrorMessage } from 'components';
 import styles from './login.module.css';
-import { signIn } from '../../api/auth';
-import { Header } from '../../components';
 
 const InputElement = ({
   name, label, placeholder, type, value, refEl, onChange,
@@ -35,6 +36,7 @@ const Login = () => {
   const { data: { userSession } } = useContext(AppContext);
   const userIsLoggedIn = userSession?.access_token;
   const router = useRouter();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,10 +44,12 @@ const Login = () => {
   const emailEl = useRef(null);
 
   const handleEmail = (e) => {
+    setError({});
     setEmail(e.target.value);
   };
 
   const handlePassword = (e) => {
+    setError({});
     setPassword(e.target.value);
   };
 
@@ -54,10 +58,11 @@ const Login = () => {
     try {
       setLoading(true);
       const { error: signInError } = await signIn(email, password);
-      if (signInError) throw error;
-      else router.push(HOME_ROUTE);
+      if (signInError) {
+        setError({ message: t(signInError.message.toUpperCase().replaceAll(' ', '_')), status: signInError.status });
+      } else router.push(HOME_ROUTE);
     } catch (err) {
-      setError({ description: err.error_description, message: err.message });
+      throw new Error(err);
     } finally {
       setLoading(false);
     }
@@ -82,19 +87,21 @@ const Login = () => {
         <div className="flex flex-col w-full">
           <div className="flex flex-col">
             <h1 className="text-3xl font-bold">
-              Sign in on&nbsp;
+              {t('SIGN_IN_ON')}
+              &nbsp;
               {appName}
             </h1>
           </div>
           <form onSubmit={handleSignIn} className="mt-8 mb-16 flex flex-col w-full">
-            <InputElement name="email" label="Email" placeholder="Email" type="email" value={email} onChange={handleEmail} refEl={emailEl} />
-            <InputElement name="password" label="Password" placeholder="********" type="password" value={password} onChange={handlePassword} />
+            {error.message && <ErrorMessage message={error.message} />}
+            <InputElement name="email" label={t('EMAIL')} placeholder={t('EMAIL')} type="email" value={email} onChange={handleEmail} refEl={emailEl} />
+            <InputElement name="password" label={t('PASSWORD')} placeholder="********" type="password" value={password} onChange={handlePassword} />
             <div>
               <input
                 type="submit"
                 className={`${styles.authButton} bg-primary hover:bg-blue-800 px-8 py-1 rounded-sm mt-4 cursor-pointer transition duration-500`}
                 disabled={isDisabled}
-                value="Sign in"
+                value={t('SIGN_IN')}
               />
             </div>
           </form>

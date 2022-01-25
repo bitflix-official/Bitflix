@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import PropTypes from 'prop-types';
 import React, {
   useState, useContext, useRef, useEffect,
@@ -5,14 +6,15 @@ import React, {
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import Logo from '../../assets/logo.png';
-import { appName } from '../../constants';
-import AppContext from '../../context/AppContext';
-import { isEmail } from '../../utils';
-import { HOME_ROUTE } from '../../routes';
+import { useTranslation } from 'react-i18next';
+import Logo from 'assets/logo.png';
+import { appName } from 'constants';
+import AppContext from 'context/AppContext';
+import { isEmail } from 'utils';
+import { HOME_ROUTE } from 'routes';
+import { signUp } from 'api/auth';
+import { ErrorMessage, Header } from 'components';
 import styles from './signup.module.css';
-import { signUp } from '../../api/auth';
-import { Header } from '../../components';
 
 const InputElement = ({
   name, label, placeholder, type, value, refEl, onChange,
@@ -35,6 +37,7 @@ const Signup = () => {
   const { data: { userSession } } = useContext(AppContext);
   const userIsLoggedIn = userSession?.access_token;
   const router = useRouter();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -45,33 +48,37 @@ const Signup = () => {
 
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
+    setError({});
   };
 
   const handleLastName = (e) => {
     setLastName(e.target.value);
+    setError({});
   };
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
+    setError({});
   };
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
+    setError({});
   };
-
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const { error: signUpError } = await signUp(email, password, {
-        username: `${firstName}${lastName}`,
+      const { message, status } = await signUp(email, password, {
         first_name: firstName,
         last_name: lastName,
       });
-      if (signUpError) throw error;
-      else router.push(HOME_ROUTE);
+      if (status === 400) {
+        setError({ description: t(message.toUpperCase().replaceAll(' ', '_')), status });
+      } else router.push(HOME_ROUTE);
+      return;
     } catch (err) {
-      setError({ description: err.error_description, message: err.message });
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -96,26 +103,30 @@ const Signup = () => {
         <div className="flex flex-col w-full">
           <div className="flex flex-col">
             <h1 className="text-3xl font-bold">
-              Create an account on&nbsp;
+              {t('SIGN_UP_ON')}
+              &nbsp;
               {appName}
             </h1>
             <p className="mt-2 text-lg text-gray-300 w-96">
-              By signing up on&nbsp;
+              {t('BY_SIGNING_UP_ON')}
+              &nbsp;
               {appName}
-              &nbsp;you will be able to add titles to your list and watch them later.
+              &nbsp;
+              {t('REASON_TO_SIGN_UP')}
             </p>
           </div>
           <form onSubmit={handleSignUp} className="mt-8 mb-16 flex flex-col w-full">
-            <InputElement name="first_name" label="First name" placeholder="First name" type="text" value={firstName} onChange={handleFirstName} refEl={firstNameEl} />
-            <InputElement name="last_name" label="Last name" placeholder="Last name" type="text" value={lastName} onChange={handleLastName} />
-            <InputElement name="email" label="Email" placeholder="Email" type="email" value={email} onChange={handleEmail} />
-            <InputElement name="password" label="Password" placeholder="********" type="password" value={password} onChange={handlePassword} />
+            {error.description && <ErrorMessage message={error.description} />}
+            <InputElement name="first_name" label={t('FIRST_NAME')} placeholder={t('FIRST_NAME')} type="text" value={firstName} onChange={handleFirstName} refEl={firstNameEl} />
+            <InputElement name="last_name" label={t('LAST_NAME')} placeholder={t('LAST_NAME')} type="text" value={lastName} onChange={handleLastName} />
+            <InputElement name="email" label={t('EMAIL')} placeholder={t('EMAIL')} type="email" value={email} onChange={handleEmail} />
+            <InputElement name="password" label={t('PASSWORD')} placeholder="********" type="password" value={password} onChange={handlePassword} />
             <div>
               <input
                 type="submit"
                 className={`${styles.authButton} bg-primary hover:bg-blue-800 px-8 py-1 rounded-sm mt-4 cursor-pointer transition duration-500`}
                 disabled={isDisabled}
-                value="Sign up"
+                value={t('SIGN_UP')}
               />
             </div>
           </form>

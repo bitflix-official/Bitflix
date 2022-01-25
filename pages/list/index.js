@@ -16,7 +16,7 @@ import { t } from 'i18next';
 
 const List = () => {
   const { push } = useRouter();
-  const { data: { userData } } = useContext(AppContext);
+  const { data: { userData, userSession }, actions: { handleUserData } } = useContext(AppContext);
   const [myList, setMyList] = useState([]);
 
   const isLoading = () => {
@@ -28,6 +28,12 @@ const List = () => {
   if (process.browser && !isLoading() && !userData.id) {
     push(LOGIN_ROUTE);
   }
+
+  useEffect(() => {
+    if (userSession?.user && !userData?.id) {
+      handleUserData();
+    }
+  }, [userSession]);
 
   useEffect(async () => {
     if (userData?.list) {

@@ -9,14 +9,14 @@ const TitlesCarousel = ({ title, subtitle, items }) => (
     {subtitle && <span className="text-gray-300 text-md mt-1">{subtitle}</span>}
     <ul className="flex items-center flex-nowrap overflow-x-auto mt-5">
       {
-        items ? items.map((item, index) => (
-          <Item item={item} index={index} key={`title-id-${item.id}`} />
-        )) : (
-          Array.from(Array(9)).map((el, index) => (
-            <SkeletonItem index={index} key={`skeleton-item-${index}`} />
-          ))
-        )
-      }
+          items ? items.map((item, index) => (
+            <Item item={item} index={index} key={`title-id-${item.id}`} />
+          )) : (
+            Array.from(Array(9)).map((el, index) => (
+              <SkeletonItem index={index} key={`skeleton-item-${index}`} />
+            ))
+          )
+        }
     </ul>
   </div>
 );

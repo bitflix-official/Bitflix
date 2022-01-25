@@ -14,11 +14,28 @@ import { useNotification } from 'hooks';
 import {
   StarIcon, PlusIcon, TriangleRightIcon, Cross2Icon,
 } from '@radix-ui/react-icons';
-import { getTitleData, getTitleByIMDBId } from 'api/titles';
+import {
+  getTitleData, getTitleByIMDBId, getTitleCast, getSimilarTitles,
+} from 'api/titles';
 import { summaryUnavailablePlaceholder, genres, TMDB_PHOTO_URL } from 'constants';
 import { getGenresNames, humanizeGenres, isLastItem } from 'utils';
 import { useTranslation } from 'react-i18next';
 import styles from './id.module.css';
+import TitleCast from './TitleCast';
+import SimilarTitles from './SimilarTitles';
+
+const getViews = ({ cast = [], titles = [] }) => ([
+  {
+    id: 1,
+    name: 'CAST',
+    component: <TitleCast cast={cast} />,
+  },
+  {
+    id: 2,
+    name: 'SIMILAR_TITLES',
+    component: <SimilarTitles items={titles} />,
+  },
+]);
 
 const Title = () => {
   const [title, setTitle] = useState({});
@@ -31,6 +48,9 @@ const Title = () => {
   const isItemOnList = list ? JSON.parse(list).find((el) => el.id === title.id) : false;
   const showError = useNotification('An error ocurred when adding the item to your list', 'error');
   const [updatingList, setUpdatingList] = useState({ status: false, message: '' });
+  const [titleCast, setTitleCast] = useState([]);
+  const [similarTitles, setSimilarTitles] = useState([]);
+  const [currentView, setCurrentView] = useState(null);
   const { t } = useTranslation();
   const { push, query: { id } } = useRouter();
   const titleIsValid = title.id;
@@ -44,7 +64,12 @@ const Title = () => {
     const getData = async () => {
       try {
         const data = await getTitleData(id, userData.language);
+        const { cast } = await getTitleCast(id, userData.language);
+        const { results: similar } = await getSimilarTitles(id, userData.language);
         setTitle(await data);
+        setTitleCast(await cast);
+        setSimilarTitles(similar);
+        setCurrentView(getViews({ cast, titles: similar })[0]);
         return data;
       } catch (err) {
         throw new Error(err);
@@ -52,7 +77,7 @@ const Title = () => {
         setIsLoading(false);
       }
     };
-    if (id && userData !== undefined && !title.id) {
+    if (id && userData !== undefined) {
       getData();
     }
   }, [userData]);
@@ -147,9 +172,9 @@ const Title = () => {
         )}
         transparent
       />
-      <div style={{ backgroundImage: `url(${`${TMDB_PHOTO_URL}/${title.backdrop_path}`})` }} className={`${styles.titleBackground} absolute block w-full bg-no-repeat bg-cover opacity-20`} />
+      <div style={{ backgroundImage: `linear-gradient(to bottom, transparent, #000 80%), url(${`${TMDB_PHOTO_URL}/${title.backdrop_path}`})` }} className={`${styles.titleBackground} absolute block w-full bg-no-repeat bg-cover opacity-50`} />
       <AppWrapper>
-        <div style={{ height: '60vh' }} className="flex flex-col justify-center w-full z-20 mt-32 sm:mt-28 md:mt-0">
+        <div style={{ height: '65vh' }} className="flex flex-col justify-center w-full z-20 mt-32 sm:mt-28 md:mt-0">
           <div className="flex flex-col w-11/12">
             <h1 className="text-white font-semibold text-3xl">{title.title}</h1>
             <div className="flex items-center text-gray-300 text-sm mt-4 -ml-1">
@@ -170,7 +195,7 @@ const Title = () => {
             <div className="flex flex-col md:flex-row md:items-center mt-8 w-max">
               {
                 streamingData ? (
-                  <Link href={`${TITLE_ROUTE}/${title.id}${STREAM_ROUTE}/${fullHDTorrent ? fullHDTorrent[0].hash : hdTorrent[0].hash}`}>
+                  <Link href={`${TITLE_ROUTE}/${title.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}`}>
                     <span
                       className="flex items-center bg-primary hover:bg-blue-700 border border-primary hover:border-blue-700 text-white py-1 px-8 text-md rounded-sm cursor-pointer transition duration-300"
                     >
@@ -218,6 +243,25 @@ const Title = () => {
             }
               </button>
             </div>
+          </div>
+        </div>
+        <div className="flex flex-col z-20 h-96">
+          <span className="text-3xl mb-8 text-white font-semibold">{t('DETAILS')}</span>
+          <div className="flex items-center mb-6">
+            {getViews({ cast: titleCast, titles: similarTitles }).map((view, index) => (
+              <button
+                type="button"
+                className={`text-xl cursor-pointer transition duration-300 mr-8 px-2 py-1 text-gray-200 border-b-2 ${currentView.id === view.id ? 'border-primary' : 'border-transparent'}`}
+                onClick={() => {
+                  setCurrentView(getViews({ cast: titleCast, titles: similarTitles })[index]);
+                }}
+              >
+                {t(view.name)}
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center overflow-x-auto">
+            {currentView.component}
           </div>
         </div>
       </AppWrapper>
