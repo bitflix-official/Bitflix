@@ -1,58 +1,58 @@
 {
   "name": "bitflix",
-  "version": "0.1.1",
-  "autor": "nuzze",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Bitflix is an open source web application to watch movies using torrents in an easy way.",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "lint": "next lint"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitflix-official/Bitflix.git"
+  },
+  "keywords": [
+    "bitflix",
+    "movies",
+    "torrents",
+    "webtorrent"
+  ],
+  "author": "nuzze",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bitflix-official/Bitflix/issues"
+  },
+  "homepage": "https://github.com/bitflix-official/Bitflix#readme",
   "dependencies": {
-    "core-js": "^3.6.4",
-    "filepond": "^4.18.0",
-    "jquery": "^3.5.1",
-    "plyr": "^3.6.2",
-    "vue": "^2.6.11",
-    "vue-filepond": "^6.0.2",
-    "vue-i18n": "^8.18.1",
-    "vue-plyr": "^6.0.4",
-    "vue-progressbar": "^0.7.5",
-    "vue-router": "^3.1.6",
-    "vuex": "^3.5.1",
-    "webtorrent": "^0.108.6"
+    "@radix-ui/react-context-menu": "^0.1.1",
+    "@radix-ui/react-dropdown-menu": "^0.1.1",
+    "@radix-ui/react-icons": "^1.0.3",
+    "@radix-ui/react-popover": "^0.1.1",
+    "@radix-ui/react-tooltip": "^0.1.1",
+    "@supabase/supabase-js": "^1.28.0",
+    "i18next": "^21.5.6",
+    "kbar": "^0.1.0-beta.21",
+    "next": "^12.0.4",
+    "nprogress": "^0.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-i18next": "^11.14.3",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-toastify": "^8.1.0",
+    "video.js": "^6.7.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.3.0",
-    "@vue/cli-plugin-eslint": "~4.3.0",
-    "@vue/cli-plugin-router": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-vue": "^6.2.2",
-    "prettier": "^1.19.1",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended",
-      "@vue/prettier"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "@types/nprogress": "^0.2.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "postcss": "^8.3.11",
+    "tailwindcss": "^2.2.19"
+  }
 }

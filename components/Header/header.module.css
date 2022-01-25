@@ -1,0 +1,7 @@
+.header {
+  backdrop-filter: blur(6px);
+}
+
+.twitterIcon path {
+  fill-rule: unset;
+}

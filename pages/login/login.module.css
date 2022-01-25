@@ -1,0 +1,5 @@
+.authButton:disabled {
+  background-color: rgb(100, 100, 100);
+  cursor: not-allowed;
+  color:rgb(180, 180, 180)
+}
