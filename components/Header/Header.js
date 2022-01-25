@@ -11,6 +11,7 @@ import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { genres } from 'constants';
 import HeaderMenu from './HeaderMenu';
 import styles from './header.module.css';
+import HeaderMenuMobile from './HeaderMenuMobile';
 
 const Header = ({ leftContent, transparent }) => {
   const { t } = useTranslation();
@@ -23,20 +24,20 @@ const Header = ({ leftContent, transparent }) => {
 
   return (
     <div style={{ backgroundColor: transparent ? 'transparent' : '#080808d9' }} className={`${!transparent && styles.header} fixed w-full px-4 sm:px-6 md:px-24 2xl:px-32 h-16 flex items-center z-30 ${!transparent && 'shadow-xl'}`}>
-      <div className="py-5 flex items-center w-full justify-between">
+      <div className="py-5 flex flex-col lg:flex-row lg:items-center w-full justify-between">
         <div className="flex items-center">
           {leftContent || (
-            <div className="flex items-center">
+            <div className="flex items-center justify-between lg:justify-start w-full">
               <Link href={HOME_ROUTE}>
                 <span className="text-white text-xl lg:text-2xl font-semibold cursor-pointer select-none">
                   {t('MOVIES')}
                 </span>
               </Link>
-              <div className="ml-4 md:ml-8 xl:ml-12">
+              <div className="ml-2 md:ml-8 xl:ml-12">
                 <DropdownMenu open={open} onOpenChange={handleOpen}>
-                  <DropdownMenuTrigger className="hover:bg-gray-800 rounded-md px-4 py-2 cursor-pointer transition duration-300" asChild>
+                  <DropdownMenuTrigger className="hover:bg-gray-800 rounded-md px-2 md:px-4 py-2 cursor-pointer transition duration-300" asChild>
                     <div className="flex items-center text-white">
-                      <span>{!asPath.startsWith(GENRE_ROUTE) ? t('ALL_GENRES') : t(genres.find((genre) => genre.id === +id).name)}</span>
+                      <span className="w-20 overflow-x-hidden overflow-ellipsis whitespace-nowrap md:w-auto">{!asPath.startsWith(GENRE_ROUTE) ? t('ALL_GENRES') : t(genres.find((genre) => genre.id === +id).name)}</span>
                       <ChevronDownIcon className="ml-2" />
                     </div>
                   </DropdownMenuTrigger>
@@ -62,10 +63,15 @@ const Header = ({ leftContent, transparent }) => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
+              <div className="block lg:hidden">
+                <HeaderMenuMobile />
+              </div>
             </div>
           )}
         </div>
-        <HeaderMenu />
+        <div className="hidden lg:block">
+          <HeaderMenu />
+        </div>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuSeparator,
 } from '@radix-ui/react-dropdown-menu';
-import { ChevronDownIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
+import { ChevronDownIcon, PersonIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import AppContext from 'context/AppContext';
 import { defaultProfilePicture, supabaseBucketPhotosURL, shortcuts } from 'constants';
 import { signOut } from 'api/auth';
@@ -15,7 +15,7 @@ import {
 import { Command, DropdownMenuItem, SearchBar } from '..';
 import styles from './header.module.css';
 
-const HeaderMenu = () => {
+const HeaderMenuMobile = () => {
   const { asPath } = useRouter();
   const { t } = useTranslation();
   const { data: { userSession, userData } } = useContext(AppContext);
@@ -31,35 +31,45 @@ const HeaderMenu = () => {
     return (
       <div className="flex items-center">
         {isAbleToSearch && <SearchBar />}
-        {
-          asPath === LOGIN_ROUTE || asPath === SIGNUP_ROUTE ? (
-            <Link href={asPath === LOGIN_ROUTE ? SIGNUP_ROUTE : LOGIN_ROUTE}>
-              <div className="bg-primary hover:bg-blue-700 transition duration-300 rounded-sm px-6 py-1 text-white cursor-pointer">
-                <span className="mr-2">{asPath === LOGIN_ROUTE ? t('SIGN_UP') : t('SIGN_IN')}</span>
-              </div>
-            </Link>
-          ) : (
-            <>
-              <Link href={LOGIN_ROUTE}>
-                <div className="transition duration-300 rounded-sm mx-6 px-2 py-1 text-white hover:text-gray-300 cursor-pointer">
-                  <span className="mr-2">{t('SIGN_IN')}</span>
-                </div>
-              </Link>
-              <Link href={SIGNUP_ROUTE}>
-                <div className="bg-primary hover:bg-blue-700 transition duration-300 rounded-sm px-4 py-1 text-white cursor-pointer">
-                  <span className="mr-2">{t('SIGN_UP')}</span>
-                </div>
-              </Link>
-            </>
-          )
-        }
+        <DropdownMenu open={open} onOpenChange={handleOpen}>
+          <DropdownMenuTrigger className="cursor-pointer hover:bg-gray-800 rounded-md px-4 py-2 -mr-4 transition duration-300" asChild>
+            <div className="flex items-center text-white">
+              <PersonIcon />
+              <span className={`ml-2 ${open && 'transform rotate-180'}`}><ChevronDownIcon /></span>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-gray-900 text-white rounded-sm shadow-xl py-2 transition duration-200 w-48 text-sm" sideOffset={5}>
+            {
+              asPath === LOGIN_ROUTE || asPath === SIGNUP_ROUTE ? (
+                <Link href={asPath === LOGIN_ROUTE ? SIGNUP_ROUTE : LOGIN_ROUTE}>
+                  <div className="bg-primary hover:bg-blue-700 transition duration-300 rounded-sm px-6 py-1 text-white cursor-pointer">
+                    <span className="mr-2">{asPath === LOGIN_ROUTE ? t('SIGN_UP') : t('SIGN_IN')}</span>
+                  </div>
+                </Link>
+              ) : (
+                <>
+                  <Link href={LOGIN_ROUTE}>
+                    <div className="transition duration-300 rounded-sm mx-6 px-2 py-1 text-white hover:text-gray-300 cursor-pointer">
+                      <span className="mr-2">{t('SIGN_IN')}</span>
+                    </div>
+                  </Link>
+                  <Link href={SIGNUP_ROUTE}>
+                    <div className="bg-primary hover:bg-blue-700 transition duration-300 rounded-sm px-4 py-1 text-white cursor-pointer">
+                      <span className="mr-2">{t('SIGN_UP')}</span>
+                    </div>
+                  </Link>
+                </>
+              )
+            }
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     );
   }
 
   return (
     <div className="flex items-center">
-      {isAbleToSearch && <SearchBar />}
+      {isAbleToSearch && <SearchBar mobile />}
       <DropdownMenu open={open} onOpenChange={handleOpen}>
         <DropdownMenuTrigger className="cursor-pointer hover:bg-gray-800 rounded-md px-4 py-2 -mr-4 transition duration-300" asChild>
           <div className="flex items-center text-white">
@@ -109,4 +119,4 @@ const HeaderMenu = () => {
   );
 };
 
-export default HeaderMenu;
+export default HeaderMenuMobile;

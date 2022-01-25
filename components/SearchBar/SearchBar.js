@@ -5,14 +5,16 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import { searchTitles } from 'api/titles';
 import { TMDB_PHOTO_URL } from 'constants';
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { Cross1Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { TITLE_ROUTE, SEARCH_ROUTE } from 'routes';
+import styles from './searchbar.module.css';
 
 const SearchBar = () => {
   const [searchText, setSearchText] = useState('');
   const [isFocus, setIsFocus] = useState(false);
   const { data: { userData } } = useContext(AppContext);
+  const [searchingMobile, setSearchingMobile] = useState(false);
   const { push } = useRouter();
   const { t } = useTranslation();
   const [data, setData] = useState([]);
@@ -39,7 +41,7 @@ const SearchBar = () => {
 
   return (
     <>
-      <div className={`flex items-center bg-gray-800 rounded-sm border px-4 py-1 mr-4 md:mr-8 xl:mr-12 ${isFocus ? 'border-primary' : 'border-gray-800'}`}>
+      <div className={`hidden lg:flex items-center bg-gray-800 rounded-sm border px-2 md:px-4 py-1 mr-2 md:mr-8 xl:mr-12 ${isFocus ? 'border-primary' : 'border-gray-800'}`}>
         <MagnifyingGlassIcon className={`${isFocus ? 'text-primary' : 'text-white'} mr-4`} />
         <input
           type="text"
@@ -58,6 +60,35 @@ const SearchBar = () => {
           placeholder={t('SEARCH_PLACEHOLDER')}
         />
       </div>
+      <button type="button" className="block lg:hidden outline-none border-none" onClick={() => { setSearchingMobile(true); }}>
+        <MagnifyingGlassIcon className="text-white mr-4" />
+      </button>
+      {searchingMobile && (
+        <div className={`${styles.mobileSearchBar} absolute left-4 z-20 flex lg:hidden items-center justify-between bg-gray-800 rounded-sm border px-2 md:px-4 py-1 mr-2 md:mr-8 xl:mr-12 ${isFocus ? 'border-primary' : 'border-gray-800'}`}>
+          <div className="flex items-center">
+            <MagnifyingGlassIcon className={`${isFocus ? 'text-primary' : 'text-white'} mr-4`} />
+            <input
+              type="text"
+              value={searchText}
+              onChange={handleChange}
+              onKeyDown={handleSearch}
+              className="bg-transparent focus:outline-none outline-none border-none text-white xl:w-48"
+              onFocus={() => {
+                setIsFocus(true);
+              }}
+              onBlur={() => {
+                setTimeout(() => {
+                  setIsFocus(false);
+                }, 500);
+              }}
+              placeholder={t('SEARCH_PLACEHOLDER')}
+            />
+          </div>
+          <button type="button" className="block lg:hidden outline-none border-none" onClick={() => { setSearchingMobile(false); }}>
+            <Cross1Icon className="text-white" />
+          </button>
+        </div>
+      )}
       {data?.length > 0 && isFocus && (
       <div className="flex flex-col absolute bg-gray-900 px-2 py-2 rounded-sm shadow-sm top-16 w-64">
         {data.map((title, index) => {
