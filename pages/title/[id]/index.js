@@ -255,6 +255,7 @@ const Title = () => {
                 onClick={() => {
                   setCurrentView(getViews({ cast: titleCast, titles: similarTitles })[index]);
                 }}
+                key={`view-${view.id}`}
               >
                 {t(view.name)}
               </button>

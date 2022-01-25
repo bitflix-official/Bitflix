@@ -34,7 +34,7 @@ const AppProvider = ({ children }) => {
       if (error && status !== 406) {
         throw error;
       }
-      return { email: user.email, ...data };
+      return { ...data, email: user.email };
     } catch (err) {
       return err;
     }
@@ -49,9 +49,11 @@ const AppProvider = ({ children }) => {
   };
 
   const changeUserLanguage = async (language) => {
+    const user = supabase.auth.user();
     const { data, error } = await supabase
       .from('profiles')
-      .update({ language });
+      .update({ language })
+      .eq('id', user.id);
     if (error) {
       throw error;
     } else {
@@ -61,13 +63,15 @@ const AppProvider = ({ children }) => {
   };
 
   const addItemToMyList = async (id) => {
+    const user = supabase.auth.user();
     const currentList = userData?.list ? JSON.parse(userData.list) : [];
     currentList.push({ id });
     const newList = JSON.stringify(currentList);
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .update({ list: newList });
+        .update({ list: newList })
+        .eq('id', user.id);
 
       if (error) {
         throw error;
@@ -81,12 +85,14 @@ const AppProvider = ({ children }) => {
   };
 
   const removeItemFromMyList = async (id) => {
+    const user = supabase.auth.user();
     const currentList = userData?.list ? JSON.parse(userData.list) : [];
     const newList = JSON.stringify(currentList.filter((el) => el.id !== id));
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .update({ list: newList });
+        .update({ list: newList })
+        .eq('id', user.id);
 
       if (error) {
         throw error;
