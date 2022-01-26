@@ -17,12 +17,12 @@ import styles from './index.module.css';
 
 const STREAMING_URL = process.env.NEXT_PUBLIC_STREAMING_URL;
 
-const formatTracks = (subs) => {
+const formatTracks = (subs, userLanguage) => {
   if (!subs) return null;
   const arr = [];
   Object.values(subs).forEach((sub) => {
     arr.push({
-      label: sub.lang, kind: 'captions', srclang: sub.langcode, src: sub.vtt,
+      label: sub.lang, kind: 'captions', srclang: sub.langcode, src: sub.vtt, default: sub.langcode === userLanguage,
     });
   });
   return arr;
@@ -32,6 +32,7 @@ const Stream = () => {
   const {
     data: { userData },
   } = useContext(AppContext);
+  const { t, i18n } = useTranslation();
   const [title, setTitle] = useState({});
   const [torrent, setTorrent] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -78,15 +79,13 @@ const Stream = () => {
     const getStreaming = async () => {
       const { infoHash } = await startStreaming(torrentId);
       const { subs } = await getSubtitles(title.imdb_id);
-      setVideoOptions({ ...videoOptions, tracks: formatTracks(subs) });
+      setVideoOptions({ ...videoOptions, tracks: formatTracks(subs, i18n.language) });
       setTorrent(infoHash);
     };
     if (process.browser && torrentId && title.imdb_id) {
       getStreaming();
     }
   }, [torrentId, title]);
-
-  const { t } = useTranslation();
 
   if (isLoading) {
     return (
