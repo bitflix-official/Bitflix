@@ -56,7 +56,6 @@ body {
 }
 
 .vjs-menu-button-popup .vjs-menu {
-  display: block;
   width: 20em;
   left: -12em;
 }
