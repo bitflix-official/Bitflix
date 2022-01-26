@@ -14,7 +14,6 @@ const Player = (props) => {
     if (!videoEl) return;
     const player = (videoEl.current = videojs(videoEl, props, () => {
       player.play();
-      player.subtitleSettings();
     }));
     return () => {
       if (player) {
