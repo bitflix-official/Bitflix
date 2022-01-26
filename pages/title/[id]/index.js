@@ -51,8 +51,9 @@ const Title = () => {
   const [titleCast, setTitleCast] = useState([]);
   const [similarTitles, setSimilarTitles] = useState([]);
   const [currentView, setCurrentView] = useState(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { push, query: { id } } = useRouter();
+  const [prevId, setPrevId] = useState(id);
   const titleIsValid = title.id;
   const fullHDTorrent = streamingData?.torrents
     .filter((torrent) => torrent.quality === '1080p');
@@ -63,6 +64,8 @@ const Title = () => {
   useEffect(() => {
     const getData = async () => {
       try {
+        if ((prevId === id && title.id) || userData.language !== i18n.language) return null;
+        setPrevId(id);
         const data = await getTitleData(id, userData.language);
         const { cast } = await getTitleCast(id, userData.language);
         const { results: similar } = await getSimilarTitles(id, userData.language);
@@ -70,17 +73,16 @@ const Title = () => {
         setTitleCast(await cast);
         setSimilarTitles(similar);
         setCurrentView(getViews({ cast, titles: similar })[0]);
+        setIsLoading(false);
         return data;
       } catch (err) {
         throw new Error(err);
-      } finally {
-        setIsLoading(false);
       }
     };
     if (id && userData !== undefined) {
       getData();
     }
-  }, [userData]);
+  }, [userData, id]);
 
   useEffect(() => {
     const getStreamingData = async () => {

@@ -50,3 +50,26 @@ body {
 .video-js .vjs-play-progress {
   background-color: var(--primary);
 }
+
+.vjs-texttrack-settings {
+  display: none;
+}
+
+.vjs-menu-button-popup .vjs-menu {
+  width: 20em;
+  left: -12em;
+}
+
+.vjs-menu li {
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  text-transform: initial;
+}
+
+.vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  max-height: 25em;
+}
+
+.vjs-menu-item-text::first-letter {
+  text-transform: uppercase;
+}

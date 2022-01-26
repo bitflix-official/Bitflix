@@ -1,6 +1,6 @@
 {
   "name": "bitflix",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bitflix is an open source web application to watch movies using torrents in an easy way.",
   "scripts": {
     "dev": "next dev",

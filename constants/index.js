@@ -58,7 +58,7 @@ export const supabaseBucketPhotosURL = `${supabaseUrl}/storage/v1/object/public/
 
 export const defaultProfilePicture = `${supabaseBucketPhotosURL}/cat.png`;
 
-export const TMDB_PHOTO_URL = 'https://www.themoviedb.org/t/p/w1280';
+export const TMDB_PHOTO_URL = 'https://www.themoviedb.org/t/p/w220_and_h330_face';
 
 export const TMDB_CAST_URL = 'https://www.themoviedb.org/t/p/w90_and_h90_face';
 
