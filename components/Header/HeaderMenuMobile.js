@@ -12,7 +12,7 @@ import { signOut } from 'api/auth';
 import {
   LOGIN_ROUTE, SIGNUP_ROUTE, LIST_ROUTE, SETTINGS_ROUTE, ABOUT_ROUTE, TITLE_ROUTE,
 } from 'routes';
-import { Command, DropdownMenuItem, SearchBar } from '..';
+import { DropdownMenuItem, SearchBar } from '..';
 import styles from './header.module.css';
 
 const HeaderMenuMobile = () => {
