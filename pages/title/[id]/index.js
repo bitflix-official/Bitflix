@@ -48,6 +48,7 @@ const Title = () => {
   const isItemOnList = list ? JSON.parse(list).find((el) => el.id === title.id) : false;
   const showError = useNotification('An error ocurred when adding the item to your list', 'error');
   const [updatingList, setUpdatingList] = useState({ status: false, message: '' });
+  const [prevImdbId, setPrevImdbId] = useState(title?.imdb_id);
   const [titleCast, setTitleCast] = useState([]);
   const [similarTitles, setSimilarTitles] = useState([]);
   const [currentView, setCurrentView] = useState(null);
@@ -88,15 +89,16 @@ const Title = () => {
     const getStreamingData = async () => {
       try {
         const { data: { movies } } = await getTitleByIMDBId(title.imdb_id);
-        const [movie] = movies;
+        const [movie] = await movies;
         setStreamingData(await movie);
+        setPrevImdbId(title.imdb_id);
         return movie;
       } catch (err) {
         setStreamingData(null);
         return err;
       }
     };
-    if (title.imdb_id && !streamingData) {
+    if ((title.imdb_id && !streamingData) || (title.imdb_id !== prevImdbId)) {
       getStreamingData();
     }
   }, [title]);
