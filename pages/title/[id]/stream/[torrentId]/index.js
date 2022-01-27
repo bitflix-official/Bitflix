@@ -110,7 +110,8 @@ const Stream = () => {
         transparent
       />
       <div className="h-screen flex items-center justify-center text-white">
-        {videoOptions.sources?.length > 0 && videoOptions.tracks?.length > 0 && <Player {...videoOptions} name="media" />}
+        {videoOptions.sources?.length > 0 && videoOptions.tracks?.length > 0
+          && <Player {...videoOptions} name="media" />}
       </div>
     </div>
   );

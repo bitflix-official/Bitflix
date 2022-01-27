@@ -65,11 +65,11 @@ const Title = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        if ((prevId === id && title.id) || userData.language !== i18n.language) return null;
+        if (prevId === id && title.id) return null;
         setPrevId(id);
-        const data = await getTitleData(id, userData.language);
-        const { cast } = await getTitleCast(id, userData.language);
-        const { results: similar } = await getSimilarTitles(id, userData.language);
+        const data = await getTitleData(id, i18n.language);
+        const { cast } = await getTitleCast(id, i18n.language);
+        const { results: similar } = await getSimilarTitles(id, i18n.language);
         setTitle(await data);
         setTitleCast(await cast);
         setSimilarTitles(similar);
