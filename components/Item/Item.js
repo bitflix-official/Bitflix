@@ -94,7 +94,7 @@ const Item = ({ item, index, isOnList }) => {
       <ContextMenu.Trigger>
         <li
           key={`title-id-${item.id}`}
-          className={`flex flex-col text-white ${!isOnList ? (index === 0 ? 'mr-4' : 'mx-4') : ''} focus:border-primary pb-4`}
+          className={`flex flex-col text-white ${!isOnList ? (index === 0 ? 'mr-4' : 'mx-4') : ''} focus:border-primary pb-4 outline-none`}
           tabIndex="-1"
           data-section="titles"
           data-title-id={item.id}
