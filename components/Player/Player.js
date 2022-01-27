@@ -1,11 +1,13 @@
 /* eslint-disable no-multi-assign */
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable consistent-return */
+import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import videojs from 'video.js';
 
 const Player = (props) => {
   const [videoEl, setVideoEl] = useState(null);
+  const { tracks } = props;
   const onVideo = useCallback((el) => {
     setVideoEl(el);
   }, []);
@@ -25,9 +27,22 @@ const Player = (props) => {
 
   return (
     <div data-vjs-player>
-      <video ref={onVideo} className="video-js vjs-big-play-centered" playsInline crossOrigin="anonymous" autoPlay />
+      <video ref={onVideo} className="video-js vjs-big-play-centered h-screen w-screen" playsInline crossOrigin="anonymous" autoPlay>
+        {/* This mapping is added in order to make subtitles work on Safari */}
+        {
+          tracks && (
+            tracks.map((track) => (
+              <track className="safari-subtitles" label={track.label} kind="captions" srcLang={track.srclang} src={track.src} default={track.default} />
+            ))
+          )
+        }
+      </video>
     </div>
   );
+};
+
+Player.propTypes = {
+  tracks: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default Player;

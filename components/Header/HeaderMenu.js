@@ -61,7 +61,7 @@ const HeaderMenu = () => {
     <div className="flex items-center">
       {isAbleToSearch && <SearchBar />}
       <DropdownMenu open={open} onOpenChange={handleOpen}>
-        <DropdownMenuTrigger className="cursor-pointer hover:bg-gray-800 rounded-md px-4 py-2 -mr-4 transition duration-300" asChild>
+        <DropdownMenuTrigger className="cursor-pointer hover:bg-gray-800 rounded-md px-4 py-2 -mr-4 transition duration-300 appearance-none" asChild>
           <div className="flex items-center text-white">
             <img src={userData?.profile_photo ? `${supabaseBucketPhotosURL}/${userData?.profile_photo}` : defaultProfilePicture} width="24" height="24" className="rounded-full w-6 h-6" alt="user_profile_photo" />
             <span className={`ml-2 ${open && 'transform rotate-180'}`}><ChevronDownIcon /></span>

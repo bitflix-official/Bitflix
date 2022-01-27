@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { TMDB_PHOTO_URL } from 'constants';
 import { HOME_ROUTE } from 'routes';
 import {
-  Header, AppWrapper, BackButton, Spinner, Player,
+  Header, BackButton, Spinner, Player,
 } from 'components';
 import { getTitleData } from 'api/titles';
 import { getStreamingData, getSubtitles, startStreaming } from 'api/streaming';
@@ -110,8 +110,7 @@ const Stream = () => {
         transparent
       />
       <div className="h-screen flex items-center justify-center text-white">
-        {videoOptions.sources?.length > 0 && videoOptions.tracks?.length > 0
-          && <Player {...videoOptions} name="media" />}
+        {videoOptions.sources?.length > 0 && videoOptions.tracks?.length > 0 && <Player {...videoOptions} name="media" />}
       </div>
     </div>
   );
