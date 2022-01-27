@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import AppContext from 'context/AppContext';
 import { getTitleYear } from 'utils';
 import { useRouter } from 'next/router';
@@ -15,6 +15,7 @@ const SearchBar = () => {
   const [isFocus, setIsFocus] = useState(false);
   const { data: { userData } } = useContext(AppContext);
   const [searchingMobile, setSearchingMobile] = useState(false);
+  const mobileInputReference = useRef(null);
   const { push } = useRouter();
   const { t } = useTranslation();
   const [data, setData] = useState([]);
@@ -60,7 +61,16 @@ const SearchBar = () => {
           placeholder={t('SEARCH_PLACEHOLDER')}
         />
       </div>
-      <button type="button" className="block lg:hidden outline-none border-none" onClick={() => { setSearchingMobile(true); }}>
+      <button
+        type="button"
+        className="block lg:hidden outline-none border-none"
+        onClick={() => {
+          setSearchingMobile(true);
+          setTimeout(() => {
+            mobileInputReference.current.focus();
+          }, 50);
+        }}
+      >
         <MagnifyingGlassIcon className="text-white mr-4" />
       </button>
       {searchingMobile && (
@@ -69,6 +79,7 @@ const SearchBar = () => {
             <MagnifyingGlassIcon className={`${isFocus ? 'text-primary' : 'text-white'} mr-4`} />
             <input
               type="text"
+              ref={mobileInputReference}
               value={searchText}
               onChange={handleChange}
               onKeyDown={handleSearch}
@@ -90,7 +101,7 @@ const SearchBar = () => {
         </div>
       )}
       {data?.length > 0 && isFocus && (
-      <div className="flex flex-col absolute bg-gray-900 px-2 py-2 rounded-sm shadow-sm top-16 w-64">
+      <div className={`${styles.searchResultsContainer} flex flex-col absolute bg-gray-900 px-2 py-2 rounded-sm shadow-sm top-16 left-4 lg:left-auto lg:w-64`}>
         {data.map((title, index) => {
           if (index <= 9) {
             return (
@@ -98,7 +109,7 @@ const SearchBar = () => {
                 <div className="flex items-center justify-between mb-1 py-1 hover:bg-gray-800 rounded-sm cursor-pointer transition duration-300" key={`search-item-${title.id}`}>
                   <img src={`${TMDB_PHOTO_URL}/${title.poster_path}`} className="rounded-sm" width="28" alt={`search-item-poster-${title.id}`} />
                   <div className="flex flex-col">
-                    <span className="text-white overflow-hidden overflow-ellipsis w-48 whitespace-nowrap">{title.title}</span>
+                    <span className="text-white overflow-hidden overflow-ellipsis w-72 lg:w-48 whitespace-nowrap">{title.title}</span>
                     <span className="text-gray-400 text-xs">{title.release_date && getTitleYear(title.release_date)}</span>
                   </div>
                 </div>

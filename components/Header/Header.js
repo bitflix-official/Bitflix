@@ -41,7 +41,7 @@ const Header = ({ leftContent, transparent }) => {
                       <ChevronDownIcon className="ml-2" />
                     </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-gray-900 text-white rounded-sm shadow-xl py-2 transition duration-200 px-2 text-sm flex flex-col w-48" sideOffset={5}>
+                  <DropdownMenuContent className="bg-gray-900 text-white rounded-sm shadow-xl py-2 transition duration-200 px-2 text-sm flex flex-col w-48 overflow-y-auto max-h-96" sideOffset={5}>
                     <Link href={HOME_ROUTE}>
                       <DropdownMenuItem
                         className={`${asPath === HOME_ROUTE ? 'bg-primary hover:bg-primary' : 'hover:bg-gray-800'} text-white rounded-sm px-2 py-1 mb-1 cursor-pointer transition duration-300`}

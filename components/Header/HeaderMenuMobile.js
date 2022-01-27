@@ -81,13 +81,11 @@ const HeaderMenuMobile = () => {
           <Link href={LIST_ROUTE}>
             <DropdownMenuItem className={`my-1 px-6 ${asPath === LIST_ROUTE ? 'bg-blue-600' : 'hover:bg-gray-700 focus:bg-gray-700'}`}>
               <span className="mr-2">{t('MY_LIST')}</span>
-              <Command>l</Command>
             </DropdownMenuItem>
           </Link>
           <Link href={SETTINGS_ROUTE}>
             <DropdownMenuItem className={`my-1 px-6 ${asPath === SETTINGS_ROUTE ? 'bg-blue-600' : 'hover:bg-gray-700 focus:bg-gray-700'}`}>
               <span className="mr-2">{t('SETTINGS')}</span>
-              <Command>s</Command>
             </DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator className="border border-gray-700 my-2" />
@@ -101,12 +99,10 @@ const HeaderMenuMobile = () => {
               <TwitterLogoIcon className={`${styles.twitterIcon} w-3`} />
               <span className="ml-2">{t('SUPPORT')}</span>
             </div>
-            <Command>t</Command>
           </DropdownMenuItem>
           <Link href={ABOUT_ROUTE}>
             <DropdownMenuItem className={`my-1 px-6 ${asPath === ABOUT_ROUTE ? 'bg-blue-600' : 'hover:bg-gray-700 focus:bg-gray-700'}`}>
               <span>{t('ABOUT_US')}</span>
-              <Command>a</Command>
             </DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator className="border border-gray-700 my-2" />
