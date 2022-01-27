@@ -96,7 +96,6 @@ const Stream = () => {
             <Spinner border="border-gray-400" />
             <span className={`${styles.loadingText} text-white mt-4`}>{t('LOADING')}</span>
           </div>
-
         </div>
       </>
     );
@@ -110,11 +109,9 @@ const Stream = () => {
         )}
         transparent
       />
-      <AppWrapper>
-        <div className="h-screen flex items-center justify-center text-white">
-          {videoOptions.sources?.length > 0 && videoOptions.tracks?.length > 0 && <Player {...videoOptions} name="media" />}
-        </div>
-      </AppWrapper>
+      <div className="h-screen flex items-center justify-center text-white">
+        {videoOptions.sources?.length > 0 && videoOptions.tracks?.length > 0 && <Player {...videoOptions} name="media" />}
+      </div>
     </div>
   );
 };

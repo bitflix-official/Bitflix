@@ -25,7 +25,7 @@ const Player = (props) => {
 
   return (
     <div data-vjs-player>
-      <video ref={onVideo} className="video-js vjs-big-play-centered mt-10" playsInline crossOrigin="anonymous" height={630} autoPlay />
+      <video ref={onVideo} className="video-js vjs-big-play-centered" playsInline crossOrigin="anonymous" autoPlay />
     </div>
   );
 };
