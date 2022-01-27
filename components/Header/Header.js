@@ -35,7 +35,7 @@ const Header = ({ leftContent, transparent }) => {
               </Link>
               <div className="ml-2 md:ml-8 xl:ml-12">
                 <DropdownMenu open={open} onOpenChange={handleOpen}>
-                  <DropdownMenuTrigger className="hover:bg-gray-800 rounded-md px-2 md:px-4 py-2 cursor-pointer transition duration-300" asChild>
+                  <DropdownMenuTrigger className="hover:bg-gray-800 rounded-md px-2 md:px-4 py-2 cursor-pointer transition duration-300 appearance-none" asChild>
                     <div className="flex items-center text-white">
                       <span className="w-20 overflow-x-hidden overflow-ellipsis whitespace-nowrap md:w-auto">{!asPath.startsWith(GENRE_ROUTE) ? t('ALL_GENRES') : t(genres.find((genre) => genre.id === +id).name)}</span>
                       <ChevronDownIcon className="ml-2" />
