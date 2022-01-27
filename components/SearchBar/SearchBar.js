@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import AppContext from 'context/AppContext';
 import { getTitleYear } from 'utils';
 import { useRouter } from 'next/router';
@@ -15,6 +15,7 @@ const SearchBar = () => {
   const [isFocus, setIsFocus] = useState(false);
   const { data: { userData } } = useContext(AppContext);
   const [searchingMobile, setSearchingMobile] = useState(false);
+  const mobileInputReference = useRef(null);
   const { push } = useRouter();
   const { t } = useTranslation();
   const [data, setData] = useState([]);
@@ -60,7 +61,16 @@ const SearchBar = () => {
           placeholder={t('SEARCH_PLACEHOLDER')}
         />
       </div>
-      <button type="button" className="block lg:hidden outline-none border-none" onClick={() => { setSearchingMobile(true); }}>
+      <button
+        type="button"
+        className="block lg:hidden outline-none border-none"
+        onClick={() => {
+          setSearchingMobile(true);
+          setTimeout(() => {
+            mobileInputReference.current.focus();
+          }, 50);
+        }}
+      >
         <MagnifyingGlassIcon className="text-white mr-4" />
       </button>
       {searchingMobile && (
@@ -69,6 +79,7 @@ const SearchBar = () => {
             <MagnifyingGlassIcon className={`${isFocus ? 'text-primary' : 'text-white'} mr-4`} />
             <input
               type="text"
+              ref={mobileInputReference}
               value={searchText}
               onChange={handleChange}
               onKeyDown={handleSearch}
