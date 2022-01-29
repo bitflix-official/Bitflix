@@ -1,11 +1,14 @@
-const withOffline = require('next-offline');
+const withPWA = require('next-pwa');
 
-const nextConfig = {
+module.exports = withPWA({
+  pwa: {
+    dest: 'public',
+    register: true,
+    skipWaiting: true,
+  },
   images: {
     domains: ['yts.mx', process.env.NEXT_PUBLIC_SUPABASE_URL, 'www.themoviedb.org'],
     loader: 'akamai',
     path: '',
   },
-};
-
-module.exports = withOffline(nextConfig);
+});
