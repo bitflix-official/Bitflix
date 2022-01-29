@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "server": "next build && NODE_ENV=production node server.js"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,8 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.27.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "express": "^4.17.2",
+    "next-offline": "^5.0.5",
     "postcss": "^8.3.11",
     "tailwindcss": "^2.2.19"
   }

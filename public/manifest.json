@@ -1,0 +1,17 @@
+{
+  "name": "Bitflix",
+  "short_name": "bitflix",
+  "description": "Bitflix is an open source web application to watch movies using torrents in an easy way.",
+  "icons": [
+    {
+      "src": "https://bitflixapp.com/_next/static/media/logo.25407f8c.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#2361e0",
+  "background_color": "#0c0c0c",
+  "orientation": "portrait-primary"
+}
