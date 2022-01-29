@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint",
-    "server": "next build && NODE_ENV=production node server.js"
+    "lint": "next lint"
   },
   "repository": {
     "type": "git",
@@ -43,7 +42,7 @@
     "react-i18next": "^11.14.3",
     "react-infinite-scroll-component": "^6.1.0",
     "react-toastify": "^8.1.0",
-    "video.js": "^6.7.3"
+    "video.js": "^7.17.0"
   },
   "devDependencies": {
     "@types/nprogress": "^0.2.0",
