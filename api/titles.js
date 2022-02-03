@@ -23,7 +23,7 @@ export const searchTitles = async (
   },
 ) => {
   try {
-    const res = await fetch(`${TMDB_API_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${query}&include_adult=false&page=${page}&language=${language}`);
+    const res = await fetch(`${TMDB_API_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${query}&include_adult=false&page=${page}&language=${language}`);
     const data = await res.json();
     return data;
   } catch (err) {
@@ -41,9 +41,9 @@ export const getTitleByIMDBId = async (id) => {
   }
 };
 
-export const getTitleData = async (id, language = 'en-US') => {
+export const getTitleData = async ({ id, language = 'en-US', type = 'movie' }) => {
   try {
-    const res = await fetch(`${TMDB_API_URL}/movie/${id}?api_key=${TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=${language}`);
+    const res = await fetch(`${TMDB_API_URL}/${type}/${id}?api_key=${TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=${language}`);
     const data = await res.json();
     return data;
   } catch (err) {
@@ -51,9 +51,9 @@ export const getTitleData = async (id, language = 'en-US') => {
   }
 };
 
-export const getTitleCast = async (id, language = 'en-US') => {
+export const getTitleCast = async ({ id, language = 'en-US', type = 'movie' }) => {
   try {
-    const res = await fetch(`${TMDB_API_URL}/movie/${id}/credits?api_key=${TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=${language}`);
+    const res = await fetch(`${TMDB_API_URL}/${type}/${id}/credits?api_key=${TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=${language}`);
     const data = await res.json();
     return data;
   } catch (err) {
@@ -61,9 +61,9 @@ export const getTitleCast = async (id, language = 'en-US') => {
   }
 };
 
-export const getSimilarTitles = async (id, language = 'en-US') => {
+export const getSimilarTitles = async ({ id, language = 'en-US', type = 'movie' }) => {
   try {
-    const res = await fetch(`${TMDB_API_URL}/movie/${id}/similar?api_key=${TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=${language}`);
+    const res = await fetch(`${TMDB_API_URL}/${type}/${id}/similar?api_key=${TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=${language}`);
     const data = await res.json();
     return data;
   } catch (err) {

@@ -69,5 +69,6 @@ export const es = {
     CAST: 'Reparto',
     SIMILAR_TITLES: 'Títulos similares',
     DETAILS: 'Detalles',
+    SEASONS: 'Temporadas',
   },
 };

@@ -46,7 +46,7 @@ const Stream = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await getTitleData(id, userData.language);
+        const data = await getTitleData({ id, language: userData.language });
         setTitle(await data);
         return data;
       } catch (err) {

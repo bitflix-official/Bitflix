@@ -62,10 +62,10 @@ const AppProvider = ({ children }) => {
     return data;
   };
 
-  const addItemToMyList = async (id) => {
+  const addItemToMyList = async (id, type) => {
     const user = supabase.auth.user();
     const currentList = userData?.list ? JSON.parse(userData.list) : [];
-    currentList.push({ id });
+    currentList.push({ id, type });
     const newList = JSON.stringify(currentList);
     try {
       const { data, error } = await supabase

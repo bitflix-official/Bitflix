@@ -69,5 +69,6 @@ export const en = {
     CAST: 'Cast',
     SIMILAR_TITLES: 'Similar titles',
     DETAILS: 'Details',
+    SEASONS: 'Seasons',
   },
 };

@@ -53,7 +53,7 @@ const Title = () => {
   const [similarTitles, setSimilarTitles] = useState([]);
   const [currentView, setCurrentView] = useState(null);
   const { t, i18n } = useTranslation();
-  const { push, query: { id } } = useRouter();
+  const { push, query: { id, type } } = useRouter();
   const [prevId, setPrevId] = useState(id);
   const titleIsValid = title.id;
   const fullHDTorrent = streamingData?.torrents
@@ -67,9 +67,9 @@ const Title = () => {
       try {
         if (prevId === id && title.id) return null;
         setPrevId(id);
-        const data = await getTitleData(id, i18n.language);
-        const { cast } = await getTitleCast(id, i18n.language);
-        const { results: similar } = await getSimilarTitles(id, i18n.language);
+        const data = await getTitleData({ id, language: i18n.language, type });
+        const { cast } = await getTitleCast({ id, language: i18n.language, type });
+        const { results: similar } = await getSimilarTitles({ id, language: i18n.language, type });
         setTitle(await data);
         setTitleCast(await cast);
         setSimilarTitles(similar);
@@ -109,7 +109,7 @@ const Title = () => {
     } else {
       setUpdatingList({ status: true, message: isItemOnList ? t('REMOVING_TITLE_FROM_YOUR_LIST') : t('ADDING_TITLE_TO_YOUR_LIST') });
       if (!isItemOnList) {
-        addItemToMyList(title.id).then(() => {
+        addItemToMyList(title.id, title.first_air_date ? 'tv' : 'movie').then(() => {
           setUpdatingList({ status: true, message: t('ADDED') });
           setTimeout(() => {
             setUpdatingList({ status: false, message: '' });
@@ -135,7 +135,7 @@ const Title = () => {
   const shortTitleInfo = [
     {
       id: 1,
-      value: title?.release_date,
+      value: title?.release_date || title?.first_air_date,
     },
     {
       id: 2,
@@ -146,7 +146,7 @@ const Title = () => {
     },
     {
       id: 3,
-      value: `${title?.runtime} ${t('MINUTES').toLowerCase()}`,
+      value: type === 'movie' ? `${title?.runtime} ${t('MINUTES').toLowerCase()}` : `${title.number_of_seasons} ${t('SEASONS').toLowerCase()}`,
     },
     {
       id: 4,
@@ -180,7 +180,7 @@ const Title = () => {
       <AppWrapper>
         <div style={{ height: '65vh' }} className="flex flex-col justify-center w-full z-20 mt-32 sm:mt-28 md:mt-0">
           <div className="flex flex-col w-11/12">
-            <h1 className="text-white font-semibold text-3xl">{title.title}</h1>
+            <h1 className="text-white font-semibold text-3xl">{title.title || title.name}</h1>
             <div className="flex items-center text-gray-300 text-sm mt-4 -ml-1">
               {
                 shortTitleInfo.map((info, index) => (

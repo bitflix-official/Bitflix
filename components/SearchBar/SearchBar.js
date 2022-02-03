@@ -105,12 +105,12 @@ const SearchBar = () => {
         {data.map((title, index) => {
           if (index <= 9) {
             return (
-              <Link href={`${TITLE_ROUTE}/${title.id}`}>
+              <Link href={`${TITLE_ROUTE}/${title.id}?type=${title.first_air_date ? 'tv' : 'movie'}`}>
                 <div className="flex items-center justify-between mb-1 py-1 hover:bg-gray-800 rounded-sm cursor-pointer transition duration-300" key={`search-item-${title.id}`}>
                   <img src={`${TMDB_PHOTO_URL}/${title.poster_path}`} className="rounded-sm" width="28" alt={`search-item-poster-${title.id}`} />
                   <div className="flex flex-col">
-                    <span className="text-white overflow-hidden overflow-ellipsis w-72 lg:w-48 whitespace-nowrap">{title.title}</span>
-                    <span className="text-gray-400 text-xs">{title.release_date && getTitleYear(title.release_date)}</span>
+                    <span className="text-white overflow-hidden overflow-ellipsis w-72 lg:w-48 whitespace-nowrap">{title.title || title.name}</span>
+                    <span className="text-gray-400 text-xs">{getTitleYear(title.release_date || title.first_air_date)}</span>
                   </div>
                 </div>
               </Link>
