@@ -1,6 +1,6 @@
 .titleBackground {
   height: 100vh;
-  filter: blur(0.6rem);
+  filter: blur(0.5rem);
 }
 
 .starIcon path {

@@ -70,5 +70,8 @@ export const es = {
     SIMILAR_TITLES: 'Títulos similares',
     DETAILS: 'Detalles',
     SEASONS: 'Temporadas',
+    SEASON: 'Temporada',
+    EPISODES: 'Episodios',
+    EPISODE: 'Episodio',
   },
 };

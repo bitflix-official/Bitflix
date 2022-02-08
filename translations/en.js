@@ -70,5 +70,8 @@ export const en = {
     SIMILAR_TITLES: 'Similar titles',
     DETAILS: 'Details',
     SEASONS: 'Seasons',
+    SEASON: 'Season',
+    EPISODES: 'Episodes',
+    EPISODE: 'Episode',
   },
 };

@@ -70,3 +70,13 @@ export const getSimilarTitles = async ({ id, language = 'en-US', type = 'movie' 
     throw new Error(err);
   }
 };
+
+export const getSeasonEpisodes = async ({ id, language = 'en-US', seasonNumber = 1 }) => {
+  try {
+    const res = await fetch(`${TMDB_API_URL}/tv/${id}/season/${seasonNumber}?api_key=${TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=${language}`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw new Error(err);
+  }
+};

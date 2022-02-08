@@ -15,27 +15,61 @@ import {
   StarIcon, PlusIcon, TriangleRightIcon, Cross2Icon,
 } from '@radix-ui/react-icons';
 import {
-  getTitleData, getTitleByIMDBId, getTitleCast, getSimilarTitles,
+  getTitleData, getTitleByIMDBId, getTitleCast, getSimilarTitles, getSeasonEpisodes,
 } from 'api/titles';
-import { summaryUnavailablePlaceholder, genres, TMDB_PHOTO_URL } from 'constants';
+import {
+  summaryUnavailablePlaceholder, genres, TMDB_PHOTO_URL,
+} from 'constants';
 import { getGenresNames, humanizeGenres, isLastItem } from 'utils';
 import { useTranslation } from 'react-i18next';
 import styles from './id.module.css';
 import TitleCast from './TitleCast';
 import SimilarTitles from './SimilarTitles';
+import TitleEpisodes from './TitleEpisodes';
 
-const getViews = ({ cast = [], titles = [] }) => ([
-  {
-    id: 1,
-    name: 'CAST',
-    component: <TitleCast cast={cast} />,
-  },
-  {
-    id: 2,
-    name: 'SIMILAR_TITLES',
-    component: <SimilarTitles items={titles} />,
-  },
-]);
+const getViews = ({
+  seasonSelected = {}, title, seasons = [], episodes = [], cast = [], titles = [], type = 'movie', handleShowSeason,
+}) => {
+  if (type === 'movie') {
+    return ([
+      {
+        id: 1,
+        name: 'CAST',
+        component: <TitleCast cast={cast} />,
+      },
+      {
+        id: 2,
+        name: 'SIMILAR_TITLES',
+        component: <SimilarTitles items={titles} />,
+      },
+    ]);
+  }
+  return ([
+    {
+      id: 1,
+      name: 'EPISODES',
+      component: (
+        <TitleEpisodes
+          title={title}
+          seasons={seasons}
+          episodes={episodes}
+          seasonSelected={seasonSelected}
+          handleShowSeason={handleShowSeason}
+        />
+      ),
+    },
+    {
+      id: 2,
+      name: 'CAST',
+      component: <TitleCast cast={cast} />,
+    },
+    {
+      id: 3,
+      name: 'SIMILAR_TITLES',
+      component: <SimilarTitles items={titles} />,
+    },
+  ]);
+};
 
 const Title = () => {
   const [title, setTitle] = useState({});
@@ -47,6 +81,7 @@ const Title = () => {
   } = useContext(AppContext);
   const isItemOnList = list ? JSON.parse(list).find((el) => el.id === title.id) : false;
   const showError = useNotification('An error ocurred when adding the item to your list', 'error');
+  const [seasonSelected, setSeasonSelected] = useState({});
   const [updatingList, setUpdatingList] = useState({ status: false, message: '' });
   const [prevImdbId, setPrevImdbId] = useState(title?.imdb_id);
   const [titleCast, setTitleCast] = useState([]);
@@ -73,7 +108,7 @@ const Title = () => {
         setTitle(await data);
         setTitleCast(await cast);
         setSimilarTitles(similar);
-        setCurrentView(getViews({ cast, titles: similar })[0]);
+        setCurrentView(getViews({ cast, titles: similar, type })[0]);
         setIsLoading(false);
         return data;
       } catch (err) {
@@ -160,6 +195,36 @@ const Title = () => {
     },
   ];
 
+  const handleShowSeason = async (index, season) => {
+    try {
+      const data = await getSeasonEpisodes(
+        { id, language: userData.language, seasonNumber: index },
+      );
+      setCurrentView(getViews({
+        ...currentView,
+        type,
+        episodes: data.episodes,
+        title,
+        seasons: title.seasons,
+        handleShowSeason,
+        seasonSelected: {
+          number: season.season_number, id: season.id, episodes: data.episodes, name: season.name,
+        },
+      })[0]);
+      setSeasonSelected({
+        number: season.season_number, id: season.id, episodes: data.episodes, name: season.name,
+      });
+    } catch (err) {
+      showError();
+    }
+  };
+
+  useEffect(() => {
+    if (userData.language && type === 'tv' && title.seasons && !seasonSelected.episodes) {
+      handleShowSeason(0, title.seasons[0]);
+    }
+  }, [type, title, userData]);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -176,9 +241,9 @@ const Title = () => {
         )}
         transparent
       />
-      <div style={{ backgroundImage: `linear-gradient(to bottom, transparent, #000 80%), url(${`${TMDB_PHOTO_URL}/${title.backdrop_path}`})` }} className={`${styles.titleBackground} absolute block w-full bg-no-repeat bg-cover opacity-50`} />
+      <div style={{ backgroundImage: `linear-gradient(transparent, rgb(58 58 58 / 95%) 85%), url(${`${TMDB_PHOTO_URL}/${title.backdrop_path}`})` }} className={`${styles.titleBackground} fixed block w-full bg-no-repeat bg-cover opacity-40`} />
       <AppWrapper>
-        <div className="flex flex-col justify-center w-full z-20 mt-32">
+        <div className="flex flex-col justify-center w-full z-20 mt-32 xl:mt-40 2xl:mt-56">
           <div className="flex flex-col w-11/12">
             <h1 className="text-white font-semibold text-3xl">{title.title || title.name}</h1>
             <div className="flex items-center text-gray-300 text-sm mt-4 -ml-1">
@@ -197,28 +262,30 @@ const Title = () => {
             </div>
             <span className="text-gray-200 mt-4 w-5/6">{title.overview || t(summaryUnavailablePlaceholder)}</span>
             <div className="flex flex-col md:flex-row md:items-center mt-8 w-max">
-              {
-                streamingData ? (
-                  <Link href={`${TITLE_ROUTE}/${title.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}`}>
-                    <span
-                      className="flex items-center bg-primary hover:bg-blue-700 border border-primary hover:border-blue-700 text-white py-1 px-8 text-md rounded-sm cursor-pointer transition duration-300"
-                    >
-                      <TriangleRightIcon className="mr-1" />
-                      {t('WATCH_NOW')}
-                    </span>
-                  </Link>
-                ) : (
-                  <span
-                    className="flex items-center bg-gray-600 text-white cursor-default py-1 px-8 text-md rounded-sm"
-                  >
-                    <TriangleRightIcon className="mr-1" />
-                    {t('NOT_AVAILABLE')}
-                  </span>
+               {
+                type === 'movie' && (
+                  streamingData ? (
+                      <Link href={`${TITLE_ROUTE}/${title.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}`}>
+                        <span
+                          className="flex items-center bg-primary hover:bg-blue-700 border border-primary hover:border-blue-700 text-white py-1 px-8 text-md rounded-sm cursor-pointer transition duration-300"
+                        >
+                          <TriangleRightIcon className="mr-1" />
+                          {t('WATCH_NOW')}
+                        </span>
+                      </Link>
+                  ) : (
+                      <span
+                        className="flex items-center bg-gray-600 text-white cursor-default py-1 px-8 text-md rounded-sm"
+                      >
+                        <TriangleRightIcon className="mr-1" />
+                        {t('NOT_AVAILABLE')}
+                      </span>
+                  )
                 )
               }
               <button
                 type="button"
-                className="flex items-center border border-gray-500 hover:border-gray-200 md:ml-4 mt-4 md:mt-0 bg-transparent text-white py-1 px-6 text-md rounded-sm cursor-pointer transition duration-300"
+                className={`flex items-center border border-gray-500 hover:border-gray-200 mt-4 md:mt-0 bg-transparent text-white py-1 px-6 text-md rounded-sm cursor-pointer transition duration-300 ${type === 'movie' && 'md:ml-4'}`}
                 onClick={() => {
                   if (!updatingList.status) {
                     handleList();
@@ -249,21 +316,55 @@ const Title = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col z-20 mt-24 h-96">
+        <div className="flex flex-col z-20 mt-24 min-h-96 mb-4">
           <span className="text-3xl mb-8 text-white font-semibold">{t('DETAILS')}</span>
           <div className="flex items-center mb-6">
-            {getViews({ cast: titleCast, titles: similarTitles }).map((view, index) => (
-              <button
-                type="button"
-                className={`text-xl cursor-pointer transition duration-300 mr-8 px-2 py-1 text-gray-200 border-b-2 ${currentView.id === view.id ? 'border-primary' : 'border-transparent'}`}
-                onClick={() => {
-                  setCurrentView(getViews({ cast: titleCast, titles: similarTitles })[index]);
-                }}
-                key={`view-${view.id}`}
-              >
-                {t(view.name)}
-              </button>
-            ))}
+            {type === 'movie' ? (
+              getViews({ cast: titleCast, titles: similarTitles, type }).map((view, index) => (
+                <button
+                  type="button"
+                  className={`text-xl cursor-pointer transition duration-300 mr-8 px-2 py-1 text-gray-200 border-b-2 ${currentView.id === view.id ? 'border-primary' : 'border-transparent'}`}
+                  onClick={() => {
+                    setCurrentView(getViews({
+                      cast: titleCast,
+                      titles: similarTitles,
+                      type,
+                    })[index]);
+                  }}
+                  key={`view-${view.id}`}
+                >
+                  {t(view.name)}
+                </button>
+              ))
+            ) : (
+              getViews({
+                seasonSelected,
+                episodes: seasonSelected.episodes,
+                handleShowSeason,
+                seasons: title.seasons,
+                cast: titleCast,
+                titles: similarTitles,
+                type,
+              }).map((view, index) => (
+                <button
+                  type="button"
+                  className={`text-xl cursor-pointer transition duration-300 mr-8 px-2 py-1 text-gray-200 border-b-2 ${currentView.id === view.id ? 'border-primary' : 'border-transparent'}`}
+                  onClick={() => {
+                    setCurrentView(getViews({
+                      seasonSelected,
+                      episodes: seasonSelected.episodes,
+                      handleShowSeason,
+                      cast: titleCast,
+                      titles: similarTitles,
+                      type,
+                    })[index]);
+                  }}
+                  key={`view-${view.id}`}
+                >
+                  {t(view.name)}
+                </button>
+              ))
+            )}
           </div>
           <div className="flex items-center overflow-x-auto">
             {currentView.component}
