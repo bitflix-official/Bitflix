@@ -9,21 +9,29 @@ import { useRouter } from 'next/router';
 import { GENRE_ROUTE, HOME_ROUTE } from 'routes';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { genres } from 'constants';
+import { useWindowScrollPositions } from 'hooks/useWindowScrollPositions';
 import HeaderMenu from './HeaderMenu';
-import styles from './header.module.css';
 import HeaderMenuMobile from './HeaderMenuMobile';
+import styles from './header.module.css';
+
+const getHeaderBackground = (isTransparent, scrollY) => {
+  if (isTransparent && scrollY === 0) return 'transparent';
+  if (isTransparent) return 'rgb(8 8 8 / 70%)';
+  return '#080808d9';
+};
 
 const Header = ({ leftContent, transparent }) => {
   const { t } = useTranslation();
   const { asPath, query: { id } } = useRouter();
   const [open, setOpen] = useState(false);
+  const { scrollY } = useWindowScrollPositions();
 
   const handleOpen = () => {
     setOpen(!open);
   };
 
   return (
-    <div style={{ backgroundColor: transparent ? 'transparent' : '#080808d9' }} className={`${!transparent && styles.header} fixed w-full px-4 sm:px-6 md:px-24 2xl:px-32 h-16 flex items-center z-30 ${!transparent && 'shadow-xl'}`}>
+    <div style={{ backgroundColor: getHeaderBackground(transparent, scrollY) }} className={`${!transparent && styles.header} fixed w-full px-4 sm:px-6 md:px-24 2xl:px-32 h-16 flex items-center z-30 transition duration-300 ${!transparent && 'shadow-xl'}`}>
       <div className="py-5 flex flex-col lg:flex-row lg:items-center w-full justify-between">
         <div className="flex items-center">
           {leftContent || (

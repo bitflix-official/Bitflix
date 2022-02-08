@@ -178,7 +178,7 @@ const Title = () => {
       />
       <div style={{ backgroundImage: `linear-gradient(to bottom, transparent, #000 80%), url(${`${TMDB_PHOTO_URL}/${title.backdrop_path}`})` }} className={`${styles.titleBackground} absolute block w-full bg-no-repeat bg-cover opacity-50`} />
       <AppWrapper>
-        <div style={{ height: '65vh' }} className="flex flex-col justify-center w-full z-20 mt-32 sm:mt-28 md:mt-0">
+        <div className="flex flex-col justify-center w-full z-20 mt-32">
           <div className="flex flex-col w-11/12">
             <h1 className="text-white font-semibold text-3xl">{title.title || title.name}</h1>
             <div className="flex items-center text-gray-300 text-sm mt-4 -ml-1">
@@ -249,7 +249,7 @@ const Title = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col z-20 h-96">
+        <div className="flex flex-col z-20 mt-24 h-96">
           <span className="text-3xl mb-8 text-white font-semibold">{t('DETAILS')}</span>
           <div className="flex items-center mb-6">
             {getViews({ cast: titleCast, titles: similarTitles }).map((view, index) => (

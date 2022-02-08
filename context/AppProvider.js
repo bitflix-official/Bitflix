@@ -106,11 +106,13 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(async () => {
-    getProfile().then(async (data) => {
-      setUserData({
-        ...data,
+    if (userData === undefined) {
+      getProfile().then(async (data) => {
+        setUserData({
+          ...data,
+        });
       });
-    });
+    }
   }, [userSession]);
 
   const providerValue = {
