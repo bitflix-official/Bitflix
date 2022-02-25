@@ -6,3 +6,11 @@
 .starIcon path {
   fill-rule: unset;
 }
+
+.playEpisodeIcon {
+  transform: scale(3);
+}
+
+.iconContainer {
+  transform: translate(-7rem, 0);
+}

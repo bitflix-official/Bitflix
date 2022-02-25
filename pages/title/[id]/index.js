@@ -22,13 +22,13 @@ import {
 } from 'constants';
 import { getGenresNames, humanizeGenres, isLastItem } from 'utils';
 import { useTranslation } from 'react-i18next';
-import styles from './id.module.css';
 import TitleCast from './TitleCast';
 import SimilarTitles from './SimilarTitles';
 import TitleEpisodes from './TitleEpisodes';
+import styles from './id.module.css';
 
 const getViews = ({
-  seasonSelected = {}, title, seasons = [], episodes = [], cast = [], titles = [], type = 'movie', handleShowSeason,
+  seasonSelected = {}, title, seasons = [], episodes = [], cast = [], titles = [], type = 'movie', handleShowSeason, tvName,
 }) => {
   if (type === 'movie') {
     return ([
@@ -55,6 +55,7 @@ const getViews = ({
           episodes={episodes}
           seasonSelected={seasonSelected}
           handleShowSeason={handleShowSeason}
+          tvName={tvName}
         />
       ),
     },
@@ -76,7 +77,7 @@ const Title = () => {
   const [streamingData, setStreamingData] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const {
-    data: { userData = {}, userData: { id: userId, list } = {} },
+    data: { userData, userData: { id: userId, list } = {} },
     actions: { addItemToMyList, removeItemFromMyList },
   } = useContext(AppContext);
   const isItemOnList = list ? JSON.parse(list).find((el) => el.id === title.id) : false;
@@ -102,12 +103,12 @@ const Title = () => {
       try {
         if (prevId === id && title.id) return null;
         setPrevId(id);
-        const data = await getTitleData({ id, language: i18n.language, type });
+        const data = await getTitleData({ id, language: userData.language || i18n.language, type });
         const { cast } = await getTitleCast({ id, language: i18n.language, type });
         const { results: similar } = await getSimilarTitles({ id, language: i18n.language, type });
         setTitle(await data);
         setTitleCast(await cast);
-        setSimilarTitles(similar);
+        setSimilarTitles(await similar);
         setCurrentView(getViews({ cast, titles: similar, type })[0]);
         setIsLoading(false);
         return data;
@@ -203,25 +204,33 @@ const Title = () => {
       setCurrentView(getViews({
         ...currentView,
         type,
-        episodes: data.episodes,
+        episodes: await data.episodes,
         title,
         seasons: title.seasons,
         handleShowSeason,
         seasonSelected: {
-          number: season.season_number, id: season.id, episodes: data.episodes, name: season.name,
+          number: season.season_number,
+          id:
+          season.id,
+          episodes: await data.episodes,
+          name: season.name,
         },
+        tvName: title.original_name,
       })[0]);
       setSeasonSelected({
-        number: season.season_number, id: season.id, episodes: data.episodes, name: season.name,
+        number: season.season_number,
+        id: season.id,
+        episodes: await data.episodes,
+        name: season.name,
       });
     } catch (err) {
       showError();
     }
   };
 
-  useEffect(() => {
-    if (userData.language && type === 'tv' && title.seasons && !seasonSelected.episodes) {
-      handleShowSeason(0, title.seasons[0]);
+  useEffect(async () => {
+    if (userData?.language && type === 'tv' && title.seasons && !seasonSelected.episodes) {
+      await handleShowSeason(title.seasons[0].season_number, title.seasons[0]);
     }
   }, [type, title, userData]);
 
@@ -265,7 +274,7 @@ const Title = () => {
                {
                 type === 'movie' && (
                   streamingData ? (
-                      <Link href={`${TITLE_ROUTE}/${title.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}`}>
+                      <Link href={`${TITLE_ROUTE}/${title.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}?type=${type}`}>
                         <span
                           className="flex items-center bg-primary hover:bg-blue-700 border border-primary hover:border-blue-700 text-white py-1 px-8 text-md rounded-sm cursor-pointer transition duration-300"
                         >
@@ -345,6 +354,7 @@ const Title = () => {
                 cast: titleCast,
                 titles: similarTitles,
                 type,
+                tvName: title.original_name,
               }).map((view, index) => (
                 <button
                   type="button"
@@ -353,10 +363,12 @@ const Title = () => {
                     setCurrentView(getViews({
                       seasonSelected,
                       episodes: seasonSelected.episodes,
+                      seasons: title.seasons,
                       handleShowSeason,
                       cast: titleCast,
                       titles: similarTitles,
                       type,
+                      tvName: title.original_name,
                     })[index]);
                   }}
                   key={`view-${view.id}`}

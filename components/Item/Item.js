@@ -146,7 +146,7 @@ const Item = ({ item, index, isOnList }) => {
               </div>
               <div className="border border-gray-700 my-1" />
               {streamingData && (
-              <Link href={`${TITLE_ROUTE}/${item.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}`}>
+              <Link href={`${TITLE_ROUTE}/${item.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}?type=${item.seasons ? 'tv' : 'movie'}`}>
                 <div className="flex justify-between items-center pl-4 pr-2 cursor-pointer py-1 hover:bg-primary text-sm rounded-sm w-full my-1 transition duration-300">
                   <div className="flex items-center">
                     <TriangleRightIcon className="mr-2 -ml-1" />
@@ -213,6 +213,7 @@ Item.propTypes = {
     genre_ids: PropTypes.arrayOf(PropTypes.number),
     genres: PropTypes.arrayOf(),
     first_air_date: PropTypes.string,
+    seasons: PropTypes.arrayOf((PropTypes.shape({}))),
   }).isRequired,
   index: PropTypes.number.isRequired,
   isOnList: PropTypes.bool,

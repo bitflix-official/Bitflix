@@ -1,4 +1,5 @@
 const STREAMING_URL = process.env.NEXT_PUBLIC_STREAMING_URL;
+const TV_URL = process.env.NEXT_PUBLIC_TV_URL;
 const SUBTITLES_URL = process.env.NEXT_PUBLIC_SUBTITLES_URL;
 
 export const startStreaming = async (link, imdbid) => {
@@ -33,9 +34,29 @@ export const getStreamingData = async (id) => {
   }
 };
 
-export const getSubtitles = async (id) => {
+export const getTvSubtitles = async (query, season, episode) => {
   try {
-    const res = await fetch(`${SUBTITLES_URL}/subs/${id}`);
+    const res = await fetch(`${SUBTITLES_URL}/subs/tv/${query}/${season}/${episode}`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const getMovieSubtitles = async (id) => {
+  try {
+    const res = await fetch(`${SUBTITLES_URL}/subs/movie/${id}`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const getTvStreamingData = async (name) => {
+  try {
+    const res = await fetch(`${TV_URL}/api/1337x/${name}`);
     const data = await res.json();
     return data;
   } catch (err) {

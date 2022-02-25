@@ -48,6 +48,12 @@ const AppProvider = ({ children }) => {
     });
   };
 
+  useEffect(() => {
+    if (!userData?.id) {
+      handleUserData();
+    }
+  }, [userSession]);
+
   const changeUserLanguage = async (language) => {
     const user = supabase.auth.user();
     const { data, error } = await supabase
