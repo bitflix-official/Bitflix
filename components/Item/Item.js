@@ -13,7 +13,9 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import {
   TriangleRightIcon, PlusIcon, Cross2Icon, StarIcon,
 } from '@radix-ui/react-icons';
-import { summaryUnavailablePlaceholder, TMDB_PHOTO_URL, genres } from 'constants';
+import {
+  summaryUnavailablePlaceholder, TMDB_PHOTO_URL, genres, defaultProfilePicture,
+} from 'constants';
 import { Spinner } from 'components';
 import { getGenresNames, getTitleYear, humanizeGenres } from 'utils';
 import { LOGIN_ROUTE, STREAM_ROUTE, TITLE_ROUTE } from 'routes';
@@ -102,8 +104,8 @@ const Item = ({ item, index, isOnList }) => {
           <Tooltip.Root delayDuration={1200}>
             <Tooltip.Trigger>
               <Link href={`${TITLE_ROUTE}/${item.id}?type=${item.first_air_date ? 'tv' : 'movie'}`}>
-                <div className="w-36 h-52 relative transition-all duration-300 rounded-lg border-2 border-transparent cursor-pointer hover:opacity-80 hover:border-primary">
-                  <Image src={`${TMDB_PHOTO_URL}/${item.poster_path}`} className="rounded-md" layout="fill" quality={100} priority />
+                <div className="w-36 h-52 relative transition-all duration-300 rounded-lg border-2 border-transparent cursor-pointer hover:opacity-80 hover:border-primary bg-center bg-no-repeat bg-cover">
+                  <Image src={`${TMDB_PHOTO_URL}${item.poster_path}`} className="rounded-md" layout="fill" quality={100} priority />
                 </div>
               </Link>
             </Tooltip.Trigger>

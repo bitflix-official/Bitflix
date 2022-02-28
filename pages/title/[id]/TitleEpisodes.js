@@ -29,7 +29,7 @@ const TitleEpisodes = ({
         if (listOfTorrents.length > 0) {
           const torrentsWithMostSeeders = orderBy(listOfTorrents, (torrent) => +torrent.Seeders);
           const webTorrents = torrentsWithMostSeeders && torrentsWithMostSeeders.filter((file) => file.Name?.includes('tbs') || file.Name?.includes('TBS'));
-          const finalTorrent = webTorrents && webTorrents.find((file) => file.Name?.includes('720') || file.Name?.includes('480') || file.Name?.includes('1080'));
+          const finalTorrent = webTorrents && webTorrents.find((file) => file.Name?.includes('720') || file.Name?.includes('480'));
           newListOfEpisodes.push({
             ...newEpisode,
             url: finalTorrent?.Magnet ? encodeURIComponent(

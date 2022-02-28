@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useContext } from 'react';
@@ -32,25 +33,50 @@ const Home = () => {
         ]);
       } catch (err) {
         showError();
-      } finally {
-        setLoading(false);
       }
     };
-    if (!recentlyAdded[0].items && userSession !== undefined && userData !== undefined) {
+    if (userSession !== undefined && userData !== undefined) {
       getData(userData.language || i18n.language);
     }
   }, [userSession, userData, userData?.language]);
 
   useEffect(async () => {
-    if (popularMovies[0].items) {
-      const items = [];
-      for await (const genre of genres) {
-        const { results } = await getTitles({ genres: genre.id, language: userData.language });
-        items.push({ items: results, title: t(genre.name) });
+    if (
+      userSession !== undefined && userData !== undefined
+      && dataByGenre.length === 1 && loading
+    ) {
+      const genreData = new Promise(async (resolve, reject) => {
+        const items = [];
+        if (loading && dataByGenre.length !== genres.length) {
+          try {
+            for await (const genre of genres) {
+              const { results } = await getTitles(
+                { genres: genre.id, language: userData.language },
+              );
+              items.push({ items: await results, title: t(genre.name) });
+              if (genres.length === items.length) {
+                setTimeout(() => {
+                  setLoading(false);
+                }, 2000);
+              }
+            }
+            resolve(items);
+          } catch (err) {
+            reject(err);
+          }
+        }
+      });
+      if (loading && dataByGenre.length !== genres.length) {
+        Promise.all([genreData]).then((d) => {
+          if (genres.length === d[0].length) {
+            setDataByGenre(d[0]);
+          }
+        });
       }
-      setDataByGenre(items);
+      return null;
     }
-  }, [popularMovies]);
+    return null;
+  }, [userData?.language]);
 
   if (loading) {
     return (
@@ -85,7 +111,7 @@ const Home = () => {
             ))
           }
           {
-            dataByGenre?.map((carousel, index) => (
+            dataByGenre.map((carousel, index) => (
               <TitlesCarousel
                 title={carousel.title}
                 subtitle={carousel.subtitle}

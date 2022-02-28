@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import AppContext from 'context/AppContext';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { TMDB_PHOTO_URL } from 'constants';
 import { HOME_ROUTE } from 'routes';
 import {
