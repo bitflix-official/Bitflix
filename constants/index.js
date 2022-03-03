@@ -60,7 +60,9 @@ export const defaultProfilePicture = `${supabaseBucketPhotosURL}/cat.png`;
 
 export const TMDB_PHOTO_URL = 'https://www.themoviedb.org/t/p/w200';
 
-export const TMDB_CAST_PHOTO_URL = 'https://www.themoviedb.org/t/p/w90_and_h90_face';
+export const TMDB_PHOTO_URL_FULL = 'https://www.themoviedb.org/t/p/original';
+
+export const TMDB_CAST_PHOTO_URL = 'https://www.themoviedb.org/t/p/original';
 
 export const TMDB_EPISODE_PHOTO_URL = 'https://www.themoviedb.org/t/p/original';
 

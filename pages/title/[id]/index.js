@@ -15,12 +15,15 @@ import {
   StarIcon, PlusIcon, TriangleRightIcon, Cross2Icon,
 } from '@radix-ui/react-icons';
 import {
-  getTitleData, getTitleByIMDBId, getTitleCast, getSimilarTitles, getSeasonEpisodes,
+  getTitleData,
+  getTitleByIMDBId, getTitleCast, getSimilarTitles, getSeasonEpisodes, getImagesFromTitle,
 } from 'api/titles';
 import {
-  summaryUnavailablePlaceholder, genres, TMDB_PHOTO_URL,
+  summaryUnavailablePlaceholder, genres, TMDB_PHOTO_URL_FULL,
 } from 'constants';
-import { getGenresNames, humanizeGenres, isLastItem } from 'utils';
+import {
+  getGenresNames, getTitleYear, humanizeGenres, isLastItem,
+} from 'utils';
 import { useTranslation } from 'react-i18next';
 import TitleCast from './TitleCast';
 import SimilarTitles from './SimilarTitles';
@@ -104,9 +107,10 @@ const Title = () => {
         if (prevId === id && title.id) return null;
         setPrevId(id);
         const data = await getTitleData({ id, language: userData.language || i18n.language, type });
+        const { logos } = await getImagesFromTitle({ type, id });
         const { cast } = await getTitleCast({ id, language: i18n.language, type });
         const { results: similar } = await getSimilarTitles({ id, language: i18n.language, type });
-        setTitle(await data);
+        setTitle({ ...await data, logo: await logos[0]?.file_path });
         setTitleCast(await cast);
         setSimilarTitles(await similar);
         setCurrentView(getViews({ cast, titles: similar, type })[0]);
@@ -171,7 +175,7 @@ const Title = () => {
   const shortTitleInfo = [
     {
       id: 1,
-      value: title?.release_date || title?.first_air_date,
+      value: getTitleYear(title?.release_date || title?.first_air_date),
     },
     {
       id: 2,
@@ -250,11 +254,15 @@ const Title = () => {
         )}
         transparent
       />
-      <div style={{ backgroundImage: `linear-gradient(transparent, rgb(58 58 58 / 95%) 85%), url(${`${TMDB_PHOTO_URL}/${title.backdrop_path}`})` }} className={`${styles.titleBackground} fixed block w-full bg-no-repeat bg-cover opacity-40`} />
+      <div style={{ backgroundImage: `radial-gradient(farthest-side at 100% 21%, transparent, rgb(26, 29, 41)), url(${`${TMDB_PHOTO_URL_FULL}/${title.backdrop_path}`})` }} className={`${styles.titleBackground} fixed block w-full bg-no-repeat bg-cover`} />
       <AppWrapper>
-        <div className="flex flex-col justify-center w-full z-20 mt-32 xl:mt-40 2xl:mt-56">
-          <div className="flex flex-col w-11/12">
-            <h1 className="text-white font-semibold text-3xl">{title.title || title.name}</h1>
+        <div className="flex flex-col justify-center w-full z-20 mt-28 xl:mt-32 2xl:mt-40 pt-2">
+          <div className="flex flex-col max-w-3xl ease-linear duration-300 transition-transform">
+            {title.logo ? (
+              <img src={`${TMDB_PHOTO_URL_FULL}${title.logo}`} className="w-48 md:w-56 lg:64 xl:w-72 2xl:w-80" alt="movie_logo" />
+            ) : (
+              <h1 className="text-white font-semibold text-3xl">{title.title || title.name}</h1>
+            )}
             <div className="flex items-center text-gray-300 text-sm mt-4 -ml-1">
               {
                 shortTitleInfo.map((info, index) => (
@@ -269,24 +277,23 @@ const Title = () => {
                 ))
               }
             </div>
-            <span className="text-gray-200 mt-4 w-5/6">{title.overview || t(summaryUnavailablePlaceholder)}</span>
             <div className="flex flex-col md:flex-row md:items-center mt-8 w-max">
                {
                 type === 'movie' && (
                   streamingData ? (
                       <Link href={`${TITLE_ROUTE}/${title.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}?type=${type}`}>
                         <span
-                          className="flex items-center bg-primary hover:bg-blue-700 border border-primary hover:border-blue-700 text-white py-1 px-8 text-md rounded-sm cursor-pointer transition duration-300"
+                          className="flex items-center bg-primary hover:bg-blue-700 border border-primary hover:border-blue-700 text-white py-2 px-8 text-md xl:text-lg rounded-sm cursor-pointer transition duration-300"
                         >
-                          <TriangleRightIcon className="mr-1" />
+                          <TriangleRightIcon className="mr-4 scale-150" />
                           {t('WATCH_NOW')}
                         </span>
                       </Link>
                   ) : (
                       <span
-                        className="flex items-center bg-gray-600 text-white cursor-default py-1 px-8 text-md rounded-sm"
+                        className="flex items-center bg-gray-600 text-white cursor-default py-2 px-8 text-md xl:text-lg rounded-sm"
                       >
-                        <TriangleRightIcon className="mr-1" />
+                        <TriangleRightIcon className="mr-4 scale-150" />
                         {t('NOT_AVAILABLE')}
                       </span>
                   )
@@ -294,7 +301,7 @@ const Title = () => {
               }
               <button
                 type="button"
-                className={`flex items-center border border-gray-500 hover:border-gray-200 mt-4 md:mt-0 bg-transparent text-white py-1 px-6 text-md rounded-sm cursor-pointer transition duration-300 ${type === 'movie' && 'md:ml-4'}`}
+                className={`flex items-center border border-gray-500 hover:bg-gray-500 mt-4 md:mt-0 bg-transparent text-white py-2 px-6 text-md xl:text-lg rounded-sm cursor-pointer transition duration-300 ${type === 'movie' && 'md:ml-4'}`}
                 onClick={() => {
                   if (!updatingList.status) {
                     handleList();
@@ -323,6 +330,7 @@ const Title = () => {
             }
               </button>
             </div>
+            <span className="text-gray-300 mt-4 w-5/6 xl:text-lg xl:leading-7">{title.overview || t(summaryUnavailablePlaceholder)}</span>
           </div>
         </div>
         <div className="flex flex-col z-20 mt-24 min-h-96 mb-4">

@@ -31,7 +31,7 @@ const Header = ({ leftContent, transparent }) => {
   };
 
   return (
-    <div style={{ backgroundColor: getHeaderBackground(transparent, scrollY) }} className={`${!transparent && styles.header} fixed w-full px-4 sm:px-6 md:px-24 2xl:px-32 h-16 flex items-center z-30 transition duration-300 ${!transparent && 'shadow-xl'}`}>
+    <div style={{ backgroundColor: getHeaderBackground(transparent, scrollY) }} className={`${scrollY && styles.header} fixed w-full px-4 sm:px-6 md:px-24 2xl:px-32 h-16 flex items-center z-30 transition duration-300 ${!transparent && 'shadow-xl'}`}>
       <div className="py-5 flex flex-col lg:flex-row lg:items-center w-full justify-between">
         <div className="flex items-center">
           {leftContent || (

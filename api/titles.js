@@ -17,6 +17,20 @@ export const getTitles = async (
   }
 };
 
+export const getImagesFromTitle = async (
+  {
+    type = 'movie', id, language = 'en',
+  },
+) => {
+  try {
+    const res = await fetch(`${TMDB_API_URL}/${type}/${id}/images?api_key=${TMDB_API_KEY}&language=${language}`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 export const searchTitles = async (
   {
     page = 1, language = 'en-US', query = '',
