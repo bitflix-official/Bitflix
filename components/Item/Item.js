@@ -47,7 +47,7 @@ const Item = ({ item, index, isOnList }) => {
       return null;
     }
     try {
-      const { imdb_id: imdbId } = await getTitleData({ id: item.id, language });
+      const { imdb_id: imdbId } = await getTitleData({ id: item.id, language, type: item.first_air_date ? 'tv' : 'movie' });
       const { data: { movies } } = await getTitleByIMDBId(imdbId);
       const [movie] = movies;
       setStreamingData(await movie);
@@ -125,12 +125,12 @@ const Item = ({ item, index, isOnList }) => {
                 </div>
                 <p className="text-xs text-gray-400 my-2">
                   {
-                    item.genres ? item?.genres && humanizeGenres(getGenresNames(genres.map((genre) => (
+                    item.genre_ids && (item.genres ? item?.genres && humanizeGenres(getGenresNames(genres.map((genre) => (
                       { ...genre, name: t(genre.name) }
                     )), item.genres.map((genre) => genre.id)))
                       : humanizeGenres(getGenresNames(genres.map((genre) => (
                         { ...genre, name: t(genre.name) }
-                      )), item.genre_ids))
+                      )), item.genre_ids)))
                   }
                 </p>
                 <div className={`${styles.hoverSummary} text-xs text-gray-300 overflow-hidden overflow-ellipsis`}>{item.overview || t(summaryUnavailablePlaceholder)}</div>

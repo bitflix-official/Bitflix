@@ -110,10 +110,11 @@ const Title = () => {
         const { logos } = await getImagesFromTitle({ type, id });
         const { cast } = await getTitleCast({ id, language: i18n.language, type });
         const { results: similar } = await getSimilarTitles({ id, language: i18n.language, type });
-        setTitle({ ...await data, logo: await logos[0]?.file_path });
+        setTitle({ ...await data, logo: await logos?.length && logos[0]?.file_path });
         setTitleCast(await cast);
         setSimilarTitles(await similar);
-        setCurrentView(getViews({ cast, titles: similar, type })[0]);
+        const view = getViews({ cast, titles: similar, type });
+        setCurrentView(view?.length > 0 && view[0]);
         setIsLoading(false);
         return data;
       } catch (err) {

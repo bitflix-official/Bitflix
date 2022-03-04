@@ -31,10 +31,11 @@ const Header = ({ leftContent, transparent }) => {
   };
 
   return (
-    <div style={{ backgroundColor: getHeaderBackground(transparent, scrollY) }} className={`${scrollY && styles.header} fixed w-full px-4 sm:px-6 md:px-24 2xl:px-32 h-16 flex items-center z-30 transition duration-300 ${!transparent && 'shadow-xl'}`}>
-      <div className="py-5 flex flex-col lg:flex-row lg:items-center w-full justify-between">
-        <div className="flex items-center">
-          {leftContent || (
+    <div style={{ backgroundColor: getHeaderBackground(transparent, scrollY) }} className={`${scrollY && styles.header} fixed w-full z-30 transition duration-300 ${!transparent && 'shadow-xl'}`}>
+      <div className="max-w-screen-2xl mx-auto px-4 lg:px-8 xl:px-16 2xl:px-24">
+        <div className="py-5 flex flex-col lg:flex-row lg:items-center justify-between">
+          <div className="flex items-center">
+            {leftContent || (
             <div className="flex items-center justify-between lg:justify-start w-full">
               <Link href={HOME_ROUTE}>
                 <span className="text-white text-xl lg:text-2xl font-semibold cursor-pointer select-none">
@@ -45,7 +46,7 @@ const Header = ({ leftContent, transparent }) => {
                 <DropdownMenu open={open} onOpenChange={handleOpen}>
                   <DropdownMenuTrigger className="hover:bg-gray-800 rounded-md px-2 md:px-4 py-2 cursor-pointer transition duration-300 appearance-none" asChild>
                     <div className="flex items-center text-white">
-                      <span className="w-20 overflow-x-hidden overflow-ellipsis whitespace-nowrap md:w-auto">{!asPath.startsWith(GENRE_ROUTE) ? t('ALL_GENRES') : t(genres.find((genre) => genre.id === +id).name)}</span>
+                      <span className="w-20 overflow-x-hidden overflow-ellipsis whitespace-nowrap md:w-auto">{!asPath.startsWith(GENRE_ROUTE) ? t('ALL_GENRES') : t(genres?.find((genre) => genre.id === +id)?.name)}</span>
                       <ChevronDownIcon className="ml-2" />
                     </div>
                   </DropdownMenuTrigger>
@@ -75,12 +76,14 @@ const Header = ({ leftContent, transparent }) => {
                 <HeaderMenuMobile />
               </div>
             </div>
-          )}
-        </div>
-        <div className="hidden lg:block">
-          <HeaderMenu />
+            )}
+          </div>
+          <div className="hidden lg:block">
+            <HeaderMenu />
+          </div>
         </div>
       </div>
+
     </div>
   );
 };

@@ -10,6 +10,7 @@ import {
 import { useNotification } from 'hooks';
 import { getTitles } from 'api/titles';
 import { genres } from 'constants';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Home = () => {
   const { data: { userSession, userData } } = useContext(AppContext);
@@ -18,7 +19,7 @@ const Home = () => {
   const showError = useNotification('An error ocurred when getting latest titles', 'error');
   const [recentlyAdded, setRecentlyAdded] = useState([{}]);
   const [popularMovies, setPopularMovies] = useState([{}]);
-  const [dataByGenre, setDataByGenre] = useState([{}]);
+  const [dataByGenre, setDataByGenre] = useState([]);
 
   useEffect(async () => {
     const getData = async (language) => {
@@ -31,6 +32,7 @@ const Home = () => {
         setPopularMovies([
           { title: t('POPULARITY'), items: popularity },
         ]);
+        setLoading(false);
       } catch (err) {
         showError();
       }
@@ -40,43 +42,26 @@ const Home = () => {
     }
   }, [userSession, userData, userData?.language]);
 
-  useEffect(async () => {
-    if (
-      userSession !== undefined && userData !== undefined
-      && dataByGenre.length === 1 && loading
-    ) {
-      const genreData = new Promise(async (resolve, reject) => {
-        const items = [];
-        if (loading && dataByGenre.length !== genres.length) {
-          try {
-            for await (const genre of genres) {
-              const { results } = await getTitles(
-                { genres: genre.id, language: userData.language },
-              );
-              items.push({ items: await results, title: t(genre.name) });
-              if (genres.length === items.length) {
-                setTimeout(() => {
-                  setLoading(false);
-                }, 2000);
-              }
-            }
-            resolve(items);
-          } catch (err) {
-            reject(err);
-          }
-        }
-      });
-      if (loading && dataByGenre.length !== genres.length) {
-        Promise.all([genreData]).then((d) => {
-          if (genres.length === d[0].length) {
-            setDataByGenre(d[0]);
-          }
-        });
-      }
-      return null;
+  const getGenres = async () => {
+    try {
+      const genreToFetch = genres[dataByGenre.length];
+      const { results } = await getTitles(
+        { genres: genreToFetch.id, language: userData.language },
+      );
+      setDataByGenre([...dataByGenre, { items: await results, title: t(genreToFetch.name) }]);
+    } catch (err) {
+      throw new Error(err);
     }
-    return null;
-  }, [userData?.language]);
+  };
+
+  useEffect(() => {
+    if (window) {
+      const hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+      if (userData?.language && !hasScrollbar) {
+        getGenres();
+      }
+    }
+  }, [userData, dataByGenre]);
 
   if (loading) {
     return (
@@ -90,36 +75,46 @@ const Home = () => {
       <AppWrapper>
         <div className="mt-16">
           <CompaniesContainer />
-          {
-            recentlyAdded.map((carousel, index) => (
-              <TitlesCarousel
-                title={carousel.title}
-                subtitle={carousel.subtitle}
-                items={carousel.items}
-                key={`${carousel.item}-${index}`}
-              />
-            ))
-          }
-          {
-            popularMovies.map((carousel, index) => (
-              <TitlesCarousel
-                title={carousel.title}
-                subtitle={carousel.subtitle}
-                items={carousel.items}
-                key={`${carousel.item}-${index}`}
-              />
-            ))
-          }
-          {
-            dataByGenre.map((carousel, index) => (
-              <TitlesCarousel
-                title={carousel.title}
-                subtitle={carousel.subtitle}
-                items={carousel.items}
-                key={`carousel-item-by-genre-${index}`}
-              />
-            ))
-          }
+          <InfiniteScroll
+            dataLength={dataByGenre.length}
+            next={getGenres}
+            hasMore={dataByGenre.length !== genres.length}
+            loader={(
+              <TitlesCarousel />
+            )}
+            scrollThreshold={1}
+          >
+            {
+              recentlyAdded?.map((carousel, index) => (
+                <TitlesCarousel
+                  title={carousel.title}
+                  subtitle={carousel.subtitle}
+                  items={carousel.items}
+                  key={`${carousel.item}-${index}`}
+                />
+              ))
+            }
+            {
+              popularMovies?.map((carousel, index) => (
+                <TitlesCarousel
+                  title={carousel.title}
+                  subtitle={carousel.subtitle}
+                  items={carousel.items}
+                  key={`${carousel.item}-${index}`}
+                />
+              ))
+            }
+            {
+              dataByGenre?.map((carousel, index) => (
+                <TitlesCarousel
+                  title={carousel.title}
+                  subtitle={carousel.subtitle}
+                  items={carousel.items}
+                  key={`carousel-item-by-genre-${index}`}
+                />
+              ))
+            }
+          </InfiniteScroll>
         </div>
       </AppWrapper>
     </div>

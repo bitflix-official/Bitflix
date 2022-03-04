@@ -73,5 +73,7 @@ export const es = {
     SEASON: 'Temporada',
     EPISODES: 'Episodios',
     EPISODE: 'Episodio',
+    NO_SEARCH_RESULTS: 'Ups! No hemos podido encontrar nada.',
+    PAGE_NOT_FOUND: 'Ups! No hemos podido encontrar esta página.',
   },
 };
