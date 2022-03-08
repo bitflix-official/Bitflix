@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { GENRE_ROUTE, HOME_ROUTE } from 'routes';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
-import { genres } from 'constants';
+import { genres, appName } from 'constants';
 import { useWindowScrollPositions } from 'hooks/useWindowScrollPositions';
 import HeaderMenu from './HeaderMenu';
 import HeaderMenuMobile from './HeaderMenuMobile';
@@ -39,7 +39,7 @@ const Header = ({ leftContent, transparent }) => {
             <div className="flex items-center justify-between lg:justify-start w-full">
               <Link href={HOME_ROUTE}>
                 <span className="text-white text-xl lg:text-2xl font-semibold cursor-pointer select-none">
-                  {t('MOVIES')}
+                  {appName}
                 </span>
               </Link>
               <div className="ml-2 md:ml-8 xl:ml-12">
