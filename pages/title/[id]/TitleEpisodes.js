@@ -49,7 +49,7 @@ const TitleEpisodes = ({
           <Popover.Root open={openPopover} onOpenChange={setOpenPopover}>
             <Popover.Trigger className="text-white cursor-pointer hover:bg-gray-800 absolute -ml-4 rounded-md px-4 py-2 transition duration-300 appearance-none">
               <div className="flex items-center">
-                <span className="font-semibold mr-2">{seasonSelected.name}</span>
+                <span className="font-semibold mr-2">{seasonSelected?.name}</span>
                 <ChevronDownIcon />
               </div>
             </Popover.Trigger>
@@ -58,14 +58,14 @@ const TitleEpisodes = ({
                 {seasons?.map((season, index) => (
                   <button
                     type="button"
-                    className={`my-1 ${seasonSelected.name === season.name ? 'bg-primary' : 'bg-transparent hover:bg-gray-800'} cursor-pointer rounded-sm w-full py-1 transition duration-300 appearance-none`}
+                    className={`my-1 ${seasonSelected?.name === season?.name ? 'bg-primary' : 'bg-transparent hover:bg-gray-800'} cursor-pointer rounded-sm w-full py-1 transition duration-300 appearance-none`}
                     onClick={async () => {
                       await handleShowSeason(index, season);
                       setOpenPopover(false);
                     }}
                     key={`${title?.name}-season-${season.id}`}
                   >
-                    {season.name}
+                    {season?.name}
                   </button>
                 ))}
               </div>
@@ -90,7 +90,7 @@ const TitleEpisodes = ({
                   )
                 }
               </div>
-              <span className="mt-2 overflow-x-hidden whitespace-nowrap overflow-ellipsis w-48">{`${episode.episode_number}. ${episode.name || episode.original_name}`}</span>
+              <span className="mt-2 overflow-x-hidden whitespace-nowrap overflow-ellipsis w-48">{`${episode.episode_number}. ${episode?.name || episode.original_name}`}</span>
             </li>
           </Link>
         )) : (
