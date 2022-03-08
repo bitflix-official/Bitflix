@@ -69,5 +69,11 @@ export const es = {
     CAST: 'Reparto',
     SIMILAR_TITLES: 'Títulos similares',
     DETAILS: 'Detalles',
+    SEASONS: 'Temporadas',
+    SEASON: 'Temporada',
+    EPISODES: 'Episodios',
+    EPISODE: 'Episodio',
+    NO_SEARCH_RESULTS: 'Ups! No hemos podido encontrar nada.',
+    PAGE_NOT_FOUND: 'Ups! No hemos podido encontrar esta página.',
   },
 };

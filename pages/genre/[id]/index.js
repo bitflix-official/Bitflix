@@ -7,9 +7,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/router';
 import AppContext from 'context/AppContext';
 import { useNotification } from 'hooks';
+import i18n from 'i18n';
 
 const Genre = () => {
-  const { data: { userSession, userData } } = useContext(AppContext);
+  const { data: { userData } } = useContext(AppContext);
   const { query: { id } } = useRouter();
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -18,10 +19,14 @@ const Genre = () => {
   const showError = useNotification('An error ocurred when getting latest titles', 'error');
   const [noMoreResults, setNoMoreResults] = useState(false);
 
-  const getData = async (language) => {
+  const getData = async () => {
     try {
       if (id === prevId) {
-        const { results } = await getTitles({ language, genres: id, page });
+        const { results } = await getTitles({
+          language: userData.language || i18n.language,
+          genres: id,
+          page,
+        });
         if (results.length > 0) {
           setData(data.concat(results));
           setPage(page + 1);
@@ -29,10 +34,18 @@ const Genre = () => {
           setNoMoreResults(true);
         }
       } else {
-        const { results } = await getTitles({ language, genres: id, page: 1 });
-        setData(results);
-        setPage(page + 1);
-        setPrevId(id);
+        const { results } = await getTitles({
+          language: userData.language || i18n.language,
+          genres: id,
+          page: 1,
+        });
+        if (results.length > 0) {
+          setData(results);
+          setPage(page + 1);
+          setPrevId(id);
+        } else {
+          setNoMoreResults(true);
+        }
       }
     } catch (err) {
       showError();
@@ -41,13 +54,14 @@ const Genre = () => {
     }
   };
 
-  useEffect(() => {
-    if (userSession !== undefined && userData !== undefined) {
-      if (!noMoreResults && (id !== prevId || data.length < 80)) {
-        getData(userData.language);
+  useEffect(async () => {
+    if (userData !== undefined) {
+      const hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+      if (!noMoreResults || id !== prevId || !hasScrollbar) {
+        await getData();
       }
     }
-  }, [userSession, userData, userData?.language, id, page]);
+  }, [userData, id, prevId, isLoading]);
 
   if (isLoading) {
     return (
@@ -61,14 +75,14 @@ const Genre = () => {
       <AppWrapper>
         <div className="mt-24">
           <InfiniteScroll
-            dataLength={data.length}
+            dataLength={data?.length}
             next={getData}
             hasMore
-            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-2 xl:gap-4 place-items-center overflow-x-hidden"
-            style={{ overflowX: 'hidden' }}
+            className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 xl:gap-4 place-items-center"
+            style={{ overflow: 'visible' }}
           >
             {data.map((title) => (
-              <Item item={title} index={0} key={`title-id-${title.id}`} isOnList />
+              title.poster_path && <Item item={title} index={0} key={`title-id-${title.id}`} isOnList />
             ))}
           </InfiniteScroll>
         </div>

@@ -96,3 +96,13 @@ export const getFullDate = () => {
   const day = date.getDate().toString().padStart(2, '0');
   return (`${year}-${month}-${day}`);
 };
+
+export const orderBy = (arr, selector) => [...arr].sort((a, b) => {
+  let firstValue = a;
+  let secondValue = b;
+  firstValue = selector(a);
+  secondValue = selector(b);
+
+  if (firstValue === secondValue) return 0;
+  return (firstValue > secondValue) ? -1 : 1;
+});

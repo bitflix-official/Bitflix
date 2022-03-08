@@ -13,7 +13,9 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import {
   TriangleRightIcon, PlusIcon, Cross2Icon, StarIcon,
 } from '@radix-ui/react-icons';
-import { summaryUnavailablePlaceholder, TMDB_PHOTO_URL, genres } from 'constants';
+import {
+  summaryUnavailablePlaceholder, TMDB_PHOTO_URL, genres,
+} from 'constants';
 import { Spinner } from 'components';
 import { getGenresNames, getTitleYear, humanizeGenres } from 'utils';
 import { LOGIN_ROUTE, STREAM_ROUTE, TITLE_ROUTE } from 'routes';
@@ -45,7 +47,7 @@ const Item = ({ item, index, isOnList }) => {
       return null;
     }
     try {
-      const { imdb_id: imdbId } = await getTitleData(item.id, language);
+      const { imdb_id: imdbId } = await getTitleData({ id: item.id, language, type: item.first_air_date ? 'tv' : 'movie' });
       const { data: { movies } } = await getTitleByIMDBId(imdbId);
       const [movie] = movies;
       setStreamingData(await movie);
@@ -64,7 +66,7 @@ const Item = ({ item, index, isOnList }) => {
     } else {
       setUpdatingList({ status: true, message: isItemOnList ? t('REMOVING_TITLE_FROM_YOUR_LIST') : t('ADDING_TITLE_TO_YOUR_LIST') });
       if (!isItemOnList) {
-        addItemToMyList(item.id).then(() => {
+        addItemToMyList(item.id, item.first_air_date ? 'tv' : 'movie').then(() => {
           setUpdatingList({ status: true, message: t('ADDED') });
           setTimeout(() => {
             setUpdatingList({ status: false, message: '' });
@@ -101,9 +103,9 @@ const Item = ({ item, index, isOnList }) => {
         >
           <Tooltip.Root delayDuration={1200}>
             <Tooltip.Trigger>
-              <Link href={`${TITLE_ROUTE}/${item.id}`}>
-                <div className="w-36 h-52 relative transition-all duration-300 rounded-lg border-2 border-transparent cursor-pointer hover:opacity-80 hover:border-primary">
-                  <Image src={`${TMDB_PHOTO_URL}/${item.poster_path}`} className="rounded-md" layout="fill" quality={100} priority />
+              <Link href={`${TITLE_ROUTE}/${item.id}?type=${item.first_air_date ? 'tv' : 'movie'}`}>
+                <div className="w-36 h-52 relative transition-all duration-300 rounded-lg border-2 border-transparent cursor-pointer hover:opacity-80 hover:border-primary bg-center bg-no-repeat bg-cover">
+                  <Image src={`${TMDB_PHOTO_URL}${item.poster_path}`} className="rounded-md" layout="fill" quality={100} priority />
                 </div>
               </Link>
             </Tooltip.Trigger>
@@ -111,9 +113,9 @@ const Item = ({ item, index, isOnList }) => {
               <div className="hidden md:flex flex-col bg-gray-800 shadow-md p-4 h-52 rounded-md text-xs w-80 mx-4">
                 <div className="flex items-center justify-between">
                   <div className="text-sm text-white w-56">
-                    {item.title}
+                    {item.title || item.name}
                     &nbsp;(
-                    {getTitleYear(item.release_date)}
+                    {getTitleYear(item.release_date || item.first_air_date)}
                     )
                   </div>
                   <div className="flex items-center justify-items-center text-xs bg-primary text-white rounded-full py-0.5 px-2">
@@ -123,12 +125,12 @@ const Item = ({ item, index, isOnList }) => {
                 </div>
                 <p className="text-xs text-gray-400 my-2">
                   {
-                    item.genres ? item?.genres && humanizeGenres(getGenresNames(genres.map((genre) => (
+                    item.genre_ids && (item.genres ? item?.genres && humanizeGenres(getGenresNames(genres.map((genre) => (
                       { ...genre, name: t(genre.name) }
                     )), item.genres.map((genre) => genre.id)))
                       : humanizeGenres(getGenresNames(genres.map((genre) => (
                         { ...genre, name: t(genre.name) }
-                      )), item.genre_ids))
+                      )), item.genre_ids)))
                   }
                 </p>
                 <div className={`${styles.hoverSummary} text-xs text-gray-300 overflow-hidden overflow-ellipsis`}>{item.overview || t(summaryUnavailablePlaceholder)}</div>
@@ -146,7 +148,7 @@ const Item = ({ item, index, isOnList }) => {
               </div>
               <div className="border border-gray-700 my-1" />
               {streamingData && (
-              <Link href={`${TITLE_ROUTE}/${item.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}`}>
+              <Link href={`${TITLE_ROUTE}/${item.id}${STREAM_ROUTE}/${fullHDTorrent.length ? fullHDTorrent[0].hash : hdTorrent[0].hash}?type=${item.seasons ? 'tv' : 'movie'}`}>
                 <div className="flex justify-between items-center pl-4 pr-2 cursor-pointer py-1 hover:bg-primary text-sm rounded-sm w-full my-1 transition duration-300">
                   <div className="flex items-center">
                     <TriangleRightIcon className="mr-2 -ml-1" />
@@ -185,7 +187,7 @@ const Item = ({ item, index, isOnList }) => {
             )
           }
               </button>
-              <Link href={`${TITLE_ROUTE}/${item.id}`}>
+              <Link href={`${TITLE_ROUTE}/${item.id}?type=${item.first_air_date ? 'tv' : 'movie'}`}>
                 <div className="flex justify-between items-center pl-4 pr-2 cursor-pointer py-1 hover:bg-primary text-sm rounded-sm w-full my-1 transition duration-300">
                   {t('SEE_MORE_DETAILS')}
                 </div>
@@ -206,11 +208,14 @@ Item.propTypes = {
     imdb_id: PropTypes.string,
     poster_path: PropTypes.string,
     title: PropTypes.string,
+    name: PropTypes.string,
     overview: PropTypes.string,
     release_date: PropTypes.string,
     vote_average: PropTypes.number,
     genre_ids: PropTypes.arrayOf(PropTypes.number),
     genres: PropTypes.arrayOf(),
+    first_air_date: PropTypes.string,
+    seasons: PropTypes.arrayOf((PropTypes.shape({}))),
   }).isRequired,
   index: PropTypes.number.isRequired,
   isOnList: PropTypes.bool,

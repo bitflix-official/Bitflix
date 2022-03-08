@@ -69,5 +69,11 @@ export const en = {
     CAST: 'Cast',
     SIMILAR_TITLES: 'Similar titles',
     DETAILS: 'Details',
+    SEASONS: 'Seasons',
+    SEASON: 'Season',
+    EPISODES: 'Episodes',
+    EPISODE: 'Episode',
+    NO_SEARCH_RESULTS: "Ops! We couldn't find anything.",
+    PAGE_NOT_FOUND: "Ops! We couldn't find this page.",
   },
 };

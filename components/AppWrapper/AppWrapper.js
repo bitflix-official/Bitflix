@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const AppWrapper = ({ children }) => (
-  <div className="flex flex-col px-4 sm:px-6 md:px-24 2xl:px-32 overflow-x-hidden">
+  <div className="flex flex-col px-4 lg:px-8 xl:px-16 2xl:px-24 max-w-screen-2xl mx-auto">
     {children}
   </div>
 );

@@ -40,7 +40,7 @@ const List = () => {
       const currentUserList = JSON.parse(userData.list);
       const listWithData = [];
       for (const titles of currentUserList) {
-        const title = await getTitleData(titles.id, userData.language);
+        const title = await getTitleData({ id: titles.id, language: userData.language, type: titles.type || 'movie' });
         listWithData.push(title);
       }
       setMyList(listWithData);
