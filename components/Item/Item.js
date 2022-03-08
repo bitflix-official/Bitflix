@@ -14,7 +14,7 @@ import {
   TriangleRightIcon, PlusIcon, Cross2Icon, StarIcon,
 } from '@radix-ui/react-icons';
 import {
-  summaryUnavailablePlaceholder, TMDB_PHOTO_URL, genres, defaultProfilePicture,
+  summaryUnavailablePlaceholder, TMDB_PHOTO_URL, genres,
 } from 'constants';
 import { Spinner } from 'components';
 import { getGenresNames, getTitleYear, humanizeGenres } from 'utils';
