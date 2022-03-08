@@ -9,9 +9,11 @@ export const getTitles = async (
   },
 ) => {
   try {
-    const res = await fetch(`${TMDB_API_URL}/discover/movie?api_key=${TMDB_API_KEY}&sort_by=${sortBy}&release_date.lte=${releaseDate}&with_genres=${genres}&with_companies=${withCompanies}&include_adult=false&include_video=true&page=${page}&language=${language}`);
-    const data = await res.json();
-    return data;
+    const shows = await fetch(`${TMDB_API_URL}/discover/tv?api_key=${TMDB_API_KEY}&sort_by=${sortBy}&release_date.lte=${releaseDate}&with_genres=${genres}&with_companies=${withCompanies}&include_adult=false&include_video=true&page=${page}&language=${language}`);
+    const movies = await fetch(`${TMDB_API_URL}/discover/movie?api_key=${TMDB_API_KEY}&sort_by=${sortBy}&release_date.lte=${releaseDate}&with_genres=${genres}&with_companies=${withCompanies}&include_adult=false&include_video=true&page=${page}&language=${language}`);
+    const { results: showsResults } = await shows.json();
+    const { results: movieResults } = await movies.json();
+    return { results: [...showsResults, ...movieResults] };
   } catch (err) {
     throw new Error(err);
   }
@@ -88,6 +90,16 @@ export const getSimilarTitles = async ({ id, language = 'en-US', type = 'movie' 
 export const getSeasonEpisodes = async ({ id, language = 'en-US', seasonNumber = 1 }) => {
   try {
     const res = await fetch(`${TMDB_API_URL}/tv/${id}/season/${seasonNumber}?api_key=${TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=${language}`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const getShowExternalIds = async ({ id, language = 'en-US' }) => {
+  try {
+    const res = await fetch(`${TMDB_API_URL}/tv/${id}/external_ids?api_key=${TMDB_API_KEY || process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=${language}`);
     const data = await res.json();
     return data;
   } catch (err) {

@@ -54,16 +54,14 @@ const Genre = () => {
     }
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     if (userData !== undefined) {
       const hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
-      if (!noMoreResults || id !== prevId) {
-        getData();
-      } else if (!hasScrollbar) {
-        getData();
+      if (!noMoreResults || id !== prevId || !hasScrollbar) {
+        await getData();
       }
     }
-  }, [userData, id, prevId]);
+  }, [userData, id, prevId, isLoading]);
 
   if (isLoading) {
     return (

@@ -204,7 +204,7 @@ const Title = () => {
   const handleShowSeason = async (index, season) => {
     try {
       const data = await getSeasonEpisodes(
-        { id, language: userData.language, seasonNumber: index },
+        { id, language: userData.language || i18n.language, seasonNumber: index },
       );
       setCurrentView(getViews({
         ...currentView,
@@ -234,7 +234,7 @@ const Title = () => {
   };
 
   useEffect(async () => {
-    if (userData?.language && type === 'tv' && title.seasons && !seasonSelected.episodes) {
+    if (userData !== undefined && type === 'tv' && title.seasons && !seasonSelected.episodes) {
       await handleShowSeason(title.seasons[0].season_number, title.seasons[0]);
     }
   }, [type, title, userData]);

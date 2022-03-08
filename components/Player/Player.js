@@ -16,7 +16,7 @@ const Player = (props) => {
     if (!videoEl) return;
     const player = (videoEl.current = videojs(videoEl, props, () => {
       setTimeout(() => {
-        if (player?.play) {
+        if (player) {
           player.play();
         }
       }, 500);

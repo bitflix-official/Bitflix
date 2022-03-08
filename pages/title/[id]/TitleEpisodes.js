@@ -25,15 +25,13 @@ const TitleEpisodes = ({
     for await (const episode of episodes) {
       const newEpisode = episode;
       if (!newEpisode.url) {
-        const listOfTorrents = await getTvStreamingData(`${tvName?.replaceAll(' ', '.')}.S${seasonSelected.number > 9 ? seasonSelected.number : `0${seasonSelected.number}`}E${episode.episode_number > 9 ? episode.episode_number : `0${episode.episode_number}`}.web`);
+        const listOfTorrents = await getTvStreamingData(`${tvName?.replaceAll(' ', '.')}.S${seasonSelected.number > 9 ? seasonSelected.number : `0${seasonSelected.number}`}E${episode.episode_number > 9 ? episode.episode_number : `0${episode.episode_number}`}`.normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
         if (listOfTorrents.length > 0) {
           const torrentsWithMostSeeders = orderBy(listOfTorrents, (torrent) => +torrent.Seeders);
-          const webTorrents = torrentsWithMostSeeders && torrentsWithMostSeeders.filter((file) => file.Name?.includes('tbs') || file.Name?.includes('TBS'));
-          const finalTorrent = webTorrents && webTorrents.find((file) => file.Name?.includes('720') || file.Name?.includes('480'));
           newListOfEpisodes.push({
             ...newEpisode,
-            url: finalTorrent?.Magnet ? encodeURIComponent(
-              finalTorrent?.Magnet,
+            url: torrentsWithMostSeeders[0]?.Magnet ? encodeURIComponent(
+              torrentsWithMostSeeders[0]?.Magnet,
             ) : null,
           });
         } else {
@@ -77,10 +75,13 @@ const TitleEpisodes = ({
       </div>
       <ul className="flex items-center mt-8 mb-6">
         {streamingEpisodes.length > 0 ? streamingEpisodes.map((episode) => (
-          <Link href={episode.url ? `${TITLE_ROUTE}/${title?.id}${STREAM_ROUTE}/${episode.url}?type=tv` : '#'} key={`episode-${episode.id}`} tabindex="0">
+          <Link href={episode.url ? `${TITLE_ROUTE}/${title?.id}${STREAM_ROUTE}/${episode.url}?se=${seasonSelected.number}&ep=${episode.episode_number}&type=tv` : '#'} key={`episode-${episode.id}`} tabindex="0">
             <li className={`group cursor-pointer flex flex-col transition duration-300 rounded-md text-white mr-8 ${episode.url ? 'cursor-pointer' : 'cursor-default'}`}>
               <div className="flex items-center justify-center h-28">
-                <img src={`${TMDB_EPISODE_PHOTO_URL}${episode.still_path}`} className={`h-28 ${episode.url ? 'group-hover:opacity-30' : 'grayscale'} w-72 max-w-max rounded-md transition duration-200`} alt={`season-episode-pic-${episode.id}`} />
+                {episode.still_path ? (
+                  <img src={`${TMDB_EPISODE_PHOTO_URL}${episode.still_path}`} className={`h-28 ${episode.url ? 'group-hover:brightness-75' : 'grayscale'} w-48 md:w-56 lg:w-72 max-w-max rounded-md transition duration-200`} alt={`season-episode-pic-${episode.id}`} />) : (
+                    <div className={`h-28 ${episode.url ? 'group-hover:brightness-75' : 'grayscale'} min-w-full rounded-md transition duration-200 bg-gray-500`} />
+                )}
                 {
                   episode.url && (
                     <div className={`${styles.iconContainer} opacity-0 group-hover:opacity-100 transition duration-200`}>

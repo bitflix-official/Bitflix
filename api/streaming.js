@@ -56,7 +56,7 @@ export const getMovieSubtitles = async (id) => {
 
 export const getTvStreamingData = async (name) => {
   try {
-    const res = await fetch(`${TV_URL}/api/1337x/${name}`);
+    const res = await fetch(`${TV_URL}/api/1337x/${name.normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`);
     const data = await res.json();
     return data;
   } catch (err) {

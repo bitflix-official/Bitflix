@@ -5,13 +5,12 @@ import React, {
 } from 'react';
 import AppContext from 'context/AppContext';
 import { useRouter } from 'next/router';
-import Script from 'next/script';
 import { TMDB_PHOTO_URL } from 'constants';
 import { HOME_ROUTE } from 'routes';
 import {
   Header, BackButton, Spinner, Player,
 } from 'components';
-import { getTitleData } from 'api/titles';
+import { getShowExternalIds, getTitleData } from 'api/titles';
 import {
   getStreamingData, getTvSubtitles, getMovieSubtitles, startStreaming,
 } from 'api/streaming';
@@ -40,7 +39,11 @@ const Stream = () => {
   const [torrent, setTorrent] = useState(null);
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const { query: { id, torrentId, type } } = useRouter();
+  const {
+    query: {
+      id, torrentId, type, se, ep,
+    },
+  } = useRouter();
   const [videoOptions, setVideoOptions] = useState({
     autoplay: true,
     controls: true,
@@ -86,7 +89,8 @@ const Stream = () => {
             { ...videoOptions, tracks: formatTracks(await subs, i18n.language) },
           );
         } else {
-          const { subs } = await getTvSubtitles(title.original_name, 1, 2);
+          const { imdb_id: imdbId } = await getShowExternalIds({ id });
+          const { subs } = await getTvSubtitles(imdbId, se, ep);
           setVideoOptions(
             { ...videoOptions, tracks: formatTracks(await subs, i18n.language) },
           );

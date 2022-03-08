@@ -57,7 +57,7 @@ const Home = () => {
   useEffect(() => {
     if (window) {
       const hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
-      if (userData?.language && !hasScrollbar) {
+      if (userData !== undefined && !hasScrollbar) {
         getGenres();
       }
     }
