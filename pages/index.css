@@ -43,11 +43,14 @@ video::cue {
 }
 
 .video-js .vjs-control-bar {
-  background: #0c0c0c;
+  background: #0c0c0cad;
+  backdrop-filter: saturate(180%) blur(5px);
+  height: 5em;
 }
 
 .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
   background-color: #1d1d1d;
+  bottom: 4em;
 }
 
 .vjs-menu li.vjs-menu-item:focus, .vjs-menu li.vjs-menu-item:hover {
@@ -93,10 +96,59 @@ video::cue {
   font-weight: 600;
 }
 
+.video-js:hover .vjs-text-track-display div {
+  margin: -1.2rem 0;
+}
+
 .safari-subtitles {
   font-size: 0.8em;
   background-color: transparent!important;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.678);
   font-weight: 600;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.video-js .vjs-big-play-button {
+  border: none;
+  background-color: transparent;
+  font-size: 5em;
+}
+
+.video-js:hover .vjs-big-play-button {
+  background-color: transparent;
+}
+
+.video-js .vjs-big-play-button:hover {
+  color:rgb(150, 150, 150);
+}
+
+.vjs-modal-dialog .vjs-modal-dialog-content, .video-js .vjs-modal-dialog, .vjs-button > .vjs-icon-placeholder:before, .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
+  position: relative;
+}
+
+.vjs-button > .vjs-icon-placeholder:before {
+  font-size: 2.1em;
+}
+
+.video-js .vjs-progress-holder {
+  height: 0.6em;
+}
+
+.video-js .vjs-time-control {
+  font-size: 1.15em;
+  line-height: 4.5em;
+}
+
+.video-js .vjs-play-progress:before {
+  font-size: 1.5em;
+  color: var(--primary);
+}
+
+.video-js .vjs-control:focus:before, .video-js .vjs-control:hover:before, .video-js .vjs-control:focus {
+  text-shadow: none;
+}
+
+.video-js .vjs-slider:focus {
+  text-shadow: none;
+  box-shadow: none;
 }
