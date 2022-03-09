@@ -61,7 +61,7 @@ const Home = () => {
         getGenres();
       }
     }
-  }, [userData, dataByGenre]);
+  }, [userData]);
 
   if (loading) {
     return (

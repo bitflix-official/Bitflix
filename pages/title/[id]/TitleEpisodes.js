@@ -28,10 +28,11 @@ const TitleEpisodes = ({
         const listOfTorrents = await getTvStreamingData(`${tvName?.replaceAll(' ', '.')}.S${seasonSelected.number > 9 ? seasonSelected.number : `0${seasonSelected.number}`}E${episode.episode_number > 9 ? episode.episode_number : `0${episode.episode_number}`}`.normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
         if (listOfTorrents.length > 0) {
           const torrentsWithMostSeeders = orderBy(listOfTorrents, (torrent) => +torrent.Seeders);
+          const finalTorrent = torrentsWithMostSeeders && torrentsWithMostSeeders.find((file) => file.Name?.includes('720') || file.Name?.includes('480'));
           newListOfEpisodes.push({
             ...newEpisode,
-            url: torrentsWithMostSeeders[0]?.Magnet ? encodeURIComponent(
-              torrentsWithMostSeeders[0]?.Magnet,
+            url: finalTorrent?.Magnet ? encodeURIComponent(
+              finalTorrent?.Magnet,
             ) : null,
           });
         } else {
