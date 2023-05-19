@@ -12,7 +12,7 @@
 ## Motivation
 Nowadays watching a movie or a TV Show episode could be a little hard. We have a lot of different streaming applications where the content is really different between them and the user has to pay all of them to have access to a good amount of movies and TV Shows.
 Of course, we all know some free websites where there is a lot of content but at the same time this apps are managed by people with economic interests, so the final result is a product with a lot of ads that make the UI/UX worse.
-Our idea behind Bitflix is just to make an infinite-content free web application withouth any ad, focusing on the user experience.
+Our idea behind Bitflix is just to make an infinite-content free web application without any ad, focusing on the user experience.
 
 ## Screenshots
 <img width="1402" alt="screenshot_1" src="https://user-images.githubusercontent.com/27747658/157375297-47344d57-576e-4838-9b2c-37a52e6a1c1d.png">
